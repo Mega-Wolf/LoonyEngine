@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace LoonyEngine {
 
-    public class Transform2D {
+    public sealed class Transform2D {
 
         #region [PrivateVariables]
 
@@ -61,8 +61,20 @@ namespace LoonyEngine {
 
         #region [PrivateMethods]
 
-        //TODO
-        //update
+        private void Update() {
+            // TODO
+            // update the values in here
+            for (int i = 0; i < m_children.Count; ++i) {
+                m_children[i].Update();
+            }
+            //react on values here (AABB is only caluclateable after children have done their stuff)
+        }
+
+        // TODO; AABB in Physics or in Transform?
+
+        // private void CalculateAABB() {
+
+        // }
 
         #endregion
 

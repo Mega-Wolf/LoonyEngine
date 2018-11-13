@@ -34,8 +34,22 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
-        // TODO
-        //get components
+        public T GetComponent<T>() where T : Component {
+            for (int i = 0; i < f_components.Count; ++i) {
+                if (f_components[i].GetType() == typeof(T)) {
+                    return (T) f_components[i];
+                }
+            }
+
+            return null;
+        }
+
+
+        //TODO; how to generate the new thing/ call .CreateInstance() ?
+        // public T AddComponent<T>() where T: Component {
+        //     typeof(T).c
+        //     f_components = T.
+        // }
 
         #endregion
     }
