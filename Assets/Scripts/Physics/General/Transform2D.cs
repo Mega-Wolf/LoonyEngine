@@ -4,6 +4,8 @@ namespace LoonyEngine {
 
     public sealed class Transform2D {
 
+        //TODO; how about putting most of the logic to GO and only having the Position and angle as Transform Data => way less space for transforms
+
         #region [PrivateVariables]
 
         // isStatic
