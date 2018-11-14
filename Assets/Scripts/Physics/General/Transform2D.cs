@@ -30,7 +30,7 @@ namespace LoonyEngine {
             }
             set {
                 m_position = value;
-                //TODO update children
+                Update();
             }
         }
 
@@ -40,7 +40,7 @@ namespace LoonyEngine {
             }
             set {
                 m_angle = value;
-                //TODO update children
+                Update();
             }
         }
 
@@ -56,6 +56,12 @@ namespace LoonyEngine {
         #endregion
 
         #region [PublicMethods]
+
+        public void SetTransform(Position position, angle angle) {
+            m_position = position;
+            m_angle = angle;
+            Update();
+        }
 
         #endregion
 
