@@ -11,5 +11,13 @@ namespace LoonyEngine {
 
         #endregion
 
+        #region [Constructors]
+
+        public PhysicsComponent(GameObject gameObject) : base(gameObject) {
+            //TODO
+        }
+
+        #endregion
+
     }
 }

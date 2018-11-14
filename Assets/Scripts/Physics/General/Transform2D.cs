@@ -2,7 +2,9 @@ using System.Collections.Generic;
 
 namespace LoonyEngine {
 
-    public class Transform2D {
+    public sealed class Transform2D {
+
+        //TODO; how about putting most of the logic to GO and only having the Position and angle as Transform Data => way less space for transforms
 
         #region [PrivateVariables]
 
@@ -30,7 +32,7 @@ namespace LoonyEngine {
             }
             set {
                 m_position = value;
-                //TODO update children
+                Update();
             }
         }
 
@@ -40,7 +42,7 @@ namespace LoonyEngine {
             }
             set {
                 m_angle = value;
-                //TODO update children
+                Update();
             }
         }
 
@@ -57,12 +59,30 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
+        public void SetTransform(Position position, angle angle) {
+            m_position = position;
+            m_angle = angle;
+            Update();
+        }
+
         #endregion
 
         #region [PrivateMethods]
 
-        //TODO
-        //update
+        private void Update() {
+            // TODO
+            // update the values in here
+            for (int i = 0; i < m_children.Count; ++i) {
+                m_children[i].Update();
+            }
+            //react on values here (AABB is only caluclateable after children have done their stuff)
+        }
+
+        // TODO; AABB in Physics or in Transform?
+
+        // private void CalculateAABB() {
+
+        // }
 
         #endregion
 
