@@ -17,6 +17,8 @@ namespace LoonyEngine {
             //TODO
         }
 
+        // Generate structure between components
+
         #endregion
 
     }

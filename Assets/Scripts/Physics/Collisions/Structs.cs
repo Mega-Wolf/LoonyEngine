@@ -4,25 +4,25 @@ namespace LoonyEngine {
 
         #region [Private Variables]
 
-        private Position TopLeft;
-        private Position BottomRight;
+        private Position BottomLeft;
+        private Position TopRight;
 
         #endregion
 
         #region [Properties]
 
-        public PositionX Left { get { return TopLeft.x; } }
-        public PositionX Right { get { return BottomRight.x; } }
-        public PositionY Top { get { return TopLeft.y; } }
-        public PositionY Bottom { get { return BottomRight.y; } }
+        public PositionX Left { get { return BottomLeft.x; } }
+        public PositionY Bottom { get { return BottomLeft.y; } }
+        public PositionX Right { get { return TopRight.x; } }
+        public PositionY Top { get { return TopRight.y; } }
 
         #endregion
 
         #region [Constructors]
 
-        public AABB(Position topLeft, Position bottomRight) {
-            TopLeft = topLeft;
-            BottomRight = bottomRight;
+        public AABB(Position bottomLeft, Position topRight) {
+            BottomLeft = bottomLeft;
+            TopRight = topRight;
         }
         #endregion
 
