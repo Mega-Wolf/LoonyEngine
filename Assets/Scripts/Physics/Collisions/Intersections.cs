@@ -14,9 +14,8 @@ namespace LoonyEngine {
         }
 
         public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
-            //return (circle1.Position - circle2.Position).sqrMagnitude <= (circle1.Radius + circle2.Radius) * (circle1.Radius + circle2.Radius);
-            //TODO
-            return false;
+            //TODO; square instead of doing the plus again 
+            return (circle1.Position - circle2.Position).sqrMagnitude <= (circle1.Radius + circle2.Radius) * (circle1.Radius + circle2.Radius);
         }
 
         public static bool DoIntersectAABBCapsule(AABB aaabb, Capsule capsule) {
