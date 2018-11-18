@@ -8,7 +8,7 @@ namespace LoonyEngine {
             return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb2.Bottom > aabb2.Top);
         }
 
-        public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {            
+        public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
             Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
             return (circle.Position - closestPosition).sqrMagnitude <= circle.Radius * circle.Radius;
         }
@@ -29,6 +29,26 @@ namespace LoonyEngine {
         }
 
         public static bool DoIntersectCapsuleCapsule(Capsule capsule1, Capsule capsule2) {
+            //TODO
+            return false;
+        }
+
+        public static bool DoIntersectAABBRectangle(AABB aaabb, Rectangle rectangle) {
+            //TODO
+            return false;
+        }
+
+        public static bool DoIntersectCircleRectangle(Circle circle, Rectangle rectangle) {
+            //TODO
+            return false;
+        }
+
+        public static bool DoIntersectCapsuleRectangle(Capsule capsule, Rectangle rectangle) {
+            //TODO
+            return false;
+        }
+
+        public static bool DoIntersectRectanlgeRectangle(Rectangle rectangle1, Rectangle rectangle2) {
             //TODO
             return false;
         }

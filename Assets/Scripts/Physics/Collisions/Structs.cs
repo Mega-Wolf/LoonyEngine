@@ -2,14 +2,10 @@ namespace LoonyEngine {
 
     public struct AABB {
 
-        #region [Private Variables]
+        #region [Properties]
 
         public Position BottomLeft { get; }
         public Position TopRight { get; }
-
-        #endregion
-
-        #region [Properties]
 
         public PositionX Left { get { return BottomLeft.x; } }
         public PositionY Bottom { get { return BottomLeft.y; } }
@@ -30,7 +26,7 @@ namespace LoonyEngine {
 
     public struct Circle {
 
-        #region [PrivateVariables]
+        #region [Properties]
 
         public Position Position { get; }
         public PositionMagnitude Radius { get; }
@@ -50,7 +46,7 @@ namespace LoonyEngine {
 
     public struct Capsule {
 
-        #region [PrivateVariables]
+        #region [Properties]
 
         public Position Position1 { get; }
         public Position Position2 { get; }
@@ -68,6 +64,25 @@ namespace LoonyEngine {
 
         #endregion
 
+    }
+
+    public struct Rectangle {
+
+        #region [Properties]
+
+        public Position Position { get; }
+        public angle Angle { get; }
+
+        #endregion
+
+        #region [Constructors]
+
+        public Rectangle(Position position, angle angle) {
+            Position = position;
+            Angle = angle;
+        }
+
+        #endregion
     }
 
 }
