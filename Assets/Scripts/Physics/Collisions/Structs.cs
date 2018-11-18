@@ -4,8 +4,8 @@ namespace LoonyEngine {
 
         #region [Private Variables]
 
-        private Position BottomLeft;
-        private Position TopRight;
+        public Position BottomLeft { get; }
+        public Position TopRight { get; }
 
         #endregion
 
