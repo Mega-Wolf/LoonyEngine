@@ -1,3 +1,5 @@
+using static TemporaryHelperFunctions;
+
 namespace LoonyEngine {
 
     public static class Intersections {
@@ -6,10 +8,9 @@ namespace LoonyEngine {
             return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb2.Bottom > aabb2.Top);
         }
 
-        public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
-            //return (aabb)
-            //TODO
-            return false;
+        public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {            
+            Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
+            return (circle.Position - closestPosition).sqrMagnitude <= circle.Radius * circle.Radius;
         }
 
         public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
