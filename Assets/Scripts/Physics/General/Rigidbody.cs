@@ -7,6 +7,11 @@ namespace LoonyEngine {
 
         //RotationVelocity float
         //RotationAcceleration float
+
+        public Rigidbody (Velocity velocity, Acceleration acceleration) {
+            Velocity = velocity;
+            Acceleration = acceleration;
+        }
     }
 
 }

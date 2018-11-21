@@ -2,11 +2,11 @@ using System.Collections.Generic;
 
 namespace LoonyEngine {
 
-    public class PhysicsManager : UnityEngine.MonoBehaviour {
+    public class PhysicsManager : MBSingleton<PhysicsManager> {
 
         #region [Consts]
 
-        public Time DELTA_TIME = new Time(1 / 50f);
+        public readonly Time DELTA_TIME = new Time(1 / 50f);
 
         #endregion
 
@@ -20,18 +20,37 @@ namespace LoonyEngine {
         #region [Updates]
 
         private void FixedUpdate() {
-            // TODO: Chnage velocity by acceleration
             // TODO; How to handle multiple forces at the same time?
 
-            // Move every Transform2D by its velocity
+            // Movement phase
             for (int i = 0; i < f_transforms.Count; ++i) {
+                
+                // TODO; LoonyEngine
+                f_rbs[i] = new Rigidbody(f_rbs[i].Velocity + f_rbs[i].Acceleration * DELTA_TIME, f_rbs[i].Acceleration);
+                //f_rbs[i].Velocity += f_rbs[i].Acceleration * DELTA_TIME;
+
+
                 f_transforms[i].Position += f_rbs[i].Velocity * DELTA_TIME;
             }
+
+            // TODO collision phase
         }
 
         #endregion
 
         #region [PublicMethods]
+
+        public void AddPhysicsComponent(PhysicsComponent physicsComponent) {
+            f_transforms.Add(physicsComponent.GameObject.Transform);
+            //f_rbs.Add(physicsComponent.GameObject);
+            //TODO
+        }
+
+        public void RemovePhysicsComponent(PhysicsComponent physicsComponent) {
+            f_transforms.Remove(physicsComponent.GameObject.Transform);
+            //f_rbs.Remove();
+            //TODO
+        }
 
         // add to collisions
         // add to triggers
