@@ -71,13 +71,13 @@ namespace LoonyEngine {
         #region [Properties]
 
         public Position Position { get; }
-        public angle Angle { get; }
+        public Angle Angle { get; }
 
         #endregion
 
         #region [Constructors]
 
-        public Rectangle(Position position, angle angle) {
+        public Rectangle(Position position, Angle angle) {
             Position = position;
             Angle = angle;
         }
