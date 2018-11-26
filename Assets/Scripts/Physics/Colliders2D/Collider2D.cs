@@ -1,21 +1,24 @@
 namespace LoonyEngine {
 
-    public class PhysicsComponent : Component {
+    public abstract class Collider2D : Component {
 
         #region [PrivateVariables]
 
         private bool m_isActive;
 
         private bool m_isTrigger;
+
         //TODO Rigidbody; physicsmaterial etc.
 
         #endregion
 
         #region [Constructors]
 
-        public PhysicsComponent(GameObject gameObject) : base(gameObject) {
-            //TODO
-        }
+        public Collider2D(GameObject gameObject) : base(gameObject) {}
+
+        #endregion
+
+        #region [PublicMethods]
 
         public void AddToPhysics() {
             if (m_isActive) {
