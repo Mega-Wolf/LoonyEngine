@@ -1,6 +1,6 @@
 namespace LoonyEngine {
 
-    public class AABBCollider2D : PhysicsComponent {
+    public class AABBCollider2D : Collider2D {
 
         #region [PrivateVariables]
 

@@ -1,6 +1,6 @@
 namespace LoonyEngine {
 
-    public class RectangleCollider2D : PhysicsComponent {
+    public class RectangleCollider2D : Collider2D {
 
         #region [PrivateVariables]
 

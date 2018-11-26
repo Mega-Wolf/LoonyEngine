@@ -40,13 +40,13 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
-        public void AddPhysicsComponent(PhysicsComponent physicsComponent) {
+        public void AddPhysicsComponent(Collider2D physicsComponent) {
             f_transforms.Add(physicsComponent.GameObject.Transform);
             //f_rbs.Add(physicsComponent.GameObject);
             //TODO
         }
 
-        public void RemovePhysicsComponent(PhysicsComponent physicsComponent) {
+        public void RemovePhysicsComponent(Collider2D physicsComponent) {
             f_transforms.Remove(physicsComponent.GameObject.Transform);
             //f_rbs.Remove();
             //TODO
