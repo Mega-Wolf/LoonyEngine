@@ -4,7 +4,7 @@ namespace LoonyEngine {
 
         #region [PrivateVariables]
 
-        private GameObject m_gameObject;
+        protected GameObject m_gameObject;
 
         #endregion
 
