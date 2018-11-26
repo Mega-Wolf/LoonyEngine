@@ -671,61 +671,61 @@ public struct Work {
     }
 }
 
-public struct angle {
+public struct Angle {
     private float floatValue;
 
     public float Float { get { return floatValue; } }
 
 
-    public angle(float floatValue) {
+    public Angle(float floatValue) {
         this.floatValue = floatValue;
     }
 
-    public static angle operator +(angle value1, angle value2) {
-        return new angle(value1.floatValue + value2.floatValue);
+    public static Angle operator +(Angle value1, Angle value2) {
+        return new Angle(value1.floatValue + value2.floatValue);
     }
 
-    public static angle operator -(angle value1, angle value2) {
-        return new angle(value1.floatValue - value2.floatValue);
+    public static Angle operator -(Angle value1, Angle value2) {
+        return new Angle(value1.floatValue - value2.floatValue);
     }
 
-    public static float operator /(angle value1, angle value2) {
+    public static float operator /(Angle value1, Angle value2) {
         return value1.floatValue / value2.floatValue;
     }
 
-    public static angle operator *(angle value, float scale) {
-        return new angle(value.floatValue * scale);
+    public static Angle operator *(Angle value, float scale) {
+        return new Angle(value.floatValue * scale);
     }
 
-    public static angle operator *(float scale, angle value) {
-        return new angle(value.floatValue * scale);
+    public static Angle operator *(float scale, Angle value) {
+        return new Angle(value.floatValue * scale);
     }
 
-    public static angle operator /(angle value, float scale) {
-        return new angle(value.floatValue / scale);
+    public static Angle operator /(Angle value, float scale) {
+        return new Angle(value.floatValue / scale);
     }
 
-    public static bool operator <(angle value1, angle value2) {
+    public static bool operator <(Angle value1, Angle value2) {
         return value1.floatValue < value2.floatValue;
     }
 
-    public static bool operator >(angle value1, angle value2) {
+    public static bool operator >(Angle value1, Angle value2) {
         return value1.floatValue > value2.floatValue;
     }
 
-    public static bool operator <=(angle value1, angle value2) {
+    public static bool operator <=(Angle value1, Angle value2) {
         return value1.floatValue <= value2.floatValue;
     }
 
-    public static bool operator >=(angle value1, angle value2) {
+    public static bool operator >=(Angle value1, Angle value2) {
         return value1.floatValue >= value2.floatValue;
     }
 
-    public static bool operator ==(angle value1, angle value2) {
+    public static bool operator ==(Angle value1, Angle value2) {
         return value1.floatValue == value2.floatValue;
     }
 
-    public static bool operator !=(angle value1, angle value2) {
+    public static bool operator !=(Angle value1, Angle value2) {
         return value1.floatValue != value2.floatValue;
     }
 
@@ -1133,8 +1133,8 @@ public struct Position {
         return value1.Vector2Value != value2.Vector2Value;
     }
 
-    public static angle Angle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.Angle(from, to));
+    public static Angle Angle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.Angle(from, to));
     }
 
     public static Position ClampMagnitude(Vector2 vector, float maxLength) {
@@ -1173,8 +1173,8 @@ public struct Position {
         return new Position(Vector2.Perpendicular(inDirection));
     }
 
-    public static angle SignedAngle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.SignedAngle(from, to));
+    public static Angle SignedAngle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.SignedAngle(from, to));
     }
 
     public void Normalize() {
@@ -1261,61 +1261,61 @@ public struct VelocityX {
     }
 }
 
-public struct VelocityY {
+public struct Velocity {
     private float floatValue;
 
     public float Float { get { return floatValue; } }
 
 
-    public VelocityY(float floatValue) {
+    public Velocity(float floatValue) {
         this.floatValue = floatValue;
     }
 
-    public static VelocityY operator +(VelocityY value1, VelocityY value2) {
-        return new VelocityY(value1.floatValue + value2.floatValue);
+    public static Velocity operator +(Velocity value1, Velocity value2) {
+        return new Velocity(value1.floatValue + value2.floatValue);
     }
 
-    public static VelocityY operator -(VelocityY value1, VelocityY value2) {
-        return new VelocityY(value1.floatValue - value2.floatValue);
+    public static Velocity operator -(Velocity value1, Velocity value2) {
+        return new Velocity(value1.floatValue - value2.floatValue);
     }
 
-    public static float operator /(VelocityY value1, VelocityY value2) {
+    public static float operator /(Velocity value1, Velocity value2) {
         return value1.floatValue / value2.floatValue;
     }
 
-    public static VelocityY operator *(VelocityY value, float scale) {
-        return new VelocityY(value.floatValue * scale);
+    public static Velocity operator *(Velocity value, float scale) {
+        return new Velocity(value.floatValue * scale);
     }
 
-    public static VelocityY operator *(float scale, VelocityY value) {
-        return new VelocityY(value.floatValue * scale);
+    public static Velocity operator *(float scale, Velocity value) {
+        return new Velocity(value.floatValue * scale);
     }
 
-    public static VelocityY operator /(VelocityY value, float scale) {
-        return new VelocityY(value.floatValue / scale);
+    public static Velocity operator /(Velocity value, float scale) {
+        return new Velocity(value.floatValue / scale);
     }
 
-    public static bool operator <(VelocityY value1, VelocityY value2) {
+    public static bool operator <(Velocity value1, Velocity value2) {
         return value1.floatValue < value2.floatValue;
     }
 
-    public static bool operator >(VelocityY value1, VelocityY value2) {
+    public static bool operator >(Velocity value1, Velocity value2) {
         return value1.floatValue > value2.floatValue;
     }
 
-    public static bool operator <=(VelocityY value1, VelocityY value2) {
+    public static bool operator <=(Velocity value1, Velocity value2) {
         return value1.floatValue <= value2.floatValue;
     }
 
-    public static bool operator >=(VelocityY value1, VelocityY value2) {
+    public static bool operator >=(Velocity value1, Velocity value2) {
         return value1.floatValue >= value2.floatValue;
     }
 
-    public static bool operator ==(VelocityY value1, VelocityY value2) {
+    public static bool operator ==(Velocity value1, Velocity value2) {
         return value1.floatValue == value2.floatValue;
     }
 
-    public static bool operator !=(VelocityY value1, VelocityY value2) {
+    public static bool operator !=(Velocity value1, Velocity value2) {
         return value1.floatValue != value2.floatValue;
     }
 
@@ -1547,7 +1547,7 @@ public struct Velocity {
     public Velocity normalized { get { return new Velocity(Vector2Value.normalized); } }
     public VelocityMgSq sqrMagnitude { get { return new VelocityMgSq(Vector2Value.sqrMagnitude); } }
     public VelocityX x { get { return new VelocityX(Vector2Value.x); } }
-    public VelocityY y { get { return new VelocityY(Vector2Value.y); } }
+    public Velocity y { get { return new Velocity(Vector2Value.y); } }
 
     public Velocity(Vector2 Vector2Value) {
         this.Vector2Value = Vector2Value;
@@ -1573,6 +1573,14 @@ public struct Velocity {
         return new Velocity(value.Vector2Value * scale);
     }
 
+    public static Position operator *(Velocity value1, Time value2) {
+        return new Position(value1.Vector2 * value2.Float);
+    }
+
+    public static Position operator *(Time value1, Velocity value2) {
+        return new Position(value2.Vector2 * value1.Float);
+    }
+
     public static Velocity operator /(Velocity value, float scale) {
         return new Velocity(value.Vector2Value / scale);
     }
@@ -1590,8 +1598,8 @@ public struct Velocity {
         return value1.Vector2Value != value2.Vector2Value;
     }
 
-    public static angle Angle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.Angle(from, to));
+    public static Angle Angle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.Angle(from, to));
     }
 
     public static Velocity ClampMagnitude(Vector2 vector, float maxLength) {
@@ -1630,8 +1638,8 @@ public struct Velocity {
         return new Velocity(Vector2.Perpendicular(inDirection));
     }
 
-    public static angle SignedAngle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.SignedAngle(from, to));
+    public static Angle SignedAngle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.SignedAngle(from, to));
     }
 
     public void Normalize() {
@@ -2030,6 +2038,14 @@ public struct Acceleration {
         return new Acceleration(value.Vector2Value * scale);
     }
 
+    public static Velocity operator *(Acceleration value1, Time value2) {
+        return new Velocity(value1.Vector2 * value2.Float);
+    }
+
+    public static Velocity operator *(Time value1, Acceleration value2) {
+        return new Velocity(value2.Vector2 * value1.Float);
+    }
+
     public static Acceleration operator /(Acceleration value, float scale) {
         return new Acceleration(value.Vector2Value / scale);
     }
@@ -2047,8 +2063,8 @@ public struct Acceleration {
         return value1.Vector2Value != value2.Vector2Value;
     }
 
-    public static angle Angle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.Angle(from, to));
+    public static Angle Angle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.Angle(from, to));
     }
 
     public static Acceleration ClampMagnitude(Vector2 vector, float maxLength) {
@@ -2087,8 +2103,8 @@ public struct Acceleration {
         return new Acceleration(Vector2.Perpendicular(inDirection));
     }
 
-    public static angle SignedAngle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.SignedAngle(from, to));
+    public static Angle SignedAngle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.SignedAngle(from, to));
     }
 
     public void Normalize() {
@@ -2503,8 +2519,8 @@ public struct Force {
         return value1.Vector2Value != value2.Vector2Value;
     }
 
-    public static angle Angle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.Angle(from, to));
+    public static Angle Angle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.Angle(from, to));
     }
 
     public static Force ClampMagnitude(Vector2 vector, float maxLength) {
@@ -2543,8 +2559,8 @@ public struct Force {
         return new Force(Vector2.Perpendicular(inDirection));
     }
 
-    public static angle SignedAngle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.SignedAngle(from, to));
+    public static Angle SignedAngle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.SignedAngle(from, to));
     }
 
     public void Normalize() {
@@ -2959,8 +2975,8 @@ public struct Momentum {
         return value1.Vector2Value != value2.Vector2Value;
     }
 
-    public static angle Angle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.Angle(from, to));
+    public static Angle Angle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.Angle(from, to));
     }
 
     public static Momentum ClampMagnitude(Vector2 vector, float maxLength) {
@@ -2999,8 +3015,8 @@ public struct Momentum {
         return new Momentum(Vector2.Perpendicular(inDirection));
     }
 
-    public static angle SignedAngle(Vector2 from, Vector2 to) {
-        return new angle(Vector2.SignedAngle(from, to));
+    public static Angle SignedAngle(Vector2 from, Vector2 to) {
+        return new Angle(Vector2.SignedAngle(from, to));
     }
 
     public void Normalize() {

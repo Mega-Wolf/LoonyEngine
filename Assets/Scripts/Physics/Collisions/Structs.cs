@@ -2,27 +2,23 @@ namespace LoonyEngine {
 
     public struct AABB {
 
-        #region [Private Variables]
-
-        private Position TopLeft;
-        private Position BottomRight;
-
-        #endregion
-
         #region [Properties]
 
-        public PositionX Left { get { return TopLeft.x; } }
-        public PositionX Right { get { return BottomRight.x; } }
-        public PositionY Top { get { return TopLeft.y; } }
-        public PositionY Bottom { get { return BottomRight.y; } }
+        public Position BottomLeft { get; }
+        public Position TopRight { get; }
+
+        public PositionX Left { get { return BottomLeft.x; } }
+        public PositionY Bottom { get { return BottomLeft.y; } }
+        public PositionX Right { get { return TopRight.x; } }
+        public PositionY Top { get { return TopRight.y; } }
 
         #endregion
 
         #region [Constructors]
 
-        public AABB(Position topLeft, Position bottomRight) {
-            TopLeft = topLeft;
-            BottomRight = bottomRight;
+        public AABB(Position bottomLeft, Position topRight) {
+            BottomLeft = bottomLeft;
+            TopRight = topRight;
         }
         #endregion
 
@@ -30,7 +26,7 @@ namespace LoonyEngine {
 
     public struct Circle {
 
-        #region [PrivateVariables]
+        #region [Properties]
 
         public Position Position { get; }
         public PositionMagnitude Radius { get; }
@@ -50,7 +46,7 @@ namespace LoonyEngine {
 
     public struct Capsule {
 
-        #region [PrivateVariables]
+        #region [Properties]
 
         public Position Position1 { get; }
         public Position Position2 { get; }
@@ -68,6 +64,25 @@ namespace LoonyEngine {
 
         #endregion
 
+    }
+
+    public struct Rectangle {
+
+        #region [Properties]
+
+        public Position Position { get; }
+        public Angle Angle { get; }
+
+        #endregion
+
+        #region [Constructors]
+
+        public Rectangle(Position position, Angle angle) {
+            Position = position;
+            Angle = angle;
+        }
+
+        #endregion
     }
 
 }

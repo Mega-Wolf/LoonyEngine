@@ -14,7 +14,7 @@ namespace LoonyEngine {
         // static scale
         // layer
 
-        private angle m_angle;
+        private Angle m_angle;
         private Position m_position;
 
         private Transform2D m_parent;
@@ -36,7 +36,7 @@ namespace LoonyEngine {
             }
         }
 
-        public angle Angle {
+        public Angle Angle {
             get {
                 return m_angle;
             }
@@ -59,7 +59,7 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
-        public void SetTransform(Position position, angle angle) {
+        public void SetTransform(Position position, Angle angle) {
             m_position = position;
             m_angle = angle;
             Update();
