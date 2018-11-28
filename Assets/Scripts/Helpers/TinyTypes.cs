@@ -1261,61 +1261,61 @@ public struct VelocityX {
     }
 }
 
-public struct Velocity {
+public struct VelocityY {
     private float floatValue;
 
     public float Float { get { return floatValue; } }
 
 
-    public Velocity(float floatValue) {
+    public VelocityY(float floatValue) {
         this.floatValue = floatValue;
     }
 
-    public static Velocity operator +(Velocity value1, Velocity value2) {
-        return new Velocity(value1.floatValue + value2.floatValue);
+    public static VelocityY operator +(VelocityY value1, VelocityY value2) {
+        return new VelocityY(value1.floatValue + value2.floatValue);
     }
 
-    public static Velocity operator -(Velocity value1, Velocity value2) {
-        return new Velocity(value1.floatValue - value2.floatValue);
+    public static VelocityY operator -(VelocityY value1, VelocityY value2) {
+        return new VelocityY(value1.floatValue - value2.floatValue);
     }
 
-    public static float operator /(Velocity value1, Velocity value2) {
+    public static float operator /(VelocityY value1, VelocityY value2) {
         return value1.floatValue / value2.floatValue;
     }
 
-    public static Velocity operator *(Velocity value, float scale) {
-        return new Velocity(value.floatValue * scale);
+    public static VelocityY operator *(VelocityY value, float scale) {
+        return new VelocityY(value.floatValue * scale);
     }
 
-    public static Velocity operator *(float scale, Velocity value) {
-        return new Velocity(value.floatValue * scale);
+    public static VelocityY operator *(float scale, VelocityY value) {
+        return new VelocityY(value.floatValue * scale);
     }
 
-    public static Velocity operator /(Velocity value, float scale) {
-        return new Velocity(value.floatValue / scale);
+    public static VelocityY operator /(VelocityY value, float scale) {
+        return new VelocityY(value.floatValue / scale);
     }
 
-    public static bool operator <(Velocity value1, Velocity value2) {
+    public static bool operator <(VelocityY value1, VelocityY value2) {
         return value1.floatValue < value2.floatValue;
     }
 
-    public static bool operator >(Velocity value1, Velocity value2) {
+    public static bool operator >(VelocityY value1, VelocityY value2) {
         return value1.floatValue > value2.floatValue;
     }
 
-    public static bool operator <=(Velocity value1, Velocity value2) {
+    public static bool operator <=(VelocityY value1, VelocityY value2) {
         return value1.floatValue <= value2.floatValue;
     }
 
-    public static bool operator >=(Velocity value1, Velocity value2) {
+    public static bool operator >=(VelocityY value1, VelocityY value2) {
         return value1.floatValue >= value2.floatValue;
     }
 
-    public static bool operator ==(Velocity value1, Velocity value2) {
+    public static bool operator ==(VelocityY value1, VelocityY value2) {
         return value1.floatValue == value2.floatValue;
     }
 
-    public static bool operator !=(Velocity value1, Velocity value2) {
+    public static bool operator !=(VelocityY value1, VelocityY value2) {
         return value1.floatValue != value2.floatValue;
     }
 
@@ -1547,7 +1547,7 @@ public struct Velocity {
     public Velocity normalized { get { return new Velocity(Vector2Value.normalized); } }
     public VelocityMgSq sqrMagnitude { get { return new VelocityMgSq(Vector2Value.sqrMagnitude); } }
     public VelocityX x { get { return new VelocityX(Vector2Value.x); } }
-    public Velocity y { get { return new Velocity(Vector2Value.y); } }
+    public VelocityY y { get { return new VelocityY(Vector2Value.y); } }
 
     public Velocity(Vector2 Vector2Value) {
         this.Vector2Value = Vector2Value;
@@ -1588,7 +1588,6 @@ public struct Velocity {
     public static Velocity operator -(Velocity value) {
         return new Velocity(-value.Vector2Value);
     }
-
 
     public static bool operator ==(Velocity value1, Velocity value2) {
         return value1.Vector2Value == value2.Vector2Value;
