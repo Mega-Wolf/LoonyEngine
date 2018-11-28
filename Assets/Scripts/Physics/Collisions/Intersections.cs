@@ -10,10 +10,19 @@ namespace LoonyEngine {
             return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb2.Bottom > aabb2.Top);
         }
 
-        public static Position InterSectAABBAABB(AABB aabb1, AABB aabb2) {
+        public static Position IntersectAABBAABB(AABB aabb1, AABB aabb2) {
             Position mins = Position.Min(aabb1.TopRight, aabb2.TopRight);
             Position maxs = Position.Max(aabb1.BottomLeft, aabb2.BottomLeft);
             return (mins + maxs) / 2;
+        }
+
+        public static Collision CollisionAABBAABB(AABB aabb1, AABB aabb2) {
+            bool doIntersect = DoIntersectAABBAABB(aabb1, aabb2);
+            Position position = IntersectAABBAABB(aabb1, aabb2);
+
+            //TODO calculate resolving force
+
+            return new Collision(doIntersect, position);
         }
 
         #endregion
@@ -33,6 +42,15 @@ namespace LoonyEngine {
             return new Position(0,0);
         }
 
+        public static Collision CollisionAABBCircle(AABB aabb, Circle circle) {
+            bool doIntersect = DoIntersectAABBCircle(aabb, circle);
+            Position position = IntersectAABBCircle(aabb, circle);
+
+            //TODO calculate resolving force
+
+            return new Collision(doIntersect, position);
+        }
+
         public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
             PositionMagnitude maxRadius = circle1.Radius + circle2.Radius;
             return (circle1.Position - circle2.Position).sqrMagnitude <= maxRadius * maxRadius;
@@ -40,6 +58,15 @@ namespace LoonyEngine {
 
         public static Position IntersectCircleCircle(Circle circle1, Circle circle2) {
             return (circle1.Position + circle2.Position) / 2;
+        }
+
+        public static Collision CollisionCircleCircle(Circle circle1, Circle circle2) {
+            bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
+            Position position = IntersectCircleCircle(circle1, circle2);
+
+            //TODO calculate resolving force
+
+            return new Collision(doIntersect, position);
         }
 
         #endregion
