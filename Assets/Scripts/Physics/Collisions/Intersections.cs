@@ -4,14 +4,21 @@ namespace LoonyEngine {
 
     public static class Intersections {
 
+        #region [AABB]
+
         public static bool DoIntersectAABBAABB(AABB aabb1, AABB aabb2) {
             return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb2.Bottom > aabb2.Top);
         }
 
         public static Position InterSectAABBAABB(AABB aabb1, AABB aabb2) {
-            //TODO
-            return new Position(0,0);
+            Position mins = Position.Min(aabb1.TopRight, aabb2.TopRight);
+            Position maxs = Position.Max(aabb1.BottomLeft, aabb2.BottomLeft);
+            return (mins + maxs) / 2;
         }
+
+        #endregion
+
+        #region [+ Circle]
 
         public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
             Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
@@ -20,23 +27,24 @@ namespace LoonyEngine {
 
         public static Position IntersectAABBCircle(AABB aABB, Circle circle) {
             //TODO
+            // not sure where the middle point of those is
+            // I can find the closest point on the rect to the circle
+            // Should I just take the middle of that point and ...? what?
             return new Position(0,0);
         }
 
         public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
-            //TODO; square instead of doing the plus again 
-            return (circle1.Position - circle2.Position).sqrMagnitude <= (circle1.Radius + circle2.Radius) * (circle1.Radius + circle2.Radius);
+            PositionMagnitude maxRadius = circle1.Radius + circle2.Radius;
+            return (circle1.Position - circle2.Position).sqrMagnitude <= maxRadius * maxRadius;
         }
 
         public static Position IntersectCircleCircle(Circle circle1, Circle circle2) {
-            // TODO
-            // where exactly is the middle of the intersection?
-            // - the exact middle between the circles? 
-            // - the weighted middle of the two; depending on their mass or size
-            // for now I stick to the first one
-            // with a later added resolution Vector, I can then divide the resolutions with the help of the different masses
             return (circle1.Position + circle2.Position) / 2;
         }
+
+        #endregion
+
+        #region [+ Capsule]
 
         public static bool DoIntersectAABBCapsule(AABB aaabb, Capsule capsule) {
             //TODO
@@ -67,6 +75,10 @@ namespace LoonyEngine {
             //TODO
             return new Position(0,0);
         }
+
+        #endregion
+
+        #region [+ Rectangle]
 
         public static bool DoIntersectAABBRectangle(AABB aaabb, Rectangle rectangle) {
             //TODO
@@ -107,6 +119,8 @@ namespace LoonyEngine {
             //TODO
             return new Position(0,0);
         }
+
+        #endregion
 
     }
 
