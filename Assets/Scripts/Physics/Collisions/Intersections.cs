@@ -20,7 +20,7 @@ namespace LoonyEngine {
             bool doIntersect = DoIntersectAABBAABB(aabb1, aabb2);
             Position position = IntersectAABBAABB(aabb1, aabb2);
 
-            //TODO calculate resolving force
+            //TODO calculate resolving vector
 
             return new Collision(doIntersect, position);
         }
@@ -46,7 +46,7 @@ namespace LoonyEngine {
             bool doIntersect = DoIntersectAABBCircle(aabb, circle);
             Position position = IntersectAABBCircle(aabb, circle);
 
-            //TODO calculate resolving force
+            //TODO calculate resolving vector
 
             return new Collision(doIntersect, position);
         }
@@ -60,13 +60,24 @@ namespace LoonyEngine {
             return (circle1.Position + circle2.Position) / 2;
         }
 
-        public static Collision CollisionCircleCircle(Circle circle1, Circle circle2) {
-            bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
-            Position position = IntersectCircleCircle(circle1, circle2);
+        public static CollisionData CollisionCircleCircle(Circle circle1, Circle circle2) {
+            // bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
+            // Position position = IntersectCircleCircle(circle1, circle2);
 
-            //TODO calculate resolving force
+            //(circle2.Position - circle1.Position)
+            //circle1.Position + (circle2.Position - circle1.Position). normalized * (circle1.Radius + circle2.Radius)
+            //Position.
 
-            return new Collision(doIntersect, position);
+            // positionA --- positionB = fullDistance eg 10
+            // rA + rB = rGes eg 15
+            // rGes - fullDistance = penetrationDepth eg 15 - 10 = 5
+            // penetrationDepth / 2 = halfDepth (macht weniger Sinn)
+
+            Position collisionVector = circle2.Position - circle1.Position;
+            PositionMagnitude penetrationDepth = (circle1.Radius + circle2.Radius) - collisionVector.magnitude;
+            return new CollisionData(collisionVector.normalized, penetrationDepth);
+
+            //return new Collision(doIntersect, position);
         }
 
         #endregion

@@ -7,7 +7,7 @@ namespace LoonyEngine {
         public bool DoCollide { get; }
         public Position Position { get; }
 
-        //Resolving force
+        //Resolving vector
 
         // TODO
         // The different colliders
