@@ -16,18 +16,24 @@ namespace LoonyEngine {
             return (mins + maxs) / 2;
         }
 
-        public static Collision CollisionAABBAABB(AABB aabb1, AABB aabb2) {
-            bool doIntersect = DoIntersectAABBAABB(aabb1, aabb2);
-            Position position = IntersectAABBAABB(aabb1, aabb2);
+        public static CollisionData CollisionAABBAABB(AABB aabb1, AABB aabb2) {
+            // bool doIntersect = DoIntersectAABBAABB(aabb1, aabb2);
+            // Position position = IntersectAABBAABB(aabb1, aabb2);
 
             //TODO calculate resolving vector
 
-            return new Collision(doIntersect, position);
+            // I have to find out on which side the boxes collide
+
+            return new CollisionData();
+
+            //return new Collision(doIntersect, position);
         }
 
         #endregion
 
         #region [+ Circle]
+
+        #region [AABBCircle]
 
         public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
             Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
@@ -39,7 +45,7 @@ namespace LoonyEngine {
             // not sure where the middle point of those is
             // I can find the closest point on the rect to the circle
             // Should I just take the middle of that point and ...? what?
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static Collision CollisionAABBCircle(AABB aabb, Circle circle) {
@@ -50,6 +56,10 @@ namespace LoonyEngine {
 
             return new Collision(doIntersect, position);
         }
+
+        #endregion
+
+        #region [CircleCircle]
 
         public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
             PositionMagnitude maxRadius = circle1.Radius + circle2.Radius;
@@ -74,11 +84,21 @@ namespace LoonyEngine {
             // penetrationDepth / 2 = halfDepth (macht weniger Sinn)
 
             Position collisionVector = circle2.Position - circle1.Position;
+
+            // OPT: This has to be done to prevent a division by zero; however, this occurs very rearly and the result of using it would be undefined anyway
+            // the normalisation could be ommited in the if, but for GPUs it might be more effective for better streamlining to still do it
+            // (is this actually true; in both cases I have to do it)
+            if (collisionVector == new Position(0,0)) {
+                collisionVector = new Position(1, 0);
+            }
+
             PositionMagnitude penetrationDepth = (circle1.Radius + circle2.Radius) - collisionVector.magnitude;
             return new CollisionData(collisionVector.normalized, penetrationDepth);
 
             //return new Collision(doIntersect, position);
         }
+
+        #endregion
 
         #endregion
 
@@ -91,7 +111,7 @@ namespace LoonyEngine {
 
         public static Position IntersectAABBCapsule(AABB aabb, Capsule capsule) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static bool DoIntersectCircleCapsule(Circle circle, Capsule capsule) {
@@ -101,17 +121,17 @@ namespace LoonyEngine {
 
         public static Position IntersectCircleCapsule(Circle circle, Capsule capsule) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static bool DoIntersectCapsuleCapsule(Capsule capsule1, Capsule capsule2) {
             //TODO
             return false;
         }
-        
+
         public static Position IntersectCapsuleCapsule(Capsule capsule1, Capsule capsule2) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         #endregion
@@ -125,7 +145,7 @@ namespace LoonyEngine {
 
         public static Position IntersectAABBRectangle(AABB aabb, Rectangle rectangle) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static bool DoIntersectCircleRectangle(Circle circle, Rectangle rectangle) {
@@ -135,7 +155,7 @@ namespace LoonyEngine {
 
         public static Position IntersectCirclerectangle(Circle cirrcle, Rectangle rectangle) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static bool DoIntersectCapsuleRectangle(Capsule capsule, Rectangle rectangle) {
@@ -145,7 +165,7 @@ namespace LoonyEngine {
 
         public static Position IntersectCapsueRectangle(Capsule capsule, Rectangle rectangle) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         public static bool DoIntersectRectanlgeRectangle(Rectangle rectangle1, Rectangle rectangle2) {
@@ -155,7 +175,7 @@ namespace LoonyEngine {
 
         public static Position IntersectRectanlgeREctangle(Rectangle rectangle1, Rectangle rectangle2) {
             //TODO
-            return new Position(0,0);
+            return new Position(0, 0);
         }
 
         #endregion
