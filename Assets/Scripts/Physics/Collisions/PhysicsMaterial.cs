@@ -2,13 +2,13 @@ namespace LoonyEngine {
 
     public struct PhysicsMaterial {
 
-        //TODO
-
-        // public Friction Friction { get; }
+        // public Friction DynamicFriction { get; }
+        // public Friction StaticFriction { get; }
         // public Bounciness Bounciness { get; }
 
-        // public PhysicsMaterial(Friction friction, Bounciness bounciness) {
-        //     Friction =friction;
+        // public PhysicsMaterial(Friction dynamicFriction, Friction staticFriction, Bounciness bounciness) {
+        //     DynamicFriction = dynamicFriction;
+        //     StaticFriction = staticFriction
         //     Bounciness = bounciness;
         // }
 
