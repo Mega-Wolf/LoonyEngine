@@ -1,17 +1,14 @@
 namespace LoonyEngine {
 
-    public struct Rigidbody {
+    public class Rigidbody : Component {
 
-        public Velocity Velocity { get; set; }
-        public Acceleration Acceleration { get; set; }
+        public DynamicData DynamicData { get; set; }
+        public ObjectData ObjectData { get; set; }
+        public ColliderData ColliderData { get; set; }
 
-        //RotationVelocity float
-        //RotationAcceleration float
-
-        public Rigidbody (Velocity velocity, Acceleration acceleration) {
-            Velocity = velocity;
-            Acceleration = acceleration;
+        public Rigidbody(GameObject gameObject) : base(gameObject) {
         }
+
     }
 
 }

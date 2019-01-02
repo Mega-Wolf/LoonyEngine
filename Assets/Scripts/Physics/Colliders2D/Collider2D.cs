@@ -25,7 +25,7 @@ namespace LoonyEngine {
                 return;
             }
 
-            PhysicsManager.Instance.AddPhysicsComponent(this);
+            //SuperPhysicsManager.Instance.AddPhysicsComponent(this);
 
             m_isActive = true;
         }
@@ -35,7 +35,7 @@ namespace LoonyEngine {
                 return;
             }
 
-            PhysicsManager.Instance.RemovePhysicsComponent(this);
+            //SuperPhysicsManager.Instance.RemovePhysicsComponent(this);
 
             m_isActive = false;
         }
