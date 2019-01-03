@@ -7,6 +7,15 @@ namespace LoonyEngine {
         public ColliderData ColliderData { get; set; }
 
         public Rigidbody(GameObject gameObject) : base(gameObject) {
+
+        }
+
+        public void UpdateDynamics() {
+            //TODO
+        }
+
+        public void UpdateAABB() {
+            //TODO
         }
 
     }
