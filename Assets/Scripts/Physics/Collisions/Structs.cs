@@ -1,6 +1,6 @@
 namespace LoonyEngine {
 
-    public struct AABB {
+    public struct AABB : ICollider2D {
 
         #region [Properties]
 
@@ -22,9 +22,17 @@ namespace LoonyEngine {
         }
         #endregion
 
+        #region [ICollider2D]
+
+        public AABB CreateAABB() {
+            return this;
+        }
+
+        #endregion
+
     }
 
-    public struct Circle {
+    public struct Circle : ICollider2D {
 
         #region [Properties]
 
@@ -38,6 +46,14 @@ namespace LoonyEngine {
         public Circle(Position position, PositionMagnitude radius) {
             Position = position;
             Radius = radius;
+        }
+
+        #endregion
+
+        #region [ICollider2D]
+
+        public AABB CreateAABB() {
+            return new AABB(Position - new Position(Radius.Float, Radius.Float), Position + new Position(Radius.Float, Radius.Float));
         }
 
         #endregion
