@@ -20,12 +20,17 @@ namespace LoonyEngine {
             BottomLeft = bottomLeft;
             TopRight = topRight;
         }
+
         #endregion
+
+        public static AABB operator +(AABB aabb, Position offset) {
+            return new AABB(aabb.BottomLeft + offset, aabb.TopRight + offset);
+        }
 
         #region [ICollider2D]
 
-        public AABB CreateAABB() {
-            return this;
+        public AABB CreateAABB(Transform2D transform) {
+            return this + transform.Position;
         }
 
         #endregion
@@ -36,15 +41,15 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public Position Position { get; }
+        //public Position Position { get; }
         public PositionMagnitude Radius { get; }
 
         #endregion
 
         #region [Constructors]
 
-        public Circle(Position position, PositionMagnitude radius) {
-            Position = position;
+        public Circle(/*Position position, */PositionMagnitude radius) {
+            //Position = position;
             Radius = radius;
         }
 
@@ -52,8 +57,8 @@ namespace LoonyEngine {
 
         #region [ICollider2D]
 
-        public AABB CreateAABB() {
-            return new AABB(Position - new Position(Radius.Float, Radius.Float), Position + new Position(Radius.Float, Radius.Float));
+        public AABB CreateAABB(Transform2D transform) {
+            return new AABB(transform.Position - new Position(Radius.Float, Radius.Float), transform.Position + new Position(Radius.Float, Radius.Float));
         }
 
         #endregion

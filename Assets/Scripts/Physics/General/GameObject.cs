@@ -44,6 +44,10 @@ namespace LoonyEngine {
             return null;
         }
 
+        public void AddComponent(Component c) {
+            f_components.Add(c);
+        }
+
 
         //TODO; how to generate the new thing/ call .CreateInstance() ?
         // public T AddComponent<T>() where T: Component {
