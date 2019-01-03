@@ -9,7 +9,7 @@ namespace LoonyEngine {
         public Rigidbody(GameObject gameObject) : base(gameObject) {}
 
         public void UpdateDynamics() {
-            //TODO; this has a lot ov overhead and will be changed later on
+            //TODO; this has a lot of overhead and will be changed later on
             DynamicData dd = DynamicData;
             dd.Velocity += DynamicData.Acceleration * SuperPhysicsManager.Instance.DELTA_TIME;
             DynamicData = dd;
@@ -19,8 +19,10 @@ namespace LoonyEngine {
         }
 
         public void UpdateAABB() {
-            //TODO
-            // That is dependend on the collider data
+            //TODO; this is as ugly as the DynamicData above
+            ColliderData cd = ColliderData;
+            cd.AABB = cd.Collider2D.CreateAABB();
+            ColliderData = cd;
         }
 
     }
