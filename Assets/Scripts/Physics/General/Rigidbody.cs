@@ -6,16 +6,23 @@ namespace LoonyEngine {
         public ObjectData ObjectData { get; set; }
         public ColliderData ColliderData { get; set; }
 
-        public Rigidbody(GameObject gameObject) : base(gameObject) {
-
-        }
+        public Rigidbody(GameObject gameObject) : base(gameObject) {}
 
         public void UpdateDynamics() {
-            //TODO
+            //TODO; this has a lot of overhead and will be changed later on
+            DynamicData dd = DynamicData;
+            dd.Velocity += DynamicData.Acceleration * SuperPhysicsManager.Instance.DELTA_TIME;
+            DynamicData = dd;
+
+            // TODO; it might not be possible to do that in the future (calling transform directly)
+            GameObject.Transform.Position += DynamicData.Velocity * SuperPhysicsManager.Instance.DELTA_TIME;
         }
 
         public void UpdateAABB() {
-            //TODO
+            //TODO; this is as ugly as the DynamicData above
+            ColliderData cd = ColliderData;
+            cd.AABB = cd.Collider2D.CreateAABB();
+            ColliderData = cd;
         }
 
     }
