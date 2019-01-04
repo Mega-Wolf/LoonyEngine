@@ -25,7 +25,7 @@ namespace LoonyEngine {
         public void UpdateAABB() {
             //TODO; this is as ugly as the DynamicData above
             ColliderData cd = ColliderData;
-            cd.AABB = cd.Collider2D.CreateAABB(GameObject.Transform);
+            cd.GlobalAABB = cd.Collider2D.CreateAABB(GameObject.Transform);
             ColliderData = cd;
         }
 

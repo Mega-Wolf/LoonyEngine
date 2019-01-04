@@ -36,7 +36,7 @@ namespace LoonyEngine {
         protected bool BroadPhase(Rigidbody rb1, Rigidbody rb2) {
             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
-            return Intersections.DoIntersectAABBAABB(rb1.ColliderData.AABB, rb2.ColliderData.AABB);
+            return Intersections.DoIntersectAABBAABB(rb1.ColliderData.GlobalAABB, rb2.ColliderData.GlobalAABB);
         }
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {

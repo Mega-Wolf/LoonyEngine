@@ -26,23 +26,22 @@ namespace LoonyEngine {
 
             foreach (Rigidbody rb in Level.Instance.Rigidbodies) {
                 ICollider2D col = rb.ColliderData.Collider2D;
+
+                float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
+                f /= 32;
+                f %= 1.0f;
+                f = 0.5f + (f / 2);
+                Gizmos.color = new Color(f, f, f, 1);
+
                 switch (col) {
                     case AABB aabb: {
-                        float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
-                        f /= 32;
-                        f %= 1.0f;
-
-                        f = 0.5f + (f / 2);
-                        Gizmos.color = new Color(f, f, f, 1);
-                        //DebugExtension.DrawLocalCube(this.transform, new Vector3(aabb.Right.Float - aabb.Left.Float, aabb.Top.Float - aabb.Bottom.Float , 1), Color.black, rb.GameObject.Transform.Position.Vector2);
-
-                        Gizmos.DrawCube(rb.GameObject.Transform.Position.Vector2, rb.GameObject.Transform.Scale * new Vector3(aabb.Right.Float - aabb.Left.Float, aabb.Top.Float - aabb.Bottom.Float , 1));
-                        break;
-                    }
+                            Gizmos.DrawCube(rb.GameObject.Transform.Position.Vector2, rb.GameObject.Transform.Scale * new Vector3(aabb.Right.Float - aabb.Left.Float, aabb.Top.Float - aabb.Bottom.Float, 1));
+                            break;
+                        }
                     case Circle circle: {
-                        Gizmos.DrawSphere(rb.GameObject.Transform.Position.Vector2, rb.GameObject.Transform.Scale * circle.Radius.Float);
-                        break;
-                    }
+                            Gizmos.DrawSphere(rb.GameObject.Transform.Position.Vector2, rb.GameObject.Transform.Scale * circle.Radius.Float);
+                            break;
+                        }
                 }
             }
         }

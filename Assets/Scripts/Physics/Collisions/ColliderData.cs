@@ -3,7 +3,7 @@ namespace LoonyEngine {
     // This holds the information for the collision detection phase
     public struct ColliderData {
 
-        public AABB AABB { get; set; }
+        public AABB GlobalAABB { get; set; }
 
         // TODO this is horrible
         // actually now it is a boxed struct
@@ -18,13 +18,19 @@ namespace LoonyEngine {
 
         public bool IsTrigger { get; set; }
 
+        //public int LayerMask { get; set; }
+        public int LayerNumber { get; set; }
+
         // MISSING callback to the different things (Enter, Stay, Exit - Trigger,Collision)
 
-        public ColliderData(ICollider2D collider2D, bool isTrigger, Transform2D transform) {
+        public ColliderData(ICollider2D collider2D, bool isTrigger, int layerNumber, Transform2D transform) {
             Collider2D = collider2D;
             IsTrigger = isTrigger;
 
-            AABB = Collider2D.CreateAABB(transform);
+            //LayerMask = 1 << layerNumber;
+            LayerNumber = layerNumber;
+
+            GlobalAABB = Collider2D.CreateAABB(transform);
         }
 
     }

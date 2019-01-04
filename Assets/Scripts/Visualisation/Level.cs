@@ -26,7 +26,13 @@ namespace LoonyEngine {
         private AnimationCurve f_startY = new AnimationCurve(new Keyframe[] { new Keyframe(0, 0), new Keyframe(1, 1) });
 
         [SerializeField]
+        private AnimationCurve f_layers = new AnimationCurve(new Keyframe[] { new Keyframe(0, 1), new Keyframe(1, 5) });
+
+        [SerializeField]
         private AnimationCurve f_number = new AnimationCurve(new Keyframe[] { new Keyframe(0, 100), new Keyframe(1, 100) });
+
+        [SerializeField]
+        private AnimationCurve f_additionalFluctuation = new AnimationCurve(new Keyframe[] { new Keyframe(0, 10), new Keyframe(1, 10) });
 
         #endregion
 
@@ -65,7 +71,7 @@ namespace LoonyEngine {
                         Rigidbody rb = new Rigidbody(subGO,
                             new DynamicData(Velocity.zero, Acceleration.zero),
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
-                            new ColliderData(aabbDummyCollider, false, subT));
+                            new ColliderData(aabbDummyCollider, false, 0, subT));
                         subGO.AddComponent(rb);
                         f_rbs.Add(rb);
                     }
@@ -79,7 +85,7 @@ namespace LoonyEngine {
                         Rigidbody rb = new Rigidbody(subGO,
                             new DynamicData(Velocity.zero, Acceleration.zero),
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
-                            new ColliderData(aabbDummyCollider, false, subT));
+                            new ColliderData(aabbDummyCollider, false, 0, subT));
                         subGO.AddComponent(rb);
                         f_rbs.Add(rb);
                     }
@@ -88,58 +94,102 @@ namespace LoonyEngine {
             }
         }
 
+        #endregion
+
+        #region [Updates]
+
+        float currentChange = 0;
+
         private void FixedUpdate() {
-            int finalNumber = (int)f_number.Evaluate(UnityEngine.Time.time);
+            float timeValue = UnityEngine.Time.time;
 
-            ICollider2D circleDummyCollider = new Circle(new PositionMagnitude(1));
+            // Adding and removing due to the exact number having to change
+            {
+                int finalNumber = Mathf.RoundToInt(f_number.Evaluate(timeValue));
 
-            while (finalNumber > f_dynamics.Count) {
-                int i = 0;
-                float size = f_size.Evaluate(Random.value);
-                float velocity = f_velocity.Evaluate(Random.value);
-
-                Position position = new Position(MAX_SIZE.x.Float * f_startX.Evaluate(Random.value), MAX_SIZE.y.Float * f_startY.Evaluate(Random.value));
-                position = TemporaryHelperFunctions.ComponentWiseClamp(position, Position.zero + new Position(size / 2, size / 2), MAX_SIZE - new Position(size / 2, size / 2));
-
-                AABB propRect = new AABB(position - size * Position.one, position + size * Position.one);
-
-                bool works = true;
-                foreach (Rigidbody rigidbody in f_rbs) {
-                    if (Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.AABB, propRect)) {
-                        works = false;
-                        break;
-                    }
-                }
-                if (!works) {
-                    continue;
+                while (finalNumber > f_dynamics.Count) {
+                    TryGenerateCircle();
                 }
 
-                Transform2D subT = new Transform2D(f_rootTransform);
-                subT.Position = new Position((propRect.Right + propRect.Left).Float / 2, (propRect.Top + propRect.Bottom).Float / 2);
-                subT.Scale = size;
-                GameObject subGO = new GameObject(subT);
-                Rigidbody rb = new Rigidbody(subGO,
-                    new DynamicData(new Velocity(velocity * Random.insideUnitCircle), Acceleration.zero),
-                    new ObjectData(new PhysicsMaterial(), new Mass(1)),
-                    new ColliderData(circleDummyCollider, false, subT));
-                subGO.AddComponent(rb);
-                f_rbs.Add(rb);
-                f_dynamics.Add(rb);
-
-                ++i;
+                while (finalNumber < f_dynamics.Count) {
+                    TryRemoveCircle();
+                }
             }
 
-            while (finalNumber < f_dynamics.Count) {
-                int number = Random.Range(0, f_dynamics.Count);
-                int i = 0;
-                foreach (Rigidbody rb in f_dynamics) {
-                    if (i == number) {
-                        f_dynamics.Remove(rb);
-                        f_rbs.Remove(rb);
-                        --i;
-                        break;
-                    }
+            // Removing and then adding to the the additional fluctuation
+            {
+                float changeRate = f_additionalFluctuation.Evaluate(timeValue);
+                float changeValue = changeRate * SuperPhysicsManager.Instance.DELTA_TIME.Float;
+
+                currentChange += changeValue;
+
+                int amount = (int)currentChange;
+                currentChange -= amount;
+
+                int finalNumber = f_dynamics.Count;
+
+                for (int i = 0; i < amount; ++i) {
+                    TryRemoveCircle();
                 }
+
+                
+                while (f_dynamics.Count < finalNumber) {
+                    TryGenerateCircle();
+                }
+            }
+
+        }
+
+        #endregion
+
+        #region [PrivateMethods]
+
+        private void TryGenerateCircle() {
+            ICollider2D circleDummyCollider = new Circle(new PositionMagnitude(1));
+
+            float size = f_size.Evaluate(Random.value);
+            float velocity = f_velocity.Evaluate(Random.value);
+            int layer = Mathf.RoundToInt(f_layers.Evaluate(Random.value));
+
+            Position position = new Position(MAX_SIZE.x.Float * f_startX.Evaluate(Random.value), MAX_SIZE.y.Float * f_startY.Evaluate(Random.value));
+            position = TemporaryHelperFunctions.ComponentWiseClamp(position, Position.zero + new Position(size / 2, size / 2), MAX_SIZE - new Position(size / 2, size / 2));
+
+            AABB propRect = new AABB(position - size * Position.one, position + size * Position.one);
+
+            bool works = true;
+            foreach (Rigidbody rigidbody in f_rbs) {
+                if (Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.GlobalAABB, propRect)) {
+                    works = false;
+                    break;
+                }
+            }
+            if (!works) {
+                return;
+            }
+
+            Transform2D subT = new Transform2D(f_rootTransform);
+            subT.Position = new Position((propRect.Right + propRect.Left).Float / 2, (propRect.Top + propRect.Bottom).Float / 2);
+            subT.Scale = size;
+            GameObject subGO = new GameObject(subT);
+            Rigidbody rb = new Rigidbody(subGO,
+                new DynamicData(new Velocity(velocity * Random.insideUnitCircle), Acceleration.zero),
+                new ObjectData(new PhysicsMaterial(), new Mass(1)),
+                new ColliderData(circleDummyCollider, false, layer, subT));
+            subGO.AddComponent(rb);
+            f_rbs.Add(rb);
+            f_dynamics.Add(rb);
+        }
+
+        private void TryRemoveCircle() {
+            int number = Random.Range(0, f_dynamics.Count);
+            int i = 0;
+            foreach (Rigidbody rb in f_dynamics) {
+                if (i == number) {
+                    f_dynamics.Remove(rb);
+                    f_rbs.Remove(rb);
+                    break;
+                }
+                ++i;
             }
         }
 
