@@ -19,7 +19,7 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public Transform2D Transform { get; }
+        public Transform2D Transform { get { return f_transform; } }
 
         #endregion
 
@@ -34,14 +34,30 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
+        public GameObject CloneLeave() {
+            Transform2D newTransform = new Transform2D(null);
+            newTransform.Position = Transform.Position;
+            newTransform.Angle = Transform.Angle;
+            newTransform.Scale = Transform.Scale;
+            GameObject newGO = new GameObject(newTransform);
+            foreach (Component comp in f_components) {
+                comp.Clone(newGO);
+            }
+            return newGO;
+        }
+
         public T GetComponent<T>() where T : Component {
             for (int i = 0; i < f_components.Count; ++i) {
                 if (f_components[i].GetType() == typeof(T)) {
-                    return (T) f_components[i];
+                    return (T)f_components[i];
                 }
             }
 
             return null;
+        }
+
+        public void AddComponent(Component c) {
+            f_components.Add(c);
         }
 
 

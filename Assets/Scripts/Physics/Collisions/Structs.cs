@@ -2,6 +2,18 @@ namespace LoonyEngine {
 
     public struct AABB : ICollider2D {
 
+        #region [Operators]
+
+        public static AABB operator +(AABB aabb, Position offset) {
+            return new AABB(aabb.BottomLeft + offset, aabb.TopRight + offset);
+        }
+
+        public static AABB operator *(float scale, AABB aabb) {
+            return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
+        }
+
+        #endregion
+
         #region [Properties]
 
         public Position BottomLeft { get; }
@@ -20,12 +32,21 @@ namespace LoonyEngine {
             BottomLeft = bottomLeft;
             TopRight = topRight;
         }
+
         #endregion
 
         #region [ICollider2D]
 
-        public AABB CreateAABB() {
-            return this;
+        public AABB CreateAABB(Transform2D transform) {
+            return transform.Scale * this + transform.Position;
+        }
+
+        #endregion
+
+        #region [Override]
+
+        public override string ToString() {
+            return "AABB: " + BottomLeft + " - " + TopRight;
         }
 
         #endregion
@@ -36,15 +57,15 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public Position Position { get; }
+        //public Position Position { get; }
         public PositionMagnitude Radius { get; }
 
         #endregion
 
         #region [Constructors]
 
-        public Circle(Position position, PositionMagnitude radius) {
-            Position = position;
+        public Circle(/*Position position, */PositionMagnitude radius) {
+            //Position = position;
             Radius = radius;
         }
 
@@ -52,8 +73,16 @@ namespace LoonyEngine {
 
         #region [ICollider2D]
 
-        public AABB CreateAABB() {
-            return new AABB(Position - new Position(Radius.Float, Radius.Float), Position + new Position(Radius.Float, Radius.Float));
+        public AABB CreateAABB(Transform2D transform) {
+            return new AABB(transform.Position - transform.Scale * new Position(Radius.Float, Radius.Float), transform.Position + transform.Scale * new Position(Radius.Float, Radius.Float));
+        }
+
+        #endregion
+
+        #region [Override]
+
+        public override string ToString() {
+            return "Circle: - r: " + Radius;
         }
 
         #endregion

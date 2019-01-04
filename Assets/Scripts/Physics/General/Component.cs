@@ -40,6 +40,8 @@ namespace LoonyEngine {
             ++s_idCount;
         }
 
+        public abstract Component Clone(GameObject gameObject);
+
         #endregion
 
     }
