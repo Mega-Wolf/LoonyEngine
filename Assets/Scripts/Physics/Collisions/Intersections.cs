@@ -7,7 +7,7 @@ namespace LoonyEngine {
         #region [AABB]
 
         public static bool DoIntersectAABBAABB(AABB aabb1, AABB aabb2) {
-            return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb2.Bottom > aabb2.Top);
+            return !(aabb1.Right < aabb2.Left || aabb1.Left > aabb2.Right || aabb1.Top < aabb2.Bottom || aabb1.Bottom > aabb2.Top);
         }
 
         public static Position IntersectAABBAABB(AABB aabb1, AABB aabb2) {
@@ -31,76 +31,76 @@ namespace LoonyEngine {
 
         #endregion
 
-        #region [+ Circle]
+        // #region [+ Circle]
 
-        #region [AABBCircle]
+        // #region [AABBCircle]
 
-        public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
-            Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
-            return (circle.Position - closestPosition).sqrMagnitude <= circle.Radius * circle.Radius;
-        }
+        // public static bool DoIntersectAABBCircle(AABB aabb, Circle circle) {
+        //     Position closestPosition = ComponentWiseClamp(circle.Position, aabb.BottomLeft, aabb.TopRight);
+        //     return (circle.Position - closestPosition).sqrMagnitude <= circle.Radius * circle.Radius;
+        // }
 
-        public static Position IntersectAABBCircle(AABB aABB, Circle circle) {
-            //TODO
-            // not sure where the middle point of those is
-            // I can find the closest point on the rect to the circle
-            // Should I just take the middle of that point and ...? what?
-            return new Position(0, 0);
-        }
+        // public static Position IntersectAABBCircle(AABB aABB, Circle circle) {
+        //     //TODO
+        //     // not sure where the middle point of those is
+        //     // I can find the closest point on the rect to the circle
+        //     // Should I just take the middle of that point and ...? what?
+        //     return new Position(0, 0);
+        // }
 
-        public static Collision CollisionAABBCircle(AABB aabb, Circle circle) {
-            bool doIntersect = DoIntersectAABBCircle(aabb, circle);
-            Position position = IntersectAABBCircle(aabb, circle);
+        // public static Collision CollisionAABBCircle(AABB aabb, Circle circle) {
+        //     bool doIntersect = DoIntersectAABBCircle(aabb, circle);
+        //     Position position = IntersectAABBCircle(aabb, circle);
 
-            //TODO calculate resolving vector
+        //     //TODO calculate resolving vector
 
-            return new Collision(doIntersect, position);
-        }
+        //     return new Collision(doIntersect, position);
+        // }
 
-        #endregion
+        // #endregion
 
-        #region [CircleCircle]
+        // #region [CircleCircle]
 
-        public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
-            PositionMagnitude maxRadius = circle1.Radius + circle2.Radius;
-            return (circle1.Position - circle2.Position).sqrMagnitude <= maxRadius * maxRadius;
-        }
+        // public static bool DoIntersectCircleCircle(Circle circle1, Circle circle2) {
+        //     PositionMagnitude maxRadius = circle1.Radius + circle2.Radius;
+        //     return (circle1.Position - circle2.Position).sqrMagnitude <= maxRadius * maxRadius;
+        // }
 
-        public static Position IntersectCircleCircle(Circle circle1, Circle circle2) {
-            return (circle1.Position + circle2.Position) / 2;
-        }
+        // public static Position IntersectCircleCircle(Circle circle1, Circle circle2) {
+        //     return (circle1.Position + circle2.Position) / 2;
+        // }
 
-        public static CollisionData CollisionCircleCircle(Circle circle1, Circle circle2) {
-            // bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
-            // Position position = IntersectCircleCircle(circle1, circle2);
+        // public static CollisionData CollisionCircleCircle(Circle circle1, Circle circle2) {
+        //     // bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
+        //     // Position position = IntersectCircleCircle(circle1, circle2);
 
-            //(circle2.Position - circle1.Position)
-            //circle1.Position + (circle2.Position - circle1.Position). normalized * (circle1.Radius + circle2.Radius)
-            //Position.
+        //     //(circle2.Position - circle1.Position)
+        //     //circle1.Position + (circle2.Position - circle1.Position). normalized * (circle1.Radius + circle2.Radius)
+        //     //Position.
 
-            // positionA --- positionB = fullDistance eg 10
-            // rA + rB = rGes eg 15
-            // rGes - fullDistance = penetrationDepth eg 15 - 10 = 5
-            // penetrationDepth / 2 = halfDepth (macht weniger Sinn)
+        //     // positionA --- positionB = fullDistance eg 10
+        //     // rA + rB = rGes eg 15
+        //     // rGes - fullDistance = penetrationDepth eg 15 - 10 = 5
+        //     // penetrationDepth / 2 = halfDepth (macht weniger Sinn)
 
-            Position collisionVector = circle2.Position - circle1.Position;
+        //     Position collisionVector = circle2.Position - circle1.Position;
 
-            // OPT: This has to be done to prevent a division by zero; however, this occurs very rearly and the result of using it would be undefined anyway
-            // the normalisation could be ommited in the if, but for GPUs it might be more effective for better streamlining to still do it
-            // (is this actually true; in both cases I have to do it)
-            if (collisionVector == new Position(0,0)) {
-                collisionVector = new Position(1, 0);
-            }
+        //     // OPT: This has to be done to prevent a division by zero; however, this occurs very rearly and the result of using it would be undefined anyway
+        //     // the normalisation could be ommited in the if, but for GPUs it might be more effective for better streamlining to still do it
+        //     // (is this actually true; in both cases I have to do it)
+        //     if (collisionVector == new Position(0,0)) {
+        //         collisionVector = new Position(1, 0);
+        //     }
 
-            PositionMagnitude penetrationDepth = (circle1.Radius + circle2.Radius) - collisionVector.magnitude;
-            return new CollisionData(collisionVector.normalized, penetrationDepth);
+        //     PositionMagnitude penetrationDepth = (circle1.Radius + circle2.Radius) - collisionVector.magnitude;
+        //     return new CollisionData(collisionVector.normalized, penetrationDepth);
 
-            //return new Collision(doIntersect, position);
-        }
+        //     //return new Collision(doIntersect, position);
+        // }
 
-        #endregion
+        // #endregion
 
-        #endregion
+        // #endregion
 
         #region [+ Capsule]
 

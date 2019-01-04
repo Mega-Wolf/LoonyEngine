@@ -17,6 +17,9 @@ namespace LoonyEngine {
         private Angle m_angle;
         private Position m_position;
 
+        // I do not like that at all
+        private float m_scale = 1;
+
         private Transform2D m_parent;
         private List<Transform2D> m_children;
 
@@ -36,6 +39,16 @@ namespace LoonyEngine {
             }
         }
 
+        public float Scale {
+            get {
+                return m_scale;
+            }
+            set {
+                m_scale = value;
+                Update();
+            }
+        }
+
         public Angle Angle {
             get {
                 return m_angle;
@@ -45,6 +58,8 @@ namespace LoonyEngine {
                 Update();
             }
         }
+
+        public List<Transform2D> Childern { get { return m_children; } }
 
         #endregion
 

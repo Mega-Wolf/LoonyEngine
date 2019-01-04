@@ -19,7 +19,7 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public Transform2D Transform { get; }
+        public Transform2D Transform { get { return f_transform; } }
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace LoonyEngine {
         public T GetComponent<T>() where T : Component {
             for (int i = 0; i < f_components.Count; ++i) {
                 if (f_components[i].GetType() == typeof(T)) {
-                    return (T) f_components[i];
+                    return (T)f_components[i];
                 }
             }
 

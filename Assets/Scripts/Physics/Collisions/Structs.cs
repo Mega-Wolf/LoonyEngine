@@ -27,10 +27,14 @@ namespace LoonyEngine {
             return new AABB(aabb.BottomLeft + offset, aabb.TopRight + offset);
         }
 
+        public static AABB operator *(float scale, AABB aabb) {
+            return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
+        }
+
         #region [ICollider2D]
 
         public AABB CreateAABB(Transform2D transform) {
-            return this + transform.Position;
+            return transform.Scale * this + transform.Position;
         }
 
         #endregion
@@ -58,7 +62,7 @@ namespace LoonyEngine {
         #region [ICollider2D]
 
         public AABB CreateAABB(Transform2D transform) {
-            return new AABB(transform.Position - new Position(Radius.Float, Radius.Float), transform.Position + new Position(Radius.Float, Radius.Float));
+            return new AABB(transform.Position - transform.Scale * new Position(Radius.Float, Radius.Float), transform.Position + transform.Scale * new Position(Radius.Float, Radius.Float));
         }
 
         #endregion
