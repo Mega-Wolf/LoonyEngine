@@ -66,8 +66,11 @@ namespace LoonyEngine {
             List<Rigidbody> rbList = m_rbMapping[rb];
             m_rbMapping.Remove(rb);
             for (int i = 0; i < m_physicsManagers.Count; ++i) {
-                m_physicsManagers[i].RemovePhysicsComponent(rbList[i]);
+                Rigidbody clonedRB = rbList[i];
+                m_physicsManagers[i].RemovePhysicsComponent(clonedRB);
+                GameObject.Release(clonedRB.GameObject);
             }
+            GameObject.Release(rb.GameObject);
         }
 
         #endregion

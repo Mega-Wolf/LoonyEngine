@@ -33,15 +33,23 @@ namespace LoonyEngine {
 
         #region [Constructors]
 
-        public Component(GameObject gameObject) {
-            m_gameObject = gameObject;
-
+        public Component() {
             f_id = s_idCount;
             ++s_idCount;
         }
 
         public abstract Component Clone(GameObject gameObject);
 
+        #endregion
+
+        #region [PublicMethods]
+
+        public void AttachGO(GameObject go) {
+            m_gameObject = go;
+        }
+
+        public abstract void Release();
+        
         #endregion
 
     }

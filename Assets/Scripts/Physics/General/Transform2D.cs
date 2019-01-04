@@ -4,6 +4,19 @@ namespace LoonyEngine {
 
     public sealed class Transform2D {
 
+        #region [Static]
+
+        private static Pooler<Transform2D> s_pooler = SuperPooler.Instance.GetPooler<Transform2D>();
+
+        public static void Release(Transform2D transform) {
+            // TODO I should actually release the children as well
+            // and reset the list of it
+            // Therefore, now only a leave works
+            s_pooler.ReleaseInstance(transform);
+        }
+
+        #endregion
+
         //TODO; how about putting most of the logic to GO and only having the Position and angle as Transform Data => way less space for transforms
 
         #region [PrivateVariables]
@@ -21,7 +34,7 @@ namespace LoonyEngine {
         private float m_scale = 1;
 
         private Transform2D m_parent;
-        private List<Transform2D> m_children;
+        private List<Transform2D> m_children = new List<Transform2D>();
 
         #endregion
 
@@ -65,9 +78,18 @@ namespace LoonyEngine {
 
         #region [Constructors]
 
-        public Transform2D(Transform2D parent) {
+        public static Transform2D New(Transform2D parent) {
+            Transform2D transform = s_pooler.GetInstance();
+            transform.Init(parent);
+            return transform;
+        }
+
+        #endregion
+
+        #region [Init]
+
+        public void Init(Transform2D parent) {
             m_parent = parent;
-            m_children = new List<Transform2D>();
         }
 
         #endregion

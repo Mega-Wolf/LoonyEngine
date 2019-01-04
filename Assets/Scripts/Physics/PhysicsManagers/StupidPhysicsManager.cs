@@ -20,6 +20,7 @@ namespace LoonyEngine {
         #region [Override]
 
         public override void Simulate() {
+
             // Movement phase
             Profiler.BeginSample("Stupid; Movement Phase");
             foreach (Rigidbody rb in f_rbs) {
@@ -29,7 +30,7 @@ namespace LoonyEngine {
             Profiler.EndSample();
 
             // CollisionDetectionPhase
-            // Profiler.BeginSample("Stupid; CollisionPhase");
+            // Profiler.BeginSample("Stupid; Collision Phase");
             // for (int i = 0; i < f_rbs.Count; ++i) {
             //     for (int j = i + 1; j < f_rbs.Count; ++j) {
             //         if (BroadPhase(f_rbs[i], f_rbs[j])) {

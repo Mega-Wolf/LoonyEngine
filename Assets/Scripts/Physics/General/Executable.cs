@@ -22,14 +22,6 @@ namespace LoonyEngine {
 
         #endregion
 
-        #region [Constructors]
-        
-        public Executable(GameObject gameObject) : base(gameObject) {
-            //TODO
-        }
-
-        #endregion
-
         #region [Init]
 
         public abstract void Init();

@@ -56,8 +56,8 @@ namespace LoonyEngine {
         #region [Init]
 
         private void Start() {
-            f_rootTransform = new Transform2D(null);
-            f_root = new GameObject(f_rootTransform);
+            f_rootTransform = Transform2D.New(null);
+            f_root = GameObject.New(f_rootTransform);
 
             ICollider2D aabbDummyCollider = new AABB(new Position(-1, -1), new Position(1, 1));
 
@@ -65,10 +65,10 @@ namespace LoonyEngine {
             {
                 for (int x = 0; x <= 100; ++x) {
                     for (int y = 0; y < 2; ++y) {
-                        Transform2D subT = new Transform2D(f_rootTransform);
+                        Transform2D subT = Transform2D.New(f_rootTransform);
                         subT.Position = new Position(x * 2, y * 50 * 2);
-                        GameObject subGO = new GameObject(subT);
-                        Rigidbody rb = new Rigidbody(subGO,
+                        GameObject subGO = GameObject.New(subT);
+                        Rigidbody rb = Rigidbody.New(
                             new DynamicData(Velocity.zero, Acceleration.zero),
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
                             new ColliderData(aabbDummyCollider, false, 0, subT));
@@ -79,10 +79,10 @@ namespace LoonyEngine {
 
                 for (int y = 1; y < 50; ++y) {
                     for (int x = 0; x < 2; ++x) {
-                        Transform2D subT = new Transform2D(f_rootTransform);
+                        Transform2D subT = Transform2D.New(f_rootTransform);
                         subT.Position = new Position(x * 100 * 2, y * 2);
-                        GameObject subGO = new GameObject(subT);
-                        Rigidbody rb = new Rigidbody(subGO,
+                        GameObject subGO = GameObject.New(subT);
+                        Rigidbody rb = Rigidbody.New(
                             new DynamicData(Velocity.zero, Acceleration.zero),
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
                             new ColliderData(aabbDummyCollider, false, 0, subT));
@@ -167,11 +167,11 @@ namespace LoonyEngine {
                 return;
             }
 
-            Transform2D subT = new Transform2D(f_rootTransform);
+            Transform2D subT = Transform2D.New(f_rootTransform);
             subT.Position = new Position((propRect.Right + propRect.Left).Float / 2, (propRect.Top + propRect.Bottom).Float / 2);
             subT.Scale = size;
-            GameObject subGO = new GameObject(subT);
-            Rigidbody rb = new Rigidbody(subGO,
+            GameObject subGO = GameObject.New(subT);
+            Rigidbody rb = Rigidbody.New(
                 new DynamicData(new Velocity(velocity * Random.insideUnitCircle), Acceleration.zero),
                 new ObjectData(new PhysicsMaterial(), new Mass(1)),
                 new ColliderData(circleDummyCollider, false, layer, subT));
