@@ -2,6 +2,18 @@ namespace LoonyEngine {
 
     public struct AABB : ICollider2D {
 
+        #region [Operators]
+
+        public static AABB operator +(AABB aabb, Position offset) {
+            return new AABB(aabb.BottomLeft + offset, aabb.TopRight + offset);
+        }
+
+        public static AABB operator *(float scale, AABB aabb) {
+            return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
+        }
+
+        #endregion
+
         #region [Properties]
 
         public Position BottomLeft { get; }
@@ -23,18 +35,18 @@ namespace LoonyEngine {
 
         #endregion
 
-        public static AABB operator +(AABB aabb, Position offset) {
-            return new AABB(aabb.BottomLeft + offset, aabb.TopRight + offset);
-        }
-
-        public static AABB operator *(float scale, AABB aabb) {
-            return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
-        }
-
         #region [ICollider2D]
 
         public AABB CreateAABB(Transform2D transform) {
             return transform.Scale * this + transform.Position;
+        }
+
+        #endregion
+
+        #region [Override]
+
+        public override string ToString() {
+            return "AABB: " + BottomLeft + " - " + TopRight;
         }
 
         #endregion
@@ -63,6 +75,14 @@ namespace LoonyEngine {
 
         public AABB CreateAABB(Transform2D transform) {
             return new AABB(transform.Position - transform.Scale * new Position(Radius.Float, Radius.Float), transform.Position + transform.Scale * new Position(Radius.Float, Radius.Float));
+        }
+
+        #endregion
+
+        #region [Override]
+
+        public override string ToString() {
+            return "Circle: - r: " + Radius;
         }
 
         #endregion
