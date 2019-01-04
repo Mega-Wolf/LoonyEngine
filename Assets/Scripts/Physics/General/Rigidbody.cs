@@ -29,6 +29,10 @@ namespace LoonyEngine {
             ColliderData = cd;
         }
 
+        public override Component Clone(GameObject gameObject) {
+            Rigidbody rb = new Rigidbody(gameObject, DynamicData, ObjectData, ColliderData);
+            gameObject.AddComponent(rb);
+            return rb;
+        }
     }
-
 }
