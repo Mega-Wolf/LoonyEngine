@@ -4,10 +4,28 @@ namespace LoonyEngine {
 
     public class GameObject {
 
+        #region [Statics]
+
+        private static Pooler<GameObject> s_pooler = SuperPooler.Instance.GetPooler<GameObject>();
+
+        public static void Release(GameObject go) {
+            
+            Transform2D.Release(go.Transform);
+            foreach (Component component in go.f_components) {
+                component.Release();
+            }
+
+            go.f_components.Clear();
+
+            s_pooler.ReleaseInstance(go);
+        }
+
+        #endregion
+
         #region [FinalVariables]
 
-        private readonly List<Component> f_components;
-        private readonly Transform2D f_transform;
+        private List<Component> f_components = new List<Component>();
+        private Transform2D f_transform;
 
         #endregion
 
@@ -25,9 +43,18 @@ namespace LoonyEngine {
 
         #region [Constructors]
 
-        public GameObject(Transform2D transform2D) {
+        public static GameObject New(Transform2D transform2D) {
+            GameObject go = s_pooler.GetInstance();
+            go.Init(transform2D);
+            return go;
+        }
+
+        #endregion
+
+        #region [Init]
+
+        public void Init(Transform2D transform2D) {
             f_transform = transform2D;
-            f_components = new List<Component>();
         }
 
         #endregion
@@ -35,11 +62,13 @@ namespace LoonyEngine {
         #region [PublicMethods]
 
         public GameObject CloneLeave() {
-            Transform2D newTransform = new Transform2D(null);
+            Transform2D newTransform = Transform2D.New(null);
+
             newTransform.Position = Transform.Position;
             newTransform.Angle = Transform.Angle;
             newTransform.Scale = Transform.Scale;
-            GameObject newGO = new GameObject(newTransform);
+
+            GameObject newGO = GameObject.New(newTransform);
             foreach (Component comp in f_components) {
                 comp.Clone(newGO);
             }
@@ -58,16 +87,11 @@ namespace LoonyEngine {
 
         public void AddComponent(Component c) {
             f_components.Add(c);
+            c.AttachGO(this);
         }
 
-
-        //TODO; how to generate the new thing/ call .CreateInstance() ?
-        // public T AddComponent<T>() where T: Component {
-        //     typeof(T).c
-        //     f_components = T.
-        // }
-
         #endregion
+
     }
 
 }
