@@ -73,7 +73,7 @@ namespace LoonyEngine {
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
                             new ColliderData(aabbDummyCollider, false, 0, subT));
                         subGO.AddComponent(rb);
-                        f_rbs.Add(rb);
+                        AddRB(rb);
                     }
                 }
 
@@ -87,7 +87,7 @@ namespace LoonyEngine {
                             new ObjectData(new PhysicsMaterial(), new Mass(1)),
                             new ColliderData(aabbDummyCollider, false, 0, subT));
                         subGO.AddComponent(rb);
-                        f_rbs.Add(rb);
+                        AddRB(rb);
                     }
                 }
 
@@ -176,7 +176,7 @@ namespace LoonyEngine {
                 new ObjectData(new PhysicsMaterial(), new Mass(1)),
                 new ColliderData(circleDummyCollider, false, layer, subT));
             subGO.AddComponent(rb);
-            f_rbs.Add(rb);
+            AddRB(rb);
             f_dynamics.Add(rb);
         }
 
@@ -186,11 +186,21 @@ namespace LoonyEngine {
             foreach (Rigidbody rb in f_dynamics) {
                 if (i == number) {
                     f_dynamics.Remove(rb);
-                    f_rbs.Remove(rb);
+                    RemoveRB(rb);
                     break;
                 }
                 ++i;
             }
+        }
+
+        private void AddRB(Rigidbody rb) {
+            f_rbs.Add(rb);
+            SuperPhysicsManager.Instance.AddPhysicsComponent(rb);
+        }
+
+        private void RemoveRB(Rigidbody rb) {
+            f_rbs.Remove(rb);
+            SuperPhysicsManager.Instance.RemovePhysicsComponent(rb);
         }
 
         #endregion

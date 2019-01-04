@@ -24,7 +24,8 @@ namespace LoonyEngine {
                 return;
             }
 
-            foreach (Rigidbody rb in Level.Instance.Rigidbodies) {
+            //foreach (Rigidbody rb in Level.Instance.Rigidbodies) {
+            foreach (Rigidbody rb in ((StupidPhysicsManager) SuperPhysicsManager.Instance.PhysicsManagers[0]).Rigidbodies) {
                 ICollider2D col = rb.ColliderData.Collider2D;
 
                 float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
