@@ -100,7 +100,7 @@ namespace LoonyEngine {
 
         float currentChange = 0;
 
-        private void FixedUpdate() {
+        public void NonUnityUpdate() {
             float timeValue = UnityEngine.Time.time;
 
             // Adding and removing due to the exact number having to change

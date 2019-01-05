@@ -11,14 +11,14 @@ namespace LoonyEngine {
 
         #region [PrivateVariables]
 
-        private List<IPhysicsManager> m_physicsManagers = new List<IPhysicsManager>();
+        private List<AbstractPhysicsManager> m_physicsManagers = new List<AbstractPhysicsManager>();
         private Dictionary<Rigidbody, List<Rigidbody>> m_rbMapping = new Dictionary<Rigidbody, List<Rigidbody>>();
 
         #endregion
 
         #region [Properties]
 
-        public List<IPhysicsManager> PhysicsManagers { get { return m_physicsManagers; } }
+        public List<AbstractPhysicsManager> PhysicsManagers { get { return m_physicsManagers; } }
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace LoonyEngine {
         protected override void Awake() {
             base.Awake();
 
-            IPhysicsManager pm = new StupidPhysicsManager();
+            AbstractPhysicsManager pm = new StupidPhysicsManager();
             m_physicsManagers.Add(pm);
         }
 
@@ -36,7 +36,11 @@ namespace LoonyEngine {
         #region [Updates]
 
         private void FixedUpdate() {
+            Level.Instance.NonUnityUpdate();
             Simulate();
+            foreach (AbstractPhysicsManager pm in m_physicsManagers) {
+                pm.UpdateRenderData();
+            }
         }
 
         #endregion

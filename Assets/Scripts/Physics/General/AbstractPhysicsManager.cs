@@ -1,4 +1,9 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LoonyEngine {
 
@@ -29,11 +34,26 @@ namespace LoonyEngine {
 
         private Dictionary<ulong, CheckState> f_checkStates = new Dictionary<ulong, CheckState>();
 
+        private int m_broadChecks = 0;
+        private int m_narrowChecks = 0;
+
+        protected List<ObjectOrderInformation> f_oois = new List<ObjectOrderInformation>();
+
         #endregion
 
         #region [Properties]
 
         public Dictionary<ulong, CheckState> CheckStates { get { return f_checkStates; } }
+
+        #endregion
+
+        #region [PublicMethods]
+
+        public virtual void Simulate() {
+            f_checkStates.Clear();
+            m_broadChecks = 0;
+            m_narrowChecks = 0;
+        }
 
         #endregion
 
@@ -44,11 +64,15 @@ namespace LoonyEngine {
             // I have to be able to use it though for later PMs
             //f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
+            ++m_broadChecks;
+
             return Intersections.DoIntersectAABBAABB(rb1.ColliderData.GlobalAABB, rb2.ColliderData.GlobalAABB);
         }
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {
             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.NarrowCheck;
+
+            ++m_narrowChecks;
 
             // TODO colelct this data
             // TODO: I have to know if this collision is new or not
@@ -70,12 +94,32 @@ namespace LoonyEngine {
 
         #region [Abstracts]
 
-        public virtual void Simulate() {
-            f_checkStates.Clear();
-        }
-
         public abstract void AddPhysicsComponent(Rigidbody rb);
         public abstract void RemovePhysicsComponent(Rigidbody rb);
+
+        #endregion
+
+        #region [GUI]
+
+#if UNITY_EDITOR
+
+        public virtual void Render() {
+            EditorGUILayout.LabelField("Broad checks", m_broadChecks + "");
+            EditorGUILayout.LabelField("Narrow checks", m_narrowChecks + "");
+            for (int i = 0; i < f_oois.Count; ++i) {
+                GUILayout.BeginArea(new Rect(0, 45, 1000, 45));
+                f_oois[i].Render();
+                GUILayout.EndArea();
+            }
+        }
+
+        public virtual void UpdateRenderData() {
+            foreach (ObjectOrderInformation ooi in f_oois) {
+                ooi.UpdateIDs();
+            }
+        }
+
+#endif
 
         #endregion
     }
