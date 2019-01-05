@@ -40,15 +40,15 @@ namespace LoonyEngine {
 
             // CollisionDetectionPhase
 
-            // Profiler.BeginSample("Stupid; Collision Phase");
-            // for (int i = 0; i < f_rbs.Count; ++i) {
-            //     for (int j = i + 1; j < f_rbs.Count; ++j) {
-            //         if (BroadPhase(f_rbs[i], f_rbs[j])) {
-            //             NarrowPhase(f_rbs[i], f_rbs[j]);
-            //         }
-            //     }
-            // }
-            // Profiler.EndSample();
+            Profiler.BeginSample("Stupid; Collision Phase");
+            for (int i = 0; i < f_rbs.Count; ++i) {
+                for (int j = i + 1; j < f_rbs.Count; ++j) {
+                    if (BroadPhase(f_rbs[i], f_rbs[j])) {
+                        NarrowPhase(f_rbs[i], f_rbs[j]);
+                    }
+                }
+            }
+            Profiler.EndSample();
         }
 
         public override void AddPhysicsComponent(Rigidbody rb) {

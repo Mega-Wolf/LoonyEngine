@@ -8,6 +8,9 @@ namespace LoonyEngine {
         #region [MemberFields]
 
         [SerializeField]
+        private bool m_showLayers;
+
+        [SerializeField]
         private bool m_showNear;
 
         [SerializeField]
@@ -38,11 +41,44 @@ namespace LoonyEngine {
             foreach (Rigidbody rb in ((StupidPhysicsManager)SuperPhysicsManager.Instance.PhysicsManagers[0]).Rigidbodies) {
                 ICollider2D col = rb.ColliderData.Collider2D;
 
-                float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
-                f /= 32;
-                f %= 1.0f;
-                f = 0.5f + (f / 2);
-                Gizmos.color = new Color(f, f, f, 1);
+                if (m_showLayers) {
+                    Color color = Color.black;
+                    switch (rb.ColliderData.LayerNumber) {
+                        case 0:
+                            float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
+                            f /= 32;
+                            f %= 1.0f;
+                            f = 0.5f + (f / 2);
+                            color = new Color(f, f, f, 1);
+                            break;
+                        case 1:
+                            color = Color.green;
+                            break;
+                        case 2:
+                            color = Color.magenta;
+                            break;
+                        case 3:
+                            color = Color.blue;
+                            break;
+                        case 4:
+                            color = Color.cyan;
+                            break;
+                        case 5:
+                            color = (Color.magenta + Color.black) / 2;
+                            break;
+                        case 6:
+                            color = (Color.yellow + Color.red) / 2;
+                            break;
+                    }
+                    Gizmos.color = color;
+                } else {
+                    float f = (1 / (rb.ID + 1) * 364.24f) + rb.ID * ((719.1532f + 35 * rb.ID) + 17.546f * rb.ID);
+                    f /= 32;
+                    f %= 1.0f;
+                    f = 0.5f + (f / 2);
+                    Gizmos.color = new Color(f, f, f, 1);
+                }
+
 
                 switch (col) {
                     case AABB aabb: {

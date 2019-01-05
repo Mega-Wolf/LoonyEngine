@@ -66,7 +66,10 @@ namespace LoonyEngine {
 
             ++m_broadChecks;
 
-            return Intersections.DoIntersectAABBAABB(rb1.ColliderData.GlobalAABB, rb2.ColliderData.GlobalAABB);
+            return
+            // TODO; this is not how layers work Tobi... 
+            rb1.ColliderData.LayerNumber == rb2.ColliderData.LayerNumber &&
+            Intersections.DoIntersectAABBAABB(rb1.ColliderData.GlobalAABB, rb2.ColliderData.GlobalAABB);
         }
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {
