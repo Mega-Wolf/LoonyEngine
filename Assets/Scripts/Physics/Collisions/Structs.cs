@@ -12,6 +12,10 @@ namespace LoonyEngine {
             return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
         }
 
+        public static AABB operator *(Transform2D transform, AABB aabb) {
+            return transform.Scale * aabb + transform.Position;
+        }
+
         #endregion
 
         #region [Properties]

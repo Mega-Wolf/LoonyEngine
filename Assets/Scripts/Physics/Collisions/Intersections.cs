@@ -22,7 +22,7 @@ namespace LoonyEngine {
         //     return (mins + maxs) / 2;
         // }
 
-        public static CollisionData CollisionAABBAABB(AABB aabb1, AABB aabb2) {
+        public static CollisionDataRB CollisionAABBAABB(AABB aabb1, AABB aabb2) {
             // bool doIntersect = DoIntersectAABBAABB(aabb1, aabb2);
             // Position position = IntersectAABBAABB(aabb1, aabb2);
 
@@ -30,7 +30,7 @@ namespace LoonyEngine {
 
             // I have to find out on which side the boxes collide
 
-            return new CollisionData();
+            return new CollisionDataRB();
 
             //return new Collision(doIntersect, position);
         }
@@ -84,6 +84,31 @@ namespace LoonyEngine {
         // public static Position IntersectCircleCircle(Circle circle1, Circle circle2) {
         //     return (circle1.Position + circle2.Position) / 2;
         // }
+
+        public static CollisionDataRB CollisionCircleCircle(Circle circle1, Circle circle2, Rigidbody rb1, Rigidbody rb2) {
+            //TODO; would the Velocity be global or loval - so would I have to translate it or not
+
+            circle1 = new Circle(circle1.Radius * rb1.GameObject.Transform.Scale);
+            circle2 = new Circle(circle1.Radius * rb2.GameObject.Transform.Scale);
+
+            Position distPos = rb2.GameObject.Transform.Position - rb1.GameObject.Transform.Position;
+
+            // positionA --- positionB = fullDistance eg 10
+            // rA + rB = rGes eg 15
+            // rGes - fullDistance = penetrationDepth eg 15 - 10 = 5
+            // penetrationDepth / 2 = halfDepth (macht weniger Sinn)
+
+            // OPT: This has to be done to prevent a division by zero; however, this occurs very rearly and the result of using it would be undefined anyway
+            // the normalisation could be ommited in the if, but for GPUs it might be more effective for better streamlining to still do it
+            // (is this actually true; in both cases I have to do it)
+            if (distPos == new Position(0,0)) {
+                distPos = new Position(1, 0);
+            }
+            // I do calculate the square here twice -.-
+            PositionMagnitude penetrationDepth = (circle1.Radius + circle2.Radius) - distPos.magnitude;
+            return new CollisionDataRB(distPos.normalized, penetrationDepth, rb1, rb2);
+            
+        }
 
         // public static CollisionData CollisionCircleCircle(Circle circle1, Circle circle2) {
         //     // bool doIntersect = DoIntersectCircleCircle(circle1, circle2);
