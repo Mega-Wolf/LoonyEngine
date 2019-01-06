@@ -20,7 +20,7 @@ namespace LoonyEngine {
         #region [Constrcutors]
 
         public StupidPhysicsManager() {
-            f_oois.Add(new ObjectOrderInformation<Rigidbody>("Rigidbody position:", f_rbs, (rb) => { return (int)rb.ID; }));
+            f_oois.Add(new ObjectOrderInformation<Rigidbody>("Rigidbody positions:", f_rbs, (rb) => { return (int)rb.ID; }));
         }
 
         #endregion

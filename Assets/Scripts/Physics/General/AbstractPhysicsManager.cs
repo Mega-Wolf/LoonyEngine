@@ -9,7 +9,9 @@ namespace LoonyEngine {
 
     public enum CheckState {
         BroadCheck,
-        NarrowCheck
+        NarrowCheck,
+        Trigger,
+        Collision
     }
 
     // This is kind of stupid, but this is the easiest way to track the data for the different PMs
@@ -36,6 +38,8 @@ namespace LoonyEngine {
 
         private int m_broadChecks = 0;
         private int m_narrowChecks = 0;
+        private int m_triggers = 0;
+        private int m_collisions = 0;
 
         protected List<ObjectOrderInformation> f_oois = new List<ObjectOrderInformation>();
 
@@ -59,6 +63,8 @@ namespace LoonyEngine {
             f_checkStates.Clear();
             m_broadChecks = 0;
             m_narrowChecks = 0;
+            m_triggers = 0;
+            m_collisions = 0;
         }
 
         #endregion
@@ -79,7 +85,6 @@ namespace LoonyEngine {
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {
             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.NarrowCheck;
-
             ++m_narrowChecks;
 
             // TODO colelct this data
@@ -88,8 +93,63 @@ namespace LoonyEngine {
             // If none of them are triggers, that means that the collision shall be resolved
             if (!rb1.ColliderData.IsTrigger && !rb2.ColliderData.IsTrigger) {
                 //TODO; check directly for collision + resolve if possible (resolve only if moving towards each other)
+
+                if (rb1.ColliderData.Collider2D is AABB) {
+                    if (rb2.ColliderData.Collider2D is AABB) {
+                        // this should not be possible is this example
+                    } else {
+                        // AABB - Circle
+                    }
+                } else {
+                    if (rb2.ColliderData.Collider2D is AABB) {
+                        // Circle - AABB
+                    } else {
+                        // Circle - Circle
+                    }
+                }
+
                 // pass collision to the event
-            } else {
+            } else { // this means not both are colliders, so I only fire a trigger event on both (if touching)
+                // In a trigger, we only care, whether they are touching or not
+                if (rb1.ColliderData.Collider2D is AABB) {
+                    if (rb2.ColliderData.Collider2D is AABB) {
+                        // this should not be possible in this example
+                        if (Intersections.DoIntersectAABBAABB((AABB)rb1.ColliderData.Collider2D, (AABB)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
+                            // call triggers for 1 and send 2
+                            // call triggers for 2 and send 1
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            ++m_triggers;
+                        }
+                    } else {
+                        // AABB - Circle
+                        if (Intersections.DoIntersectAABBCircle((AABB)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
+                            // call triggers for 1 and send 2
+                            // call triggers for 2 and send 1
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            ++m_triggers;
+                        }
+
+                    }
+                } else {
+                    if (rb2.ColliderData.Collider2D is AABB) {
+                        // Circle - AABB
+                        if (Intersections.DoIntersectAABBCircle((AABB)rb2.ColliderData.Collider2D, (Circle)rb1.ColliderData.Collider2D, rb2.GameObject.Transform, rb1.GameObject.Transform)) {
+                            // call triggers for 1 and send 2
+                            // call triggers for 2 and send 1
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            ++m_triggers;
+                        }
+                    } else {
+                        // Circle - Circle
+                        if (Intersections.DoIntersectCircleCircle((Circle)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
+                            // call triggers for 1 and send 2
+                            // call triggers for 2 and send 1
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            ++m_triggers;
+                        }
+                    }
+                }
+
                 // TODO only check if they are touching + calling trigger functions after that if any
                 // pass collider to the event
             }
@@ -110,10 +170,13 @@ namespace LoonyEngine {
 #if UNITY_EDITOR
 
         public virtual void Render() {
-            EditorGUILayout.LabelField("Broad checks", m_broadChecks + "");
-            EditorGUILayout.LabelField("Narrow checks", m_narrowChecks + "");
+            EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
+            EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
+            EditorGUILayout.LabelField("Triggers:", m_triggers + "");
+            EditorGUILayout.LabelField("Collisions:", m_collisions + "");
+
             for (int i = 0; i < f_oois.Count; ++i) {
-                GUILayout.BeginArea(new Rect(0, 45, 1000, 45));
+                GUILayout.BeginArea(new Rect(0, 4 * 18 + 10 + 45 * i, 1000, 45));
                 f_oois[i].Render();
                 GUILayout.EndArea();
             }

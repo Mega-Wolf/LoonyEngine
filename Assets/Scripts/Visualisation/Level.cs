@@ -150,6 +150,7 @@ namespace LoonyEngine {
             float size = f_size.Evaluate(Random.value);
             float velocity = f_velocity.Evaluate(Random.value);
             int layer = Mathf.RoundToInt(f_layers.Evaluate(Random.value));
+            bool isTrigger = Random.value > 0.5f;
 
             Position position = new Position(MAX_SIZE.x.Float * f_startX.Evaluate(Random.value), MAX_SIZE.y.Float * f_startY.Evaluate(Random.value));
             position = TemporaryHelperFunctions.ComponentWiseClamp(position, Position.zero + new Position(size / 2, size / 2), MAX_SIZE - new Position(size / 2, size / 2));
@@ -176,7 +177,7 @@ namespace LoonyEngine {
             Rigidbody rb = Rigidbody.New(
                 new DynamicData(new Velocity(velocity * Random.insideUnitCircle), Acceleration.zero),
                 new ObjectData(new PhysicsMaterial(), new Mass(1)),
-                new ColliderData(circleDummyCollider, false, layer, subT));
+                new ColliderData(circleDummyCollider, isTrigger, layer, subT));
             subGO.AddComponent(rb);
             AddRB(rb);
             f_dynamics.Add(rb);
