@@ -35,6 +35,7 @@ namespace LoonyEngine {
             foreach (Rigidbody rb in f_rbs) {
                 rb.UpdateDynamics();
                 rb.UpdateAABB();
+                ++m_moved;
             }
             Profiler.EndSample();
 

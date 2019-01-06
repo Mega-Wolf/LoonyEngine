@@ -36,6 +36,7 @@ namespace LoonyEngine {
 
         private Dictionary<ulong, CheckState> f_checkStates = new Dictionary<ulong, CheckState>();
 
+        protected int m_moved = 0;
         private int m_broadChecks = 0;
         private int m_narrowChecks = 0;
         private int m_triggers = 0;
@@ -61,6 +62,7 @@ namespace LoonyEngine {
 
         public virtual void Simulate() {
             f_checkStates.Clear();
+            m_moved = 0;
             m_broadChecks = 0;
             m_narrowChecks = 0;
             m_triggers = 0;
@@ -170,13 +172,14 @@ namespace LoonyEngine {
 #if UNITY_EDITOR
 
         public virtual void Render() {
+            EditorGUILayout.LabelField("Moved:", m_moved + "");
             EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
             EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
             EditorGUILayout.LabelField("Triggers:", m_triggers + "");
             EditorGUILayout.LabelField("Collisions:", m_collisions + "");
 
             for (int i = 0; i < f_oois.Count; ++i) {
-                GUILayout.BeginArea(new Rect(0, 4 * 18 + 10 + 45 * i, 1000, 45));
+                GUILayout.BeginArea(new Rect(0, 5 * 18 + 10 + 45 * i, 1000, 45));
                 f_oois[i].Render();
                 GUILayout.EndArea();
             }
