@@ -7,12 +7,10 @@ namespace LoonyEngine {
 
     public class ExtraWindow : EditorWindow {
 
-        public static ExtraWindow Instance { get; private set; }
-
         [MenuItem("LoonyEngine/ExtraWindow")]
         private static void Init() {
             var window = GetWindow<ExtraWindow>();
-            Instance = window;
+            window.position = new Rect(0,0, 100,100);
             window.titleContent = new GUIContent("ExtraWindow");
             window.Show();
         }

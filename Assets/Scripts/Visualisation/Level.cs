@@ -132,7 +132,7 @@ namespace LoonyEngine {
                     TryRemoveCircle();
                 }
 
-                
+
                 while (f_dynamics.Count < finalNumber) {
                     TryGenerateCircle();
                 }
@@ -158,7 +158,9 @@ namespace LoonyEngine {
 
             bool works = true;
             foreach (Rigidbody rigidbody in f_rbs) {
-                if (Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.GlobalAABB, propRect)) {
+                if (
+                    SuperPhysicsManager.Instance.PhysicsMatrix.DoCollide(rigidbody.ColliderData.LayerNumber, layer) &&
+                    Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.GlobalAABB, propRect)) {
                     works = false;
                     break;
                 }

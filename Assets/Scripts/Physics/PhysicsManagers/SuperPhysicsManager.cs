@@ -15,11 +15,15 @@ namespace LoonyEngine {
         private List<AbstractPhysicsManager> m_physicsManagers = new List<AbstractPhysicsManager>();
         private Dictionary<Rigidbody, List<Rigidbody>> m_rbMapping = new Dictionary<Rigidbody, List<Rigidbody>>();
 
+        private PhysicsMatrix f_physicsMatrix;
+
         #endregion
 
         #region [Properties]
 
         public List<AbstractPhysicsManager> PhysicsManagers { get { return m_physicsManagers; } }
+
+        public PhysicsMatrix PhysicsMatrix { get { return f_physicsMatrix; } }
 
         #endregion
 
@@ -30,6 +34,15 @@ namespace LoonyEngine {
 
             AbstractPhysicsManager pm = new StupidPhysicsManager();
             m_physicsManagers.Add(pm);
+
+            SetPhysicsMatrix(new PhysicsMatrix(new bool[][] {
+                new bool[] {false, true, true, true, true, true},
+                new bool[] {true, false, false, false, false, false},
+                new bool[] {true, false, true, false, false, false},
+                new bool[] {true, false, false, true, true, true},
+                new bool[] {true, false, false, true, true, false},
+                new bool[] {true, false, false, true, false, false},
+            }));
         }
 
         #endregion
@@ -79,6 +92,7 @@ namespace LoonyEngine {
         }
 
         public void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
+            f_physicsMatrix = physicsMatrix;
             for (int i = 0; i < m_physicsManagers.Count; ++i) {
                 m_physicsManagers[i].SetPhysicsMatrix(physicsMatrix);
             }
