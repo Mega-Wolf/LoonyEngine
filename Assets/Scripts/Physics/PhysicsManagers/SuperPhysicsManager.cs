@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 
 namespace LoonyEngine {
+
     class SuperPhysicsManager : MBSingleton<SuperPhysicsManager>, IPhysicsManager {
 
         #region [Consts]
@@ -45,7 +46,7 @@ namespace LoonyEngine {
 
         #endregion
 
-        #region [Overrides]
+        #region [Override]
 
         public void Simulate() {
             for (int i = 0; i < m_physicsManagers.Count; ++i) {
@@ -75,6 +76,12 @@ namespace LoonyEngine {
                 GameObject.Release(clonedRB.GameObject);
             }
             GameObject.Release(rb.GameObject);
+        }
+
+        public void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
+            for (int i = 0; i < m_physicsManagers.Count; ++i) {
+                m_physicsManagers[i].SetPhysicsMatrix(physicsMatrix);
+            }
         }
 
         #endregion

@@ -39,6 +39,8 @@ namespace LoonyEngine {
 
         protected List<ObjectOrderInformation> f_oois = new List<ObjectOrderInformation>();
 
+        protected PhysicsMatrix f_physicsMatrix;
+
         #endregion
 
         #region [Properties]
@@ -49,6 +51,10 @@ namespace LoonyEngine {
 
         #region [PublicMethods]
 
+        public void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
+            f_physicsMatrix = physicsMatrix;
+        }
+
         public virtual void Simulate() {
             f_checkStates.Clear();
             m_broadChecks = 0;
@@ -57,7 +63,7 @@ namespace LoonyEngine {
 
         #endregion
 
-        #region [ProtectedMethods]
+        #region [PrivateMethods]
 
         protected bool BroadPhase(Rigidbody rb1, Rigidbody rb2) {
             // TODO this got taken out because it was too expensive for StupidPM
@@ -67,8 +73,7 @@ namespace LoonyEngine {
             ++m_broadChecks;
 
             return
-            // TODO; this is not how layers work Tobi... 
-            rb1.ColliderData.LayerNumber == rb2.ColliderData.LayerNumber &&
+            f_physicsMatrix.DoCollide(rb1.ColliderData.LayerNumber, rb2.ColliderData.LayerNumber) &&
             Intersections.DoIntersectAABBAABB(rb1.ColliderData.GlobalAABB, rb2.ColliderData.GlobalAABB);
         }
 
@@ -88,8 +93,6 @@ namespace LoonyEngine {
                 // TODO only check if they are touching + calling trigger functions after that if any
                 // pass collider to the event
             }
-
-
 
         }
 
