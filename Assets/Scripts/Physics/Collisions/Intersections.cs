@@ -86,7 +86,7 @@ namespace LoonyEngine {
         // }
 
         public static CollisionDataRB CollisionCircleCircle(Circle circle1, Circle circle2, Rigidbody rb1, Rigidbody rb2) {
-            //TODO; would the Velocity be global or loval - so would I have to translate it or not
+            //TODO; would the Velocity be global or local - so would I have to translate it or not
 
             circle1 = new Circle(circle1.Radius * rb1.GameObject.Transform.Scale);
             circle2 = new Circle(circle1.Radius * rb2.GameObject.Transform.Scale);

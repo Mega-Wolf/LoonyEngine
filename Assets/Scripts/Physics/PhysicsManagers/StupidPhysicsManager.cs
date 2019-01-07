@@ -17,7 +17,7 @@ namespace LoonyEngine {
 
         #endregion
 
-        #region [Constrcutors]
+        #region [Constructors]
 
         public StupidPhysicsManager() {
             f_oois.Add(new ObjectOrderInformation<Rigidbody>("Rigidbody positions:", f_rbs, (rb) => { return (int)rb.ID; }));
@@ -50,6 +50,17 @@ namespace LoonyEngine {
                 }
             }
             Profiler.EndSample();
+
+
+            // TODO the resolution has to be incremental
+            // somwhere I need information whether this collision should stop etc or not
+
+            // Profiler.BeginSample("Stupid; Resolve Phase");
+            // foreach (ulong rbsID in m_collisionsThisFrame.Keys) {
+            //     uint id1 = (uint)rbsID;
+            //     uint id2 = (uint) (rbsID >> 32);
+            // }
+            // Profiler.EndSample();
         }
 
         public override void AddPhysicsComponent(Rigidbody rb) {
