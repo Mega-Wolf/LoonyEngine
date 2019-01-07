@@ -8,6 +8,8 @@ namespace LoonyEngine {
 
         void Simulate();
 
+        void SetPhysicsMatrix(PhysicsMatrix physicsMatrix);
+
         #endregion
 
         #region [PublicMethods]
