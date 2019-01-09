@@ -59,11 +59,13 @@ namespace LoonyEngine {
 
         public Dictionary<ulong, CheckState> CheckStates { get { return f_checkStates; } }
 
+        public abstract IEnumerable<Rigidbody> Rigidbodies { get; }
+
         #endregion
 
         #region [PublicMethods]
 
-        public void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
+        public virtual void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
             f_physicsMatrix = physicsMatrix;
         }
 
@@ -194,6 +196,7 @@ namespace LoonyEngine {
 
         public abstract void AddPhysicsComponent(Rigidbody rb);
         public abstract void RemovePhysicsComponent(Rigidbody rb);
+        public abstract void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber);
 
         #endregion
 

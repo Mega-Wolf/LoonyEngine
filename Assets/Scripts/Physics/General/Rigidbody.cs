@@ -18,9 +18,9 @@ namespace LoonyEngine {
 
         #region [Variables/Properties]
 
-        public DynamicData DynamicData { get; set; }
-        public ObjectData ObjectData { get; set; }
-        public ColliderData ColliderData { get; set; }
+        public DynamicData DynamicData { get; private set; }
+        public ObjectData ObjectData { get; private set; }
+        public ColliderData ColliderData { get; private set; }
 
         #endregion
 
@@ -64,6 +64,22 @@ namespace LoonyEngine {
             //TODO; this is as ugly as the DynamicData above
             ColliderData cd = ColliderData;
             cd.GlobalAABB = cd.Collider2D.CreateAABB(GameObject.Transform);
+            ColliderData = cd;
+        }
+
+        public void SetLayer(int layerNumber) {
+            SuperPhysicsManager.Instance.ChangeLayer(this, ColliderData.LayerNumber, layerNumber);
+
+            ColliderData cd = ColliderData;
+            cd.LayerNumber = layerNumber;
+            ColliderData = cd;
+        }
+
+        // This method updates the layer, but does not call the PM
+        // USED ONLY BECAUSE OF THE PROJECT STRUCTURE
+        public void SetLayerQUIET(int layerNumber) {
+            ColliderData cd = ColliderData;
+            cd.LayerNumber = layerNumber;
             ColliderData = cd;
         }
 

@@ -4,11 +4,19 @@ namespace LoonyEngine {
 
     public interface IPhysicsManager {
 
+        #region [Properties]
+
+        #region [Properties]
+
+        IEnumerable<Rigidbody> Rigidbodies { get ;}
+
+        #endregion
+
+        #endregion
+
         #region [Updates]
 
         void Simulate();
-
-        void SetPhysicsMatrix(PhysicsMatrix physicsMatrix);
 
         #endregion
 
@@ -17,6 +25,10 @@ namespace LoonyEngine {
         void AddPhysicsComponent(Rigidbody rb);
 
         void RemovePhysicsComponent(Rigidbody rb);
+
+        void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber);
+
+        void SetPhysicsMatrix(PhysicsMatrix physicsMatrix);
 
         #endregion
 

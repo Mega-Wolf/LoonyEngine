@@ -25,6 +25,8 @@ namespace LoonyEngine {
 
         public PhysicsMatrix PhysicsMatrix { get { return f_physicsMatrix; } }
 
+        public IEnumerable<Rigidbody> Rigidbodies { get { return m_rbMapping.Keys; } }
+
         #endregion
 
         #region [Init]
@@ -95,6 +97,15 @@ namespace LoonyEngine {
             f_physicsMatrix = physicsMatrix;
             for (int i = 0; i < m_physicsManagers.Count; ++i) {
                 m_physicsManagers[i].SetPhysicsMatrix(physicsMatrix);
+            }
+        }
+
+        public void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber) {
+            List<Rigidbody> rbList = m_rbMapping[rb];
+            for (int i = 0; i < m_physicsManagers.Count; ++i) {
+                Rigidbody clonedRB = rbList[i];
+                clonedRB.SetLayerQUIET(newLayerNumber);
+                m_physicsManagers[i].ChangeLayer(clonedRB, oldLayerNumber, newLayerNumber);
             }
         }
 

@@ -13,7 +13,7 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public List<Rigidbody> Rigidbodies { get { return f_rbs; } }
+        public override IEnumerable<Rigidbody> Rigidbodies { get { return f_rbs; } }
 
         #endregion
 
@@ -69,6 +69,10 @@ namespace LoonyEngine {
 
         public override void RemovePhysicsComponent(Rigidbody rb) {
             f_rbs.Remove(rb);
+        }
+
+        public override void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber) {
+            // dont care
         }
 
         #endregion

@@ -16,14 +16,14 @@ namespace LoonyEngine {
         }
 
         private void OnGUI() {
-            StupidPhysicsManager spm = null;
+            AbstractPhysicsManager spm;
 
             if (SuperPhysicsManager.Instance == null) {
                 return;
             }
 
             Profiler.BeginSample("MyGUI");
-            spm = (StupidPhysicsManager)SuperPhysicsManager.Instance.PhysicsManagers[0];
+            spm = SuperPhysicsManager.Instance.PhysicsManagers[0];
             spm.Render();
             Profiler.EndSample();
         }

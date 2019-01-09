@@ -51,7 +51,7 @@ namespace LoonyEngine {
             }
 
             // TODO I kind of should render these for every one
-            foreach (Rigidbody rb in ((StupidPhysicsManager)SuperPhysicsManager.Instance.PhysicsManagers[0]).Rigidbodies) {
+            foreach (Rigidbody rb in SuperPhysicsManager.Instance.PhysicsManagers[0].Rigidbodies) {
                 ICollider2D col = rb.ColliderData.Collider2D;
 
                 Color color = Color.black;
