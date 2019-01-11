@@ -33,6 +33,8 @@ namespace LoonyEngine {
             }
         }
 
+        public override string Name { get { return "Better Layers PhysicsManager"; } }
+
         #endregion
 
         #region [Override]
@@ -42,6 +44,7 @@ namespace LoonyEngine {
 
             // Movement phase
             Profiler.BeginSample("BetterLayer; Movement Phase");
+            f_stopwatch.Restart();
             for (int i = 0; i < f_rigidbodies.Count; ++i) {
                 for (int j = 0; j < f_rigidbodies[i].Count; ++j) {
                     f_rigidbodies[i][j].UpdateDynamics();
@@ -49,12 +52,15 @@ namespace LoonyEngine {
                     ++m_moved;
                 }
             }
+            f_stopwatch.Stop();
+            m_movementTime = f_stopwatch.Elapsed;
             Profiler.EndSample();
 
             // CollisionDetectionPhase
             Profiler.BeginSample("BetterLayer; Collision Phase");
+            f_stopwatch.Restart();
             for (int l = 0; l < f_rigidbodies.Count; ++l) {
-                for (int l2 = 0; l2 < f_rigidbodies.Count; ++l2) {
+                for (int l2 = l; l2 < f_rigidbodies.Count; ++l2) {
                     if (!f_physicsMatrix.DoCollide(l, l2)) {
                         continue;
                     }
@@ -78,7 +84,8 @@ namespace LoonyEngine {
                     }
                 }
             }
-
+            f_stopwatch.Stop();
+            m_collisionTime = f_stopwatch.Elapsed;
             Profiler.EndSample();
 
 

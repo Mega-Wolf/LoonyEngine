@@ -4,6 +4,8 @@ using UnityEditor;
 
 using System.Collections.Generic;
 using UnityEngine;
+using System.Diagnostics;
+using System;
 
 namespace LoonyEngine {
 
@@ -47,11 +49,16 @@ namespace LoonyEngine {
         private int m_triggers = 0;
         private int m_collisions = 0;
 
+        protected TimeSpan m_movementTime;
+        protected TimeSpan m_collisionTime;
+
         protected Dictionary<ulong, CollisionDataRB> m_collisionsLastFrame = new Dictionary<ulong, CollisionDataRB>();
         protected Dictionary<ulong, CollisionDataRB> m_collisionsThisFrame = new Dictionary<ulong, CollisionDataRB>();
 
         protected HashSet<ulong> m_triggersLastFrame = new HashSet<ulong>();
         protected HashSet<ulong> m_triggersThisFrame = new HashSet<ulong>();
+
+        protected Stopwatch f_stopwatch = new Stopwatch();
 
         #endregion
 
@@ -60,6 +67,8 @@ namespace LoonyEngine {
         public Dictionary<ulong, CheckState> CheckStates { get { return f_checkStates; } }
 
         public abstract IEnumerable<Rigidbody> Rigidbodies { get; }
+
+        public abstract string Name { get; }
 
         #endregion
 
@@ -70,9 +79,10 @@ namespace LoonyEngine {
         }
 
         public virtual void Simulate() {
+            m_moved = 0;
+            #if DEBUG_COLLISIONS
             // Resetting print data
             f_checkStates.Clear();
-            m_moved = 0;
             m_broadChecks = 0;
             m_narrowChecks = 0;
             m_triggers = 0;
@@ -87,6 +97,7 @@ namespace LoonyEngine {
             m_collisionsLastFrame = m_collisionsThisFrame;
             m_collisionsThisFrame = dummyCollisions;
             m_collisionsThisFrame.Clear();
+            #endif
         }
 
         #endregion
@@ -98,7 +109,16 @@ namespace LoonyEngine {
             // I have to be able to use it though for later PMs
             //f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
+            #if DEBUG_COLLISIONS
+            if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3 ) {
+                f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
+            }
+            
+
+            //TESTING END
+
             ++m_broadChecks;
+            #endif
 
             return
             f_physicsMatrix.DoCollide(rb1.ColliderData.LayerNumber, rb2.ColliderData.LayerNumber) &&
@@ -106,8 +126,10 @@ namespace LoonyEngine {
         }
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {
+            #if DEBUG_COLLISIONS
             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.NarrowCheck;
             ++m_narrowChecks;
+            #endif
 
             // If none of them are triggers, that means that the collision shall be resolved
             // Well, they cannot be resolved here already; the data has to be remembered until the end of the resolutions
@@ -129,8 +151,10 @@ namespace LoonyEngine {
                         if (cd.DidCollide) {
                             m_collisionsThisFrame[CalcRBID(rb1, rb2)] = cd;
                             m_collisionsLastFrame.Remove(CalcRBID(rb1, rb2));
+                            #if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Collision;
                             ++m_collisions;
+                            #endif
                         }
 
                     }
@@ -147,18 +171,26 @@ namespace LoonyEngine {
                         if (Intersections.DoIntersectAABBAABB((AABB)rb1.ColliderData.Collider2D, (AABB)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
+                            m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
+                            #if DEBUG_COLLISIONS
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
+                            #endif
                         }
                     } else {
                         // AABB - Circle
                         if (Intersections.DoIntersectAABBCircle((AABB)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
+                            
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
+                            m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
+                            #if DEBUG_COLLISIONS
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
+                            #endif
                         }
 
                     }
@@ -168,18 +200,24 @@ namespace LoonyEngine {
                         if (Intersections.DoIntersectAABBCircle((AABB)rb2.ColliderData.Collider2D, (Circle)rb1.ColliderData.Collider2D, rb2.GameObject.Transform, rb1.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
+                            m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
+                            #if DEBUG_COLLISIONS
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
+                            #endif
                         }
                     } else {
                         // Circle - Circle
                         if (Intersections.DoIntersectCircleCircle((Circle)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
+                            m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
+                            #if DEBUG_COLLISIONS
+                            f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
+                            #endif
                         }
                     }
                 }
@@ -205,23 +243,29 @@ namespace LoonyEngine {
 #if UNITY_EDITOR
 
         public virtual void Render() {
-            EditorGUILayout.LabelField("Moved:", m_moved + "");
+            EditorGUILayout.LabelField("Name:", Name);
+            //EditorGUILyaout.LabelField("Position:", f_position);
+            EditorGUILayout.LabelField("Moved:", m_moved + "" );
             EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
             EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
             EditorGUILayout.LabelField("Triggers:", m_triggers + "");
             EditorGUILayout.LabelField("Collisions:", m_collisions + "");
+            EditorGUILayout.LabelField("Movement time:", m_movementTime.TotalMilliseconds + "");
+            EditorGUILayout.LabelField("Collision time:", m_collisionTime.TotalMilliseconds + "");
 
             for (int i = 0; i < f_oois.Count; ++i) {
-                GUILayout.BeginArea(new Rect(0, 5 * 18 + 10 + 45 * i, 1000, 45));
-                f_oois[i].Render();
-                GUILayout.EndArea();
+                Rect rect = EditorGUILayout.BeginVertical(GUILayout.MinHeight(18 + 25));
+                f_oois[i].Render(rect);
+                EditorGUILayout.EndVertical();
             }
         }
 
         public virtual void UpdateRenderData() {
+            #if DEBUG_COLLISIONS
             foreach (ObjectOrderInformation ooi in f_oois) {
                 ooi.UpdateIDs();
             }
+            #endif
         }
 
 #endif
