@@ -13,7 +13,9 @@ namespace LoonyEngine {
 
         #region [Properties]
 
-        public List<Rigidbody> Rigidbodies { get { return f_rbs; } }
+        public override IEnumerable<Rigidbody> Rigidbodies { get { return f_rbs; } }
+
+        public override string Name { get { return "Stupid PhysicsManager"; } }
 
         #endregion
 
@@ -32,16 +34,21 @@ namespace LoonyEngine {
 
             // Movement phase
             Profiler.BeginSample("Stupid; Movement Phase");
+            f_stopwatch.Restart();
             foreach (Rigidbody rb in f_rbs) {
                 rb.UpdateDynamics();
                 rb.UpdateAABB();
                 ++m_moved;
             }
+            f_stopwatch.Stop();
+            m_movementTime = f_stopwatch.Elapsed;
             Profiler.EndSample();
 
             // CollisionDetectionPhase
 
             Profiler.BeginSample("Stupid; Collision Phase");
+            
+            f_stopwatch.Restart();
             for (int i = 0; i < f_rbs.Count; ++i) {
                 for (int j = i + 1; j < f_rbs.Count; ++j) {
                     if (BroadPhase(f_rbs[i], f_rbs[j])) {
@@ -49,6 +56,9 @@ namespace LoonyEngine {
                     }
                 }
             }
+            f_stopwatch.Stop();
+            
+            m_collisionTime = f_stopwatch.Elapsed;
             Profiler.EndSample();
 
 
@@ -69,6 +79,10 @@ namespace LoonyEngine {
 
         public override void RemovePhysicsComponent(Rigidbody rb) {
             f_rbs.Remove(rb);
+        }
+
+        public override void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber) {
+            // dont care
         }
 
         #endregion

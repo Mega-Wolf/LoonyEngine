@@ -7,6 +7,8 @@ namespace LoonyEngine {
 
     public class ExtraWindow : EditorWindow {
 
+        private Vector2 m_scrollPosition;
+
         [MenuItem("LoonyEngine/ExtraWindow")]
         private static void Init() {
             var window = GetWindow<ExtraWindow>();
@@ -16,15 +18,19 @@ namespace LoonyEngine {
         }
 
         private void OnGUI() {
-            StupidPhysicsManager spm = null;
-
             if (SuperPhysicsManager.Instance == null) {
                 return;
             }
 
             Profiler.BeginSample("MyGUI");
-            spm = (StupidPhysicsManager)SuperPhysicsManager.Instance.PhysicsManagers[0];
-            spm.Render();
+            m_scrollPosition = EditorGUILayout.BeginScrollView(m_scrollPosition);
+            foreach (AbstractPhysicsManager apm in SuperPhysicsManager.Instance.PhysicsManagers){
+                apm.Render();
+                EditorGUILayout.LabelField("");
+                EditorGUILayout.LabelField("##############################");
+                EditorGUILayout.LabelField("");
+            }
+            EditorGUILayout.EndScrollView();
             Profiler.EndSample();
         }
 

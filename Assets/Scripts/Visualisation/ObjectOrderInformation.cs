@@ -11,7 +11,7 @@ namespace LoonyEngine {
     public abstract class ObjectOrderInformation {
         public abstract void UpdateIDs();
 
-        public abstract void Render();
+        public abstract void Render(Rect rect);
     }
 
     public class ObjectOrderInformation<T> : ObjectOrderInformation {
@@ -85,8 +85,8 @@ namespace LoonyEngine {
 
 #if UNITY_EDITOR
 
-        public override void Render() {
-            GUILayout.Label(f_name);
+        public override void Render(Rect rect) {
+            EditorGUILayout.LabelField(f_name);
 
             for (int j = 0; j < f_comparedToLast.Count; ++j) {
 
@@ -106,7 +106,7 @@ namespace LoonyEngine {
                         color = Color.red;
                         break;
                 }
-                EditorGUI.DrawRect(new Rect(j, 18, 1, 25), color);
+                EditorGUI.DrawRect(new Rect(j, rect.y + 18, 1, 25), color);
             }
         }
 

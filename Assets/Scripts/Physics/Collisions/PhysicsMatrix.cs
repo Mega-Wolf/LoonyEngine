@@ -1,5 +1,5 @@
-namespace LoonyEngine{
-    
+namespace LoonyEngine {
+
     /// <summary>
     /// A very simple PhysicsMatrix
     /// Possibility to have a wrong matrix; inefficient; no setter
@@ -9,6 +9,12 @@ namespace LoonyEngine{
         #region [PrivateVariables]
 
         private bool[][] m_matrix;
+
+        #endregion
+
+        #region [Properties]
+
+        public int Size { get { return m_matrix.Length; } }
 
         #endregion
 
