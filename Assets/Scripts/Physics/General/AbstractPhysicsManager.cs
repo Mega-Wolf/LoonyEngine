@@ -1,3 +1,5 @@
+#define DEBUG_COLLISIONS
+
 #if UNITY_EDITOR
 using UnityEditor;
 #endif

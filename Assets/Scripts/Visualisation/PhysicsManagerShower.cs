@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LoonyEngine {
 
-    // This class is used to render the data of a PhysicsManager
+    /// This class is used to render the data of a PhysicsManager
     public class PhysicsManagerShower : MonoBehaviour {
 
         private enum ObjectColor {
