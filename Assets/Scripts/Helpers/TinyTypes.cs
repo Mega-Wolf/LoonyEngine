@@ -38,6 +38,18 @@ public struct Mass {
 		return new Force(value1.Float * value2.Vector2);
 	}
 
+	public static Impulse operator*(Mass value1, Velocity value2) {
+		return new Impulse(value1.Float * value2.Vector2);
+	}
+
+	public static Impulse operator*(Velocity value2, Mass value1) {
+		return new Impulse(value1.Float * value2.Vector2);
+	}
+
+	public static Velocity operator/(Impulse value1, Mass value2) {
+		return new Velocity(value1.Vector2 / value2.Float);
+	}
+
 	public static bool operator <(Mass value1, Mass value2) {
 		return value1.floatValue < value2.floatValue;
 	}
@@ -485,73 +497,6 @@ public struct Weight {
 	}
 
 	public static bool operator !=(Weight value1, Weight value2) {
-		return value1.floatValue != value2.floatValue;
-	}
-
-	public override bool Equals(object obj) {
-		return floatValue.Equals(obj);
-	}
-
-	public override int GetHashCode() {
-		return floatValue.GetHashCode();
-	}
-}
-
-public struct Impulse {
-	private float floatValue;
-
-	public float Float { get { return floatValue; } }
-
-
-	public Impulse(float floatValue) {
-		this.floatValue = floatValue;
-	}
-
-	public static Impulse operator +(Impulse value1, Impulse value2) {
-		return new Impulse(value1.floatValue + value2.floatValue);
-	}
-
-	public static Impulse operator -(Impulse value1, Impulse value2) {
-		return new Impulse(value1.floatValue - value2.floatValue);
-	}
-
-	public static float operator /(Impulse value1, Impulse value2) {
-		return value1.floatValue / value2.floatValue;
-	}
-
-	public static Impulse operator *(Impulse value, float scale) {
-		return new Impulse(value.floatValue * scale);
-	}
-
-	public static Impulse operator *(float scale, Impulse value) {
-		return new Impulse(value.floatValue * scale);
-	}
-
-	public static Impulse operator /(Impulse value, float scale) {
-		return new Impulse(value.floatValue / scale);
-	}
-
-	public static bool operator <(Impulse value1, Impulse value2) {
-		return value1.floatValue < value2.floatValue;
-	}
-
-	public static bool operator >(Impulse value1, Impulse value2) {
-		return value1.floatValue > value2.floatValue;
-	}
-
-	public static bool operator <=(Impulse value1, Impulse value2) {
-		return value1.floatValue <= value2.floatValue;
-	}
-
-	public static bool operator >=(Impulse value1, Impulse value2) {
-		return value1.floatValue >= value2.floatValue;
-	}
-
-	public static bool operator ==(Impulse value1, Impulse value2) {
-		return value1.floatValue == value2.floatValue;
-	}
-
-	public static bool operator !=(Impulse value1, Impulse value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2629,61 +2574,61 @@ public struct Force {
 	}
 }
 
-public struct MomentumX {
+public struct ImpulseX {
 	private float floatValue;
 
 	public float Float { get { return floatValue; } }
 
 
-	public MomentumX(float floatValue) {
+	public ImpulseX(float floatValue) {
 		this.floatValue = floatValue;
 	}
 
-	public static MomentumX operator +(MomentumX value1, MomentumX value2) {
-		return new MomentumX(value1.floatValue + value2.floatValue);
+	public static ImpulseX operator +(ImpulseX value1, ImpulseX value2) {
+		return new ImpulseX(value1.floatValue + value2.floatValue);
 	}
 
-	public static MomentumX operator -(MomentumX value1, MomentumX value2) {
-		return new MomentumX(value1.floatValue - value2.floatValue);
+	public static ImpulseX operator -(ImpulseX value1, ImpulseX value2) {
+		return new ImpulseX(value1.floatValue - value2.floatValue);
 	}
 
-	public static float operator /(MomentumX value1, MomentumX value2) {
+	public static float operator /(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue / value2.floatValue;
 	}
 
-	public static MomentumX operator *(MomentumX value, float scale) {
-		return new MomentumX(value.floatValue * scale);
+	public static ImpulseX operator *(ImpulseX value, float scale) {
+		return new ImpulseX(value.floatValue * scale);
 	}
 
-	public static MomentumX operator *(float scale, MomentumX value) {
-		return new MomentumX(value.floatValue * scale);
+	public static ImpulseX operator *(float scale, ImpulseX value) {
+		return new ImpulseX(value.floatValue * scale);
 	}
 
-	public static MomentumX operator /(MomentumX value, float scale) {
-		return new MomentumX(value.floatValue / scale);
+	public static ImpulseX operator /(ImpulseX value, float scale) {
+		return new ImpulseX(value.floatValue / scale);
 	}
 
-	public static bool operator <(MomentumX value1, MomentumX value2) {
+	public static bool operator <(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue < value2.floatValue;
 	}
 
-	public static bool operator >(MomentumX value1, MomentumX value2) {
+	public static bool operator >(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue > value2.floatValue;
 	}
 
-	public static bool operator <=(MomentumX value1, MomentumX value2) {
+	public static bool operator <=(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue <= value2.floatValue;
 	}
 
-	public static bool operator >=(MomentumX value1, MomentumX value2) {
+	public static bool operator >=(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue >= value2.floatValue;
 	}
 
-	public static bool operator ==(MomentumX value1, MomentumX value2) {
+	public static bool operator ==(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue == value2.floatValue;
 	}
 
-	public static bool operator !=(MomentumX value1, MomentumX value2) {
+	public static bool operator !=(ImpulseX value1, ImpulseX value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2696,61 +2641,61 @@ public struct MomentumX {
 	}
 }
 
-public struct MomentumY {
+public struct ImpulseY {
 	private float floatValue;
 
 	public float Float { get { return floatValue; } }
 
 
-	public MomentumY(float floatValue) {
+	public ImpulseY(float floatValue) {
 		this.floatValue = floatValue;
 	}
 
-	public static MomentumY operator +(MomentumY value1, MomentumY value2) {
-		return new MomentumY(value1.floatValue + value2.floatValue);
+	public static ImpulseY operator +(ImpulseY value1, ImpulseY value2) {
+		return new ImpulseY(value1.floatValue + value2.floatValue);
 	}
 
-	public static MomentumY operator -(MomentumY value1, MomentumY value2) {
-		return new MomentumY(value1.floatValue - value2.floatValue);
+	public static ImpulseY operator -(ImpulseY value1, ImpulseY value2) {
+		return new ImpulseY(value1.floatValue - value2.floatValue);
 	}
 
-	public static float operator /(MomentumY value1, MomentumY value2) {
+	public static float operator /(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue / value2.floatValue;
 	}
 
-	public static MomentumY operator *(MomentumY value, float scale) {
-		return new MomentumY(value.floatValue * scale);
+	public static ImpulseY operator *(ImpulseY value, float scale) {
+		return new ImpulseY(value.floatValue * scale);
 	}
 
-	public static MomentumY operator *(float scale, MomentumY value) {
-		return new MomentumY(value.floatValue * scale);
+	public static ImpulseY operator *(float scale, ImpulseY value) {
+		return new ImpulseY(value.floatValue * scale);
 	}
 
-	public static MomentumY operator /(MomentumY value, float scale) {
-		return new MomentumY(value.floatValue / scale);
+	public static ImpulseY operator /(ImpulseY value, float scale) {
+		return new ImpulseY(value.floatValue / scale);
 	}
 
-	public static bool operator <(MomentumY value1, MomentumY value2) {
+	public static bool operator <(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue < value2.floatValue;
 	}
 
-	public static bool operator >(MomentumY value1, MomentumY value2) {
+	public static bool operator >(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue > value2.floatValue;
 	}
 
-	public static bool operator <=(MomentumY value1, MomentumY value2) {
+	public static bool operator <=(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue <= value2.floatValue;
 	}
 
-	public static bool operator >=(MomentumY value1, MomentumY value2) {
+	public static bool operator >=(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue >= value2.floatValue;
 	}
 
-	public static bool operator ==(MomentumY value1, MomentumY value2) {
+	public static bool operator ==(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue == value2.floatValue;
 	}
 
-	public static bool operator !=(MomentumY value1, MomentumY value2) {
+	public static bool operator !=(ImpulseY value1, ImpulseY value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2763,65 +2708,65 @@ public struct MomentumY {
 	}
 }
 
-public struct MomentumMagnitude {
+public struct ImpulseMagnitude {
 	private float floatValue;
 
 	public float Float { get { return floatValue; } }
 
 
-	public MomentumMagnitude(float floatValue) {
+	public ImpulseMagnitude(float floatValue) {
 		this.floatValue = floatValue;
 	}
 
-	public static MomentumMagnitude operator +(MomentumMagnitude value1, MomentumMagnitude value2) {
-		return new MomentumMagnitude(value1.floatValue + value2.floatValue);
+	public static ImpulseMagnitude operator +(ImpulseMagnitude value1, ImpulseMagnitude value2) {
+		return new ImpulseMagnitude(value1.floatValue + value2.floatValue);
 	}
 
-	public static MomentumMagnitude operator -(MomentumMagnitude value1, MomentumMagnitude value2) {
-		return new MomentumMagnitude(value1.floatValue - value2.floatValue);
+	public static ImpulseMagnitude operator -(ImpulseMagnitude value1, ImpulseMagnitude value2) {
+		return new ImpulseMagnitude(value1.floatValue - value2.floatValue);
 	}
 
-	public static float operator /(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static float operator /(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue / value2.floatValue;
 	}
 
-	public static MomentumMagnitude operator *(MomentumMagnitude value, float scale) {
-		return new MomentumMagnitude(value.floatValue * scale);
+	public static ImpulseMagnitude operator *(ImpulseMagnitude value, float scale) {
+		return new ImpulseMagnitude(value.floatValue * scale);
 	}
 
-	public static MomentumMagnitude operator *(float scale, MomentumMagnitude value) {
-		return new MomentumMagnitude(value.floatValue * scale);
+	public static ImpulseMagnitude operator *(float scale, ImpulseMagnitude value) {
+		return new ImpulseMagnitude(value.floatValue * scale);
 	}
 
-	public static MomentumMagnitude operator /(MomentumMagnitude value, float scale) {
-		return new MomentumMagnitude(value.floatValue / scale);
+	public static ImpulseMagnitude operator /(ImpulseMagnitude value, float scale) {
+		return new ImpulseMagnitude(value.floatValue / scale);
 	}
 
-	public static MomentumMgSq operator *(MomentumMagnitude value1, MomentumMagnitude value2) {
-		return new MomentumMgSq(value1.Float * value2.Float);
+	public static ImpulseMgSq operator *(ImpulseMagnitude value1, ImpulseMagnitude value2) {
+		return new ImpulseMgSq(value1.Float * value2.Float);
 	}
 
-	public static bool operator <(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator <(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue < value2.floatValue;
 	}
 
-	public static bool operator >(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator >(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue > value2.floatValue;
 	}
 
-	public static bool operator <=(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator <=(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue <= value2.floatValue;
 	}
 
-	public static bool operator >=(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator >=(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue >= value2.floatValue;
 	}
 
-	public static bool operator ==(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator ==(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue == value2.floatValue;
 	}
 
-	public static bool operator !=(MomentumMagnitude value1, MomentumMagnitude value2) {
+	public static bool operator !=(ImpulseMagnitude value1, ImpulseMagnitude value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2834,61 +2779,61 @@ public struct MomentumMagnitude {
 	}
 }
 
-public struct MomentumDot {
+public struct ImpulseDot {
 	private float floatValue;
 
 	public float Float { get { return floatValue; } }
 
 
-	public MomentumDot(float floatValue) {
+	public ImpulseDot(float floatValue) {
 		this.floatValue = floatValue;
 	}
 
-	public static MomentumDot operator +(MomentumDot value1, MomentumDot value2) {
-		return new MomentumDot(value1.floatValue + value2.floatValue);
+	public static ImpulseDot operator +(ImpulseDot value1, ImpulseDot value2) {
+		return new ImpulseDot(value1.floatValue + value2.floatValue);
 	}
 
-	public static MomentumDot operator -(MomentumDot value1, MomentumDot value2) {
-		return new MomentumDot(value1.floatValue - value2.floatValue);
+	public static ImpulseDot operator -(ImpulseDot value1, ImpulseDot value2) {
+		return new ImpulseDot(value1.floatValue - value2.floatValue);
 	}
 
-	public static float operator /(MomentumDot value1, MomentumDot value2) {
+	public static float operator /(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue / value2.floatValue;
 	}
 
-	public static MomentumDot operator *(MomentumDot value, float scale) {
-		return new MomentumDot(value.floatValue * scale);
+	public static ImpulseDot operator *(ImpulseDot value, float scale) {
+		return new ImpulseDot(value.floatValue * scale);
 	}
 
-	public static MomentumDot operator *(float scale, MomentumDot value) {
-		return new MomentumDot(value.floatValue * scale);
+	public static ImpulseDot operator *(float scale, ImpulseDot value) {
+		return new ImpulseDot(value.floatValue * scale);
 	}
 
-	public static MomentumDot operator /(MomentumDot value, float scale) {
-		return new MomentumDot(value.floatValue / scale);
+	public static ImpulseDot operator /(ImpulseDot value, float scale) {
+		return new ImpulseDot(value.floatValue / scale);
 	}
 
-	public static bool operator <(MomentumDot value1, MomentumDot value2) {
+	public static bool operator <(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue < value2.floatValue;
 	}
 
-	public static bool operator >(MomentumDot value1, MomentumDot value2) {
+	public static bool operator >(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue > value2.floatValue;
 	}
 
-	public static bool operator <=(MomentumDot value1, MomentumDot value2) {
+	public static bool operator <=(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue <= value2.floatValue;
 	}
 
-	public static bool operator >=(MomentumDot value1, MomentumDot value2) {
+	public static bool operator >=(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue >= value2.floatValue;
 	}
 
-	public static bool operator ==(MomentumDot value1, MomentumDot value2) {
+	public static bool operator ==(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue == value2.floatValue;
 	}
 
-	public static bool operator !=(MomentumDot value1, MomentumDot value2) {
+	public static bool operator !=(ImpulseDot value1, ImpulseDot value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2901,61 +2846,61 @@ public struct MomentumDot {
 	}
 }
 
-public struct MomentumMgSq {
+public struct ImpulseMgSq {
 	private float floatValue;
 
 	public float Float { get { return floatValue; } }
 
 
-	public MomentumMgSq(float floatValue) {
+	public ImpulseMgSq(float floatValue) {
 		this.floatValue = floatValue;
 	}
 
-	public static MomentumMgSq operator +(MomentumMgSq value1, MomentumMgSq value2) {
-		return new MomentumMgSq(value1.floatValue + value2.floatValue);
+	public static ImpulseMgSq operator +(ImpulseMgSq value1, ImpulseMgSq value2) {
+		return new ImpulseMgSq(value1.floatValue + value2.floatValue);
 	}
 
-	public static MomentumMgSq operator -(MomentumMgSq value1, MomentumMgSq value2) {
-		return new MomentumMgSq(value1.floatValue - value2.floatValue);
+	public static ImpulseMgSq operator -(ImpulseMgSq value1, ImpulseMgSq value2) {
+		return new ImpulseMgSq(value1.floatValue - value2.floatValue);
 	}
 
-	public static float operator /(MomentumMgSq value1, MomentumMgSq value2) {
+	public static float operator /(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue / value2.floatValue;
 	}
 
-	public static MomentumMgSq operator *(MomentumMgSq value, float scale) {
-		return new MomentumMgSq(value.floatValue * scale);
+	public static ImpulseMgSq operator *(ImpulseMgSq value, float scale) {
+		return new ImpulseMgSq(value.floatValue * scale);
 	}
 
-	public static MomentumMgSq operator *(float scale, MomentumMgSq value) {
-		return new MomentumMgSq(value.floatValue * scale);
+	public static ImpulseMgSq operator *(float scale, ImpulseMgSq value) {
+		return new ImpulseMgSq(value.floatValue * scale);
 	}
 
-	public static MomentumMgSq operator /(MomentumMgSq value, float scale) {
-		return new MomentumMgSq(value.floatValue / scale);
+	public static ImpulseMgSq operator /(ImpulseMgSq value, float scale) {
+		return new ImpulseMgSq(value.floatValue / scale);
 	}
 
-	public static bool operator <(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator <(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue < value2.floatValue;
 	}
 
-	public static bool operator >(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator >(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue > value2.floatValue;
 	}
 
-	public static bool operator <=(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator <=(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue <= value2.floatValue;
 	}
 
-	public static bool operator >=(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator >=(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue >= value2.floatValue;
 	}
 
-	public static bool operator ==(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator ==(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue == value2.floatValue;
 	}
 
-	public static bool operator !=(MomentumMgSq value1, MomentumMgSq value2) {
+	public static bool operator !=(ImpulseMgSq value1, ImpulseMgSq value2) {
 		return value1.floatValue != value2.floatValue;
 	}
 
@@ -2968,107 +2913,107 @@ public struct MomentumMgSq {
 	}
 }
 
-public struct Momentum {
+public struct Impulse {
 	private Vector2 Vector2Value;
 
 	public Vector2 Vector2 { get { return Vector2Value; } }
 
-	public static Momentum down { get { return new Momentum(Vector2.down); } }
-	public static Momentum left { get { return new Momentum(Vector2.left); } }
-	public static Momentum right { get { return new Momentum(Vector2.right); } }
-	public static Momentum up { get { return new Momentum(Vector2.up); } }
-	public static Momentum negativeInfinity { get { return new Momentum(Vector2.negativeInfinity); } }
-	public static Momentum positiveInfinity { get { return new Momentum(Vector2.positiveInfinity); } }
-	public static Momentum one { get { return new Momentum(Vector2.one); } }
-	public static Momentum zero { get { return new Momentum(Vector2.zero); } }
+	public static Impulse down { get { return new Impulse(Vector2.down); } }
+	public static Impulse left { get { return new Impulse(Vector2.left); } }
+	public static Impulse right { get { return new Impulse(Vector2.right); } }
+	public static Impulse up { get { return new Impulse(Vector2.up); } }
+	public static Impulse negativeInfinity { get { return new Impulse(Vector2.negativeInfinity); } }
+	public static Impulse positiveInfinity { get { return new Impulse(Vector2.positiveInfinity); } }
+	public static Impulse one { get { return new Impulse(Vector2.one); } }
+	public static Impulse zero { get { return new Impulse(Vector2.zero); } }
 
-	public MomentumMagnitude magnitude { get { return new MomentumMagnitude(Vector2Value.magnitude); } }
-	public Momentum normalized { get { return new Momentum(Vector2Value.normalized); } }
-	public MomentumMgSq sqrMagnitude { get { return new MomentumMgSq(Vector2Value.sqrMagnitude); } }
-	public MomentumX x { get { return new MomentumX(Vector2Value.x); } }
-	public MomentumY y { get { return new MomentumY(Vector2Value.y); } }
+	public ImpulseMagnitude magnitude { get { return new ImpulseMagnitude(Vector2Value.magnitude); } }
+	public Impulse normalized { get { return new Impulse(Vector2Value.normalized); } }
+	public ImpulseMgSq sqrMagnitude { get { return new ImpulseMgSq(Vector2Value.sqrMagnitude); } }
+	public ImpulseX x { get { return new ImpulseX(Vector2Value.x); } }
+	public ImpulseY y { get { return new ImpulseY(Vector2Value.y); } }
 
-	public Momentum(Vector2 Vector2Value) {
+	public Impulse(Vector2 Vector2Value) {
 		this.Vector2Value = Vector2Value;
 	}
 
-	public Momentum(float x, float y) {
+	public Impulse(float x, float y) {
 		this.Vector2Value = new Vector2 (x, y);
 	}
 
-	public static Momentum operator +(Momentum value1, Momentum value2) {
-		return new Momentum(value1.Vector2Value + value2.Vector2Value);
+	public static Impulse operator +(Impulse value1, Impulse value2) {
+		return new Impulse(value1.Vector2Value + value2.Vector2Value);
 	}
 
-	public static Momentum operator -(Momentum value1, Momentum value2) {
-		return new Momentum(value1.Vector2Value - value2.Vector2Value);
+	public static Impulse operator -(Impulse value1, Impulse value2) {
+		return new Impulse(value1.Vector2Value - value2.Vector2Value);
 	}
 
-	public static Momentum operator *(Momentum value, float scale) {
-		return new Momentum(value.Vector2Value * scale);
+	public static Impulse operator *(Impulse value, float scale) {
+		return new Impulse(value.Vector2Value * scale);
 	}
 
-	public static Momentum operator *(float scale, Momentum value) {
-		return new Momentum(value.Vector2Value * scale);
+	public static Impulse operator *(float scale, Impulse value) {
+		return new Impulse(value.Vector2Value * scale);
 	}
 
-	public static Momentum operator /(Momentum value, float scale) {
-		return new Momentum(value.Vector2Value / scale);
+	public static Impulse operator /(Impulse value, float scale) {
+		return new Impulse(value.Vector2Value / scale);
 	}
 
-	public static Momentum operator -(Momentum value) {
-		return new Momentum(-value.Vector2Value);
+	public static Impulse operator -(Impulse value) {
+		return new Impulse(-value.Vector2Value);
 	}
 
-	public static bool operator ==(Momentum value1, Momentum value2) {
+	public static bool operator ==(Impulse value1, Impulse value2) {
 		return value1.Vector2Value == value2.Vector2Value;
 	}
 
-	public static bool operator !=(Momentum value1, Momentum value2) {
+	public static bool operator !=(Impulse value1, Impulse value2) {
 		return value1.Vector2Value != value2.Vector2Value;
 	}
 
-	public static Angle Angle(Momentum from, Momentum to) {
+	public static Angle Angle(Impulse from, Impulse to) {
 		return new Angle(Vector2.Angle(from.Vector2, to.Vector2));
 	}
 
-	public static Momentum ClampMagnitude(Momentum vector, float maxLength) {
-		return new Momentum(Vector2.ClampMagnitude(vector.Vector2, maxLength));
+	public static Impulse ClampMagnitude(Impulse vector, float maxLength) {
+		return new Impulse(Vector2.ClampMagnitude(vector.Vector2, maxLength));
 	}
 
-	public static MomentumMagnitude Distance(Momentum a, Momentum b) {
-		return new MomentumMagnitude(Vector2.Distance(a.Vector2, b.Vector2));
+	public static ImpulseMagnitude Distance(Impulse a, Impulse b) {
+		return new ImpulseMagnitude(Vector2.Distance(a.Vector2, b.Vector2));
 	}
 
-	public static MomentumDot Dot(Momentum lhs, Momentum rhs) {
-		return new MomentumDot(Vector2.Dot(lhs.Vector2, rhs.Vector2));
+	public static ImpulseDot Dot(Impulse lhs, Impulse rhs) {
+		return new ImpulseDot(Vector2.Dot(lhs.Vector2, rhs.Vector2));
 	}
 
-	public static Momentum Lerp(Momentum a, Momentum b, float t) {
-		return new Momentum(Vector2.Lerp(a.Vector2, b.Vector2, t));
+	public static Impulse Lerp(Impulse a, Impulse b, float t) {
+		return new Impulse(Vector2.Lerp(a.Vector2, b.Vector2, t));
 	}
 
-	public static Momentum LerpUnclamped(Momentum a, Momentum b, float t) {
-		return new Momentum(Vector2.LerpUnclamped(a.Vector2, b.Vector2, t));
+	public static Impulse LerpUnclamped(Impulse a, Impulse b, float t) {
+		return new Impulse(Vector2.LerpUnclamped(a.Vector2, b.Vector2, t));
 	}
 
-	public static Momentum Max(Momentum lhs, Momentum rhs) {
-		return new Momentum(Vector2.Max(lhs.Vector2, rhs.Vector2));
+	public static Impulse Max(Impulse lhs, Impulse rhs) {
+		return new Impulse(Vector2.Max(lhs.Vector2, rhs.Vector2));
 	}
 
-	public static Momentum Min(Momentum lhs, Momentum rhs) {
-		return new Momentum(Vector2.Min(lhs.Vector2, rhs.Vector2));
+	public static Impulse Min(Impulse lhs, Impulse rhs) {
+		return new Impulse(Vector2.Min(lhs.Vector2, rhs.Vector2));
 	}
 
-	public static Momentum MoveTowards(Momentum current, Momentum target, float maxDistanceDelta) {
-		return new Momentum(Vector2.MoveTowards(current.Vector2, target.Vector2, maxDistanceDelta));
+	public static Impulse MoveTowards(Impulse current, Impulse target, float maxDistanceDelta) {
+		return new Impulse(Vector2.MoveTowards(current.Vector2, target.Vector2, maxDistanceDelta));
 	}
 
-	public static Momentum Perpendicular(Momentum inDirection) {
-		return new Momentum(Vector2.Perpendicular(inDirection.Vector2));
+	public static Impulse Perpendicular(Impulse inDirection) {
+		return new Impulse(Vector2.Perpendicular(inDirection.Vector2));
 	}
 
-	public static Angle SignedAngle(Momentum from, Momentum to) {
+	public static Angle SignedAngle(Impulse from, Impulse to) {
 		return new Angle(Vector2.SignedAngle(from.Vector2, to.Vector2));
 	}
 
