@@ -18,7 +18,7 @@ namespace LoonyEngine {
 
         #region [Variables/Properties]
 
-        public DynamicData DynamicData { get; private set; }
+        public DynamicData DynamicData { get; set; }
         public ObjectData ObjectData { get; private set; }
         public ColliderData ColliderData { get; private set; }
 

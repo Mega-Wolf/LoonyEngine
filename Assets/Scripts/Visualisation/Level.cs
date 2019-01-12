@@ -158,7 +158,9 @@ namespace LoonyEngine {
             AABB propRect = new AABB(position - size * Position.one, position + size * Position.one);
 
             bool works = true;
-            foreach (Rigidbody rigidbody in f_rbs) {
+            // f_rbs does not cover the changes to the RB; I have to ask a simulation to get that data
+            //foreach (Rigidbody rigidbody in f_rbs) {
+            foreach (Rigidbody rigidbody in SuperPhysicsManager.Instance.PhysicsManagers[0].Rigidbodies) {
                 if (
                     SuperPhysicsManager.Instance.PhysicsMatrix.DoCollide(rigidbody.ColliderData.LayerNumber, layer) &&
                     Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.GlobalAABB, propRect)) {

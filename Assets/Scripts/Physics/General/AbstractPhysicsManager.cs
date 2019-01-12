@@ -82,7 +82,7 @@ namespace LoonyEngine {
 
         public virtual void Simulate() {
             m_moved = 0;
-            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
             // Resetting print data
             f_checkStates.Clear();
             m_broadChecks = 0;
@@ -99,7 +99,7 @@ namespace LoonyEngine {
             m_collisionsLastFrame = m_collisionsThisFrame;
             m_collisionsThisFrame = dummyCollisions;
             m_collisionsThisFrame.Clear();
-            #endif
+#endif
         }
 
         #endregion
@@ -111,16 +111,16 @@ namespace LoonyEngine {
             // I have to be able to use it though for later PMs
             //f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
-            #if DEBUG_COLLISIONS
-            if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3 ) {
+#if DEBUG_COLLISIONS
+            if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3) {
                 f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
             }
-            
+
 
             //TESTING END
 
             ++m_broadChecks;
-            #endif
+#endif
 
             return
             f_physicsMatrix.DoCollide(rb1.ColliderData.LayerNumber, rb2.ColliderData.LayerNumber) &&
@@ -128,10 +128,10 @@ namespace LoonyEngine {
         }
 
         protected void NarrowPhase(Rigidbody rb1, Rigidbody rb2) {
-            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.NarrowCheck;
             ++m_narrowChecks;
-            #endif
+#endif
 
             // If none of them are triggers, that means that the collision shall be resolved
             // Well, they cannot be resolved here already; the data has to be remembered until the end of the resolutions
@@ -153,10 +153,27 @@ namespace LoonyEngine {
                         if (cd.DidCollide) {
                             m_collisionsThisFrame[CalcRBID(rb1, rb2)] = cd;
                             m_collisionsLastFrame.Remove(CalcRBID(rb1, rb2));
-                            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Collision;
                             ++m_collisions;
-                            #endif
+#endif
+
+                            //TESTING
+                            // this is so bad, that I only keep it here, to not think it would be nice
+                            // As stated above, THIS SHOULD NOT HAPPEN HERE!!!!!
+                            // Also, this now triggers a collision although the collision is considered as not happening
+                            Velocity v1 = rb1.DynamicData.Velocity;
+                            Velocity v2 = rb2.DynamicData.Velocity;
+
+                            //if (Velocity.Angle(v1, v2) < new Angle(90)) {
+                            if (!m_collisionsLastFrame.ContainsKey(CalcRBID(rb1, rb2))) {
+                                Mass m1 = rb1.ObjectData.Mass;
+                                Mass m2 = rb2.ObjectData.Mass;
+
+                                rb1.DynamicData = new DynamicData((v1 * (m1 - m2) + (2 * m2 * v2)) / (m1 + m2), Acceleration.zero);
+                                rb2.DynamicData = new DynamicData((v2 * (m2 - m1) + (2 * m1 * v1)) / (m2 + m1), Acceleration.zero);
+                            }
+                            //TESTING END
                         }
 
                     }
@@ -173,26 +190,26 @@ namespace LoonyEngine {
                         if (Intersections.DoIntersectAABBAABB((AABB)rb1.ColliderData.Collider2D, (AABB)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            
+
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
                             m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
-                            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
-                            #endif
+#endif
                         }
                     } else {
                         // AABB - Circle
                         if (Intersections.DoIntersectAABBCircle((AABB)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1.GameObject.Transform, rb2.GameObject.Transform)) {
                             // call triggers for 1 and send 2
                             // call triggers for 2 and send 1
-                            
+
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
                             m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
-                            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
-                            #endif
+#endif
                         }
 
                     }
@@ -204,10 +221,10 @@ namespace LoonyEngine {
                             // call triggers for 2 and send 1
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
                             m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
-                            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
-                            #endif
+#endif
                         }
                     } else {
                         // Circle - Circle
@@ -216,10 +233,10 @@ namespace LoonyEngine {
                             // call triggers for 2 and send 1
                             m_triggersThisFrame.Add(CalcRBID(rb1, rb2));
                             m_triggersLastFrame.Remove(CalcRBID(rb1, rb2));
-                            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
                             f_checkStates[CalcRBID(rb1, rb2)] = CheckState.Trigger;
                             ++m_triggers;
-                            #endif
+#endif
                         }
                     }
                 }
@@ -247,7 +264,7 @@ namespace LoonyEngine {
         public virtual void Render() {
             EditorGUILayout.LabelField("Name:", Name);
             //EditorGUILyaout.LabelField("Position:", f_position);
-            EditorGUILayout.LabelField("Moved:", m_moved + "" );
+            EditorGUILayout.LabelField("Moved:", m_moved + "");
             EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
             EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
             EditorGUILayout.LabelField("Triggers:", m_triggers + "");
@@ -263,11 +280,11 @@ namespace LoonyEngine {
         }
 
         public virtual void UpdateRenderData() {
-            #if DEBUG_COLLISIONS
+#if DEBUG_COLLISIONS
             foreach (ObjectOrderInformation ooi in f_oois) {
                 ooi.UpdateIDs();
             }
-            #endif
+#endif
         }
 
 #endif
