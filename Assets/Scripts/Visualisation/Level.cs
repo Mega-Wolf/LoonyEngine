@@ -51,6 +51,8 @@ namespace LoonyEngine {
         public GameObject Root { get { return f_root; } }
         public HashSet<Rigidbody> Rigidbodies { get { return f_rbs; } }
 
+        public AABB LevelBounds { get { return new AABB(new Position(-5, -5), 2 * new Position(f_levelSize) + new Position(5, 5)); } }
+
         #endregion
 
         #region [Init]
@@ -91,7 +93,7 @@ namespace LoonyEngine {
                 //     }
                 // }
             }
-                    
+
         }
 
         #endregion

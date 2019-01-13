@@ -176,11 +176,9 @@ namespace LoonyEngine {
                     Gizmos.DrawLine(Rigidbody.GetRigidbody(id1).GameObject.Transform.Position.Vector2 + offset, Rigidbody.GetRigidbody(id2).GameObject.Transform.Position.Vector2 + offset);
                 }
 
+                SuperPhysicsManager.Instance.PhysicsManagers[apmCount].Draw(offset);
+
             }
-
-        }
-
-        private void OnDrawGizmosSelected() {
 
         }
 

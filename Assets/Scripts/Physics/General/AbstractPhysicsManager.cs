@@ -151,6 +151,7 @@ namespace LoonyEngine {
                         // Circle - Circle
                         CollisionDataRB cd = Intersections.CollisionCircleCircle((Circle)rb1.ColliderData.Collider2D, (Circle)rb2.ColliderData.Collider2D, rb1, rb2);
                         if (cd.DidCollide) {
+                            //UnityEngine.Debug.Log(Name + ": " + (rb1.ID / 4) + " - " + (rb2.ID / 4));
                             m_collisionsThisFrame[CalcRBID(rb1, rb2)] = cd;
                             m_collisionsLastFrame.Remove(CalcRBID(rb1, rb2));
 #if DEBUG_COLLISIONS
@@ -260,6 +261,8 @@ namespace LoonyEngine {
         #region [GUI]
 
 #if UNITY_EDITOR
+
+        public virtual void Draw(Vector2 offset) {}
 
         public virtual void Render() {
             EditorGUILayout.LabelField("Name:", Name);

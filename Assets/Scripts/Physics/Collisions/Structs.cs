@@ -12,6 +12,10 @@ namespace LoonyEngine {
             return new AABB(scale * aabb.BottomLeft, scale * aabb.TopRight);
         }
 
+        public static AABB operator /(AABB aabb, float divider) {
+            return new AABB(aabb.BottomLeft / divider, aabb.TopRight / divider);
+        }
+
         public static AABB operator *(Transform2D transform, AABB aabb) {
             return transform.Scale * aabb + transform.Position;
         }
@@ -27,6 +31,13 @@ namespace LoonyEngine {
         public PositionY Bottom { get { return BottomLeft.y; } }
         public PositionX Right { get { return TopRight.x; } }
         public PositionY Top { get { return TopRight.y; } }
+
+        public Position Centre { get { return (BottomLeft + TopRight) / 2; } }
+
+        public AABB BottomLeftAABB { get { return new AABB(BottomLeft, Centre); } }
+        public AABB BottomRightAABB { get { return new AABB(new Position(Centre.x.Float, Bottom.Float), new Position(Right.Float, Centre.y.Float)); } }
+        public AABB TopLeftAABB { get { return new AABB(new Position(Left.Float, Centre.y.Float), new Position(Centre.x.Float, Top.Float)); } }
+        public AABB TopRightAABB { get { return new AABB(Centre, TopRight); } }
 
         #endregion
 

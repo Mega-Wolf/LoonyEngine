@@ -36,6 +36,7 @@ namespace LoonyEngine {
 
             m_physicsManagers.Add(new StupidPhysicsManager());
             m_physicsManagers.Add(new BetterLayersPM());
+            m_physicsManagers.Add(new QuadTreePM());
 
             SetPhysicsMatrix(new PhysicsMatrix(new bool[][] {
                 new bool[] {false, true, true, true, true, true},
