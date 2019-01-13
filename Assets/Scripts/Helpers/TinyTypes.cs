@@ -1105,6 +1105,10 @@ public struct Position {
 		return new Velocity(value1.Vector2 / value2.Float);
 	}
 
+	public static Vector2 operator /(Position value1, PositionMagnitude value2) {
+		return value1.Vector2 / value2.Float;
+	}
+
 	public static bool operator ==(Position value1, Position value2) {
 		return value1.Vector2Value == value2.Vector2Value;
 	}

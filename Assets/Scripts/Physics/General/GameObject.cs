@@ -4,7 +4,7 @@ namespace LoonyEngine {
 
     public class GameObject {
 
-        #region [Statics]
+        #region [Static]
 
         private static Pooler<GameObject> s_pooler = SuperPooler.Instance.GetPooler<GameObject>();
 
