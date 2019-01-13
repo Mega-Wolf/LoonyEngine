@@ -19,7 +19,7 @@ namespace LoonyEngine {
 
         #region [Consts]
 
-        private static int MAX_ELEMENTS = 8;
+        private static int MAX_ELEMENTS = 4;
         private static int MAX_DEPTH = 8;
 
         #endregion
@@ -128,7 +128,7 @@ namespace LoonyEngine {
                         m_children[i].Remove(rigidbody, oldAABB);
                     } else if (!intersectOld && intersectNew) {
                         m_children[i].Insert(rigidbody);
-                    } else if (intersectOld && intersectNew) {
+                    } else if (intersectOld && intersectNew /*&& !(oldAABB.ContainsCompletely(m_children[i].f_aabb) && newAABB.ContainsCompletely(m_children[i].f_aabb))*/) {
                         m_children[i].Move(rigidbody, oldAABB, newAABB);
                     }
                 }

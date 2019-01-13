@@ -66,6 +66,14 @@ namespace LoonyEngine {
 
         #endregion
 
+        public bool ContainsCompletely(AABB innerAABB) {
+            return
+                Left <= innerAABB.Left &&
+                Right >= innerAABB.Right &&
+                Bottom <= innerAABB.Bottom &&
+                Top >= innerAABB.Top;
+        }
+
     }
 
     public struct Circle : ICollider2D {
