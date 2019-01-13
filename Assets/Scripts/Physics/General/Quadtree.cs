@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -66,13 +67,13 @@ namespace LoonyEngine {
             }
         }
 
-        public void Remove(Rigidbody rb) {
+        public void Remove(Rigidbody rb, AABB oldAABB) {
             if (m_children == null) {
                 f_elements.Remove(rb);
             } else {
                 for (int i = 0; i < 4; ++i) {
-                    if (Intersections.DoIntersectAABBAABB(rb.ColliderData.GlobalAABB, m_children[i].f_aabb)) {
-                        m_children[i].Remove(rb);
+                    if (Intersections.DoIntersectAABBAABB(oldAABB, m_children[i].f_aabb)) {
+                        m_children[i].Remove(rb, oldAABB);
                     }
                 }
 
@@ -93,7 +94,7 @@ namespace LoonyEngine {
                 bool intersectNew = (Intersections.DoIntersectAABBAABB(newAABB, f_aabb));
 
                 if (intersectOld && !intersectNew) {
-                    Remove(rigidbody);
+                    Remove(rigidbody, oldAABB);
                 } else if (!intersectOld && intersectNew) {
                     Insert(rigidbody);
                 }
@@ -103,7 +104,7 @@ namespace LoonyEngine {
                     bool intersectNew = (Intersections.DoIntersectAABBAABB(newAABB, m_children[i].f_aabb));
 
                     if (intersectOld && !intersectNew) {
-                        m_children[i].Remove(rigidbody);
+                        m_children[i].Remove(rigidbody, oldAABB);
                     } else if (!intersectOld && intersectNew) {
                         m_children[i].Insert(rigidbody);
                     } else if (intersectOld && intersectNew) {

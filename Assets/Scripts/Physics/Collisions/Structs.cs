@@ -61,7 +61,7 @@ namespace LoonyEngine {
         #region [Override]
 
         public override string ToString() {
-            return "AABB: " + BottomLeft + " - " + TopRight;
+            return "AABB: X: (" + Left.Float + " - " + Right.Float + ") - Y: (" + Bottom.Float + " - " + Top.Float + ")";
         }
 
         #endregion

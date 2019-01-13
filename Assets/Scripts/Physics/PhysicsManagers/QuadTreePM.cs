@@ -60,7 +60,7 @@ namespace LoonyEngine {
             for (int i = 0; i < f_rbs.Count; ++i) {
                 foreach (Rigidbody rb2 in f_quadtree.IntersectHigher(f_rbs[i])) {
 
-                    // This prevents, that some pairs get tested multiple times
+                    // This prevents that some pairs get tested multiple times
                     if (f_broadChecks.Contains(CalcRBID(f_rbs[i], rb2))) {
                         continue;
                     }
@@ -90,7 +90,7 @@ namespace LoonyEngine {
         public override void RemovePhysicsComponent(Rigidbody rb) {
             f_rbs.Remove(rb);
             rb.UpdateAABB();
-            f_quadtree.Remove(rb);
+            f_quadtree.Remove(rb, rb.ColliderData.GlobalAABB);
         }
 
         #endregion

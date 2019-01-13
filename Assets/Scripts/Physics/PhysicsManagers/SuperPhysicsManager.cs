@@ -34,8 +34,8 @@ namespace LoonyEngine {
         protected override void Awake() {
             base.Awake();
 
-            m_physicsManagers.Add(new StupidPhysicsManager());
-            m_physicsManagers.Add(new BetterLayersPM());
+            // m_physicsManagers.Add(new StupidPhysicsManager());
+            // m_physicsManagers.Add(new BetterLayersPM());
             m_physicsManagers.Add(new QuadTreePM());
 
             SetPhysicsMatrix(new PhysicsMatrix(new bool[][] {
