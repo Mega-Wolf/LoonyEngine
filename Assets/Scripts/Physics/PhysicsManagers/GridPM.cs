@@ -3,13 +3,13 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
-    class QuadTreePM : AbstractPhysicsManager {
+    class GridPM : AbstractPhysicsManager {
 
         #region [PrivateVariables]
 
         private List<Rigidbody> f_rbs = new List<Rigidbody>();
 
-        private QuadTree f_quadtree;
+        private Grid f_grid;
 
         private HashSet<ulong> f_broadChecks = new HashSet<ulong>();
 
@@ -19,14 +19,14 @@ namespace LoonyEngine {
 
         public override IEnumerable<Rigidbody> Rigidbodies { get { return f_rbs; } }
 
-        public override string Name { get { return "QuadTree Physics Manager"; } }
+        public override string Name { get { return "Grid Physics Manager"; } }
 
         #endregion
 
         #region [Constructors]
 
-        public QuadTreePM() {
-            f_quadtree = QuadTree.New(2 * Level.Instance.LevelBounds + -Level.Instance.LevelBounds.Centre, 0);
+        public GridPM() {
+            f_grid = new Grid(new PositionMagnitude(3f), 2 * Level.Instance.LevelBounds + -Level.Instance.LevelBounds.Centre);
         }
 
         #endregion
@@ -44,7 +44,7 @@ namespace LoonyEngine {
                 rb.UpdateDynamics();
                 rb.UpdateAABB();
                 ++m_moved;
-                f_quadtree.Move(rb, oldABB, rb.ColliderData.GlobalAABB);
+                f_grid.Move(rb, oldABB, rb.ColliderData.GlobalAABB);
             }
             f_stopwatch.Stop();
             m_movementTime = f_stopwatch.Elapsed;
@@ -58,7 +58,7 @@ namespace LoonyEngine {
             
             f_stopwatch.Restart();
             for (int i = 0; i < f_rbs.Count; ++i) {
-                foreach (Rigidbody rb2 in f_quadtree.IntersectHigher(f_rbs[i])) {
+                foreach (Rigidbody rb2 in f_grid.IntersectHigher(f_rbs[i])) {
 
                     // This prevents that some pairs get tested multiple times
                     if (f_broadChecks.Contains(CalcRBID(f_rbs[i], rb2))) {
@@ -80,7 +80,7 @@ namespace LoonyEngine {
         public override void AddPhysicsComponent(Rigidbody rb) {
             f_rbs.Add(rb);
             rb.UpdateAABB();
-            f_quadtree.Insert(rb);
+            f_grid.Insert(rb);
         }
 
         public override void ChangeLayer(Rigidbody rb, int oldLayerNumber, int newLayerNumber) {
@@ -90,13 +90,13 @@ namespace LoonyEngine {
         public override void RemovePhysicsComponent(Rigidbody rb) {
             f_rbs.Remove(rb);
             rb.UpdateAABB();
-            f_quadtree.Remove(rb, rb.ColliderData.GlobalAABB);
+            f_grid.Remove(rb, rb.ColliderData.GlobalAABB);
         }
 
         #endregion
     
         public override void Draw(UnityEngine.Vector2 offset) {
-            f_quadtree.Draw(offset);
+            f_grid.Draw(offset);
         }
     }
 

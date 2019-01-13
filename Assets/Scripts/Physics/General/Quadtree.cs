@@ -7,9 +7,19 @@ namespace LoonyEngine {
 
     public class QuadTree {
 
+        #region [Static]
+
+        private static Pooler<QuadTree> s_pooler = SuperPooler.Instance.GetPooler<QuadTree>();
+
+        public static void Release(QuadTree quadtree) {
+            s_pooler.ReleaseInstance(quadtree);
+        }
+
+        #endregion
+
         #region [Consts]
 
-        private static int MAX_ELEMENTS = 4;
+        private static int MAX_ELEMENTS = 8;
         private static int MAX_DEPTH = 8;
 
         #endregion
@@ -30,9 +40,17 @@ namespace LoonyEngine {
 
         #region [Constructors]
 
-        public QuadTree(AABB aabb) : this(aabb, 0) { }
+        public static QuadTree New(AABB aabb, int depth) {
+            QuadTree qt = s_pooler.GetInstance();
+            qt.Init(aabb, depth);
+            return qt;
+        }
 
-        private QuadTree(AABB aabb, int depth) {
+        #endregion
+
+        #region [Init]
+
+        private void Init(AABB aabb, int depth) {
             f_aabb = aabb;
             f_depth = depth;
         }
@@ -52,15 +70,15 @@ namespace LoonyEngine {
                 // This means I have to split the QT
                 m_children = new QuadTree[4];
 
-                m_children[0] = new QuadTree(f_aabb.BottomLeftAABB, f_depth + 1);
-                m_children[1] = new QuadTree(f_aabb.BottomRightAABB, f_depth + 1);
-                m_children[2] = new QuadTree(f_aabb.TopLeftAABB, f_depth + 1);
-                m_children[3] = new QuadTree(f_aabb.TopRightAABB, f_depth + 1);
+                m_children[0] = QuadTree.New(f_aabb.BottomLeftAABB, f_depth + 1);
+                m_children[1] = QuadTree.New(f_aabb.BottomRightAABB, f_depth + 1);
+                m_children[2] = QuadTree.New(f_aabb.TopLeftAABB, f_depth + 1);
+                m_children[3] = QuadTree.New(f_aabb.TopRightAABB, f_depth + 1);
 
                 for (int i = 0; i < f_elements.Count; ++i) {
                     Insert(f_elements[i]);
                 }
-				Insert(rb);
+                Insert(rb);
                 f_elements.Clear();
             } else {
                 f_elements.Add(rb);
@@ -82,6 +100,9 @@ namespace LoonyEngine {
                     if (!(m_children[i].f_elements.Count == 0 && m_children[i].m_children == null)) {
                         return;
                     }
+                }
+                for (int i = 0; i < 4; ++i) {
+                    Release(m_children[i]);
                 }
                 m_children = null;
             }
@@ -156,22 +177,22 @@ namespace LoonyEngine {
 
         #endregion
 
-		public void Draw(Vector2 offset) {
-			if (m_children != null) {
-				for (int i = 0; i < 4; ++i) {
-					m_children[i].Draw(offset);
-				}
+        public void Draw(Vector2 offset) {
+            if (m_children != null) {
+                for (int i = 0; i < 4; ++i) {
+                    m_children[i].Draw(offset);
+                }
 
-				Gizmos.color = Color.black;
-				Gizmos.DrawLine(offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Bottom.Float), offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Top.Float));
-				Gizmos.DrawLine(offset + new Vector2(f_aabb.Left.Float, f_aabb.Centre.y.Float), offset + new Vector2(f_aabb.Right.Float, f_aabb.Centre.y.Float));
-			}
+                Gizmos.color = Color.black;
+                Gizmos.DrawLine(offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Bottom.Float), offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Top.Float));
+                Gizmos.DrawLine(offset + new Vector2(f_aabb.Left.Float, f_aabb.Centre.y.Float), offset + new Vector2(f_aabb.Right.Float, f_aabb.Centre.y.Float));
+            }
 
-			Gizmos.color = Color.white;
-			for (int i = 0; i < f_elements.Count; ++i) {
-				Gizmos.DrawLine(offset + f_aabb.Centre.Vector2, offset + f_elements[i].GameObject.Transform.Position.Vector2);
-			}
-		}
+            Gizmos.color = Color.white;
+            for (int i = 0; i < f_elements.Count; ++i) {
+                Gizmos.DrawLine(offset + f_aabb.Centre.Vector2, offset + f_elements[i].GameObject.Transform.Position.Vector2);
+            }
+        }
 
     }
 }
