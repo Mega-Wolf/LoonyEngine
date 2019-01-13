@@ -134,7 +134,7 @@ namespace LoonyEngine {
                                 break;
                             }
                         case Circle circle: {
-                                Gizmos.DrawSphere(rb.GameObject.Transform.Position.Vector2 + offset, rb.GameObject.Transform.Scale * circle.Radius.Float);
+                                Gizmos.DrawSphere(new Vector3(0, 0, 100) + (Vector3) (rb.GameObject.Transform.Position.Vector2 + offset), rb.GameObject.Transform.Scale * circle.Radius.Float);
                                 break;
                             }
                     }

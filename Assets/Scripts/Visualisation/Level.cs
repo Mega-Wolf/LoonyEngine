@@ -164,6 +164,7 @@ namespace LoonyEngine {
             //foreach (Rigidbody rigidbody in f_rbs) {
             foreach (Rigidbody rigidbody in SuperPhysicsManager.Instance.PhysicsManagers[0].Rigidbodies) {
                 if (
+                    (!rigidbody.ColliderData.IsTrigger && !isTrigger) &&
                     SuperPhysicsManager.Instance.PhysicsMatrix.DoCollide(rigidbody.ColliderData.LayerNumber, layer) &&
                     Intersections.DoIntersectAABBAABB(rigidbody.ColliderData.GlobalAABB, propRect)) {
                     works = false;

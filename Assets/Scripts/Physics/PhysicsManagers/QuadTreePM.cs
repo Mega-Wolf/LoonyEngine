@@ -66,7 +66,7 @@ namespace LoonyEngine {
                     }
                     f_broadChecks.Add(CalcRBID(f_rbs[i], rb2));
 
-                    if (BroadPhase(f_rbs[i], rb2)) {
+                    if (BroadPhase(f_rbs[i], rb2, true)) {
                         NarrowPhase(f_rbs[i], rb2);
                     }
                 }

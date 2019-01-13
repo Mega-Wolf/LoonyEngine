@@ -106,17 +106,19 @@ namespace LoonyEngine {
 
         #region [PrivateMethods]
 
-        protected bool BroadPhase(Rigidbody rb1, Rigidbody rb2) {
+        protected bool BroadPhase(Rigidbody rb1, Rigidbody rb2, bool recordAllData = false) {
             // TODO this got taken out because it was too expensive for StupidPM
             // I have to be able to use it though for later PMs
             //f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
 #if DEBUG_COLLISIONS
-            if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3) {
+            if (recordAllData) {
                 f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
+            } else {
+                if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3) {
+                    f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
+                }
             }
-
-
             //TESTING END
 
             ++m_broadChecks;
@@ -262,7 +264,7 @@ namespace LoonyEngine {
 
 #if UNITY_EDITOR
 
-        public virtual void Draw(Vector2 offset) {}
+        public virtual void Draw(Vector2 offset) { }
 
         public virtual void Render() {
             EditorGUILayout.LabelField("Name:", Name);
