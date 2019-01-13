@@ -89,7 +89,7 @@ namespace LoonyEngine {
             //TODO; would the Velocity be global or local - so would I have to translate it or not
 
             circle1 = new Circle(circle1.Radius * rb1.GameObject.Transform.Scale);
-            circle2 = new Circle(circle1.Radius * rb2.GameObject.Transform.Scale);
+            circle2 = new Circle(circle2.Radius * rb2.GameObject.Transform.Scale);
 
             Position distPos = rb2.GameObject.Transform.Position - rb1.GameObject.Transform.Position;
 

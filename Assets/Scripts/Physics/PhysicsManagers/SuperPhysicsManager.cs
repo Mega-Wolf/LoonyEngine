@@ -34,8 +34,9 @@ namespace LoonyEngine {
         protected override void Awake() {
             base.Awake();
 
-            m_physicsManagers.Add(new StupidPhysicsManager());
-            m_physicsManagers.Add(new BetterLayersPM());
+            // m_physicsManagers.Add(new StupidPhysicsManager());
+            // m_physicsManagers.Add(new BetterLayersPM());
+            m_physicsManagers.Add(new QuadTreePM());
 
             SetPhysicsMatrix(new PhysicsMatrix(new bool[][] {
                 new bool[] {false, true, true, true, true, true},
@@ -44,6 +45,21 @@ namespace LoonyEngine {
                 new bool[] {true, false, false, true, true, true},
                 new bool[] {true, false, false, true, true, false},
                 new bool[] {true, false, false, true, false, false},
+
+                // grey
+                // green
+                // pink
+                // blue
+                // cyan
+                // purple
+
+
+                // grey with everything else
+                // green only with walls
+                // pink with walls and self
+                // blue with self, walls, cyan and purple
+                // cyan with self, walls and blue
+                // purple with walls, blue and cyan 
             }));
         }
 

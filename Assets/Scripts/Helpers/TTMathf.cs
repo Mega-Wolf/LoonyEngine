@@ -169,30 +169,6 @@ public static class TTMathf {
 		return new Weight(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static Impulse Clamp01(Impulse value) {
-		return new Impulse(Mathf.Clamp01(value.Float));
-	}
-
-	public static Impulse Min(Impulse a, Impulse b) {
-		return new Impulse(Mathf.Min(a.Float, b.Float));
-	}
-
-	public static Impulse Max(Impulse a, Impulse b) {
-		return new Impulse(Mathf.Max(a.Float, b.Float));
-	}
-
-	public static Impulse Clamp(Impulse value, Impulse min, Impulse max) {
-		return new Impulse(Mathf.Clamp(value.Float, min.Float, max.Float));
-	}
-
-	public static Impulse Lerp(Impulse a, Impulse b, float t) {
-		return new Impulse(Mathf.Lerp(a.Float, b.Float, t));
-	}
-
-	public static Impulse LerpUnclamped(Impulse a, Impulse b, float t) {
-		return new Impulse(Mathf.LerpUnclamped(a.Float, b.Float, t));
-	}
-
 	public static MomentOfInertia Clamp01(MomentOfInertia value) {
 		return new MomentOfInertia(Mathf.Clamp01(value.Float));
 	}
@@ -781,124 +757,124 @@ public static class TTMathf {
 		return new ForceMgSq(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static MomentumX Clamp01(MomentumX value) {
-		return new MomentumX(Mathf.Clamp01(value.Float));
+	public static ImpulseX Clamp01(ImpulseX value) {
+		return new ImpulseX(Mathf.Clamp01(value.Float));
 	}
 
-	public static MomentumX Min(MomentumX a, MomentumX b) {
-		return new MomentumX(Mathf.Min(a.Float, b.Float));
+	public static ImpulseX Min(ImpulseX a, ImpulseX b) {
+		return new ImpulseX(Mathf.Min(a.Float, b.Float));
 	}
 
-	public static MomentumX Max(MomentumX a, MomentumX b) {
-		return new MomentumX(Mathf.Max(a.Float, b.Float));
+	public static ImpulseX Max(ImpulseX a, ImpulseX b) {
+		return new ImpulseX(Mathf.Max(a.Float, b.Float));
 	}
 
-	public static MomentumX Clamp(MomentumX value, MomentumX min, MomentumX max) {
-		return new MomentumX(Mathf.Clamp(value.Float, min.Float, max.Float));
+	public static ImpulseX Clamp(ImpulseX value, ImpulseX min, ImpulseX max) {
+		return new ImpulseX(Mathf.Clamp(value.Float, min.Float, max.Float));
 	}
 
-	public static MomentumX Lerp(MomentumX a, MomentumX b, float t) {
-		return new MomentumX(Mathf.Lerp(a.Float, b.Float, t));
+	public static ImpulseX Lerp(ImpulseX a, ImpulseX b, float t) {
+		return new ImpulseX(Mathf.Lerp(a.Float, b.Float, t));
 	}
 
-	public static MomentumX LerpUnclamped(MomentumX a, MomentumX b, float t) {
-		return new MomentumX(Mathf.LerpUnclamped(a.Float, b.Float, t));
+	public static ImpulseX LerpUnclamped(ImpulseX a, ImpulseX b, float t) {
+		return new ImpulseX(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static MomentumY Clamp01(MomentumY value) {
-		return new MomentumY(Mathf.Clamp01(value.Float));
+	public static ImpulseY Clamp01(ImpulseY value) {
+		return new ImpulseY(Mathf.Clamp01(value.Float));
 	}
 
-	public static MomentumY Min(MomentumY a, MomentumY b) {
-		return new MomentumY(Mathf.Min(a.Float, b.Float));
+	public static ImpulseY Min(ImpulseY a, ImpulseY b) {
+		return new ImpulseY(Mathf.Min(a.Float, b.Float));
 	}
 
-	public static MomentumY Max(MomentumY a, MomentumY b) {
-		return new MomentumY(Mathf.Max(a.Float, b.Float));
+	public static ImpulseY Max(ImpulseY a, ImpulseY b) {
+		return new ImpulseY(Mathf.Max(a.Float, b.Float));
 	}
 
-	public static MomentumY Clamp(MomentumY value, MomentumY min, MomentumY max) {
-		return new MomentumY(Mathf.Clamp(value.Float, min.Float, max.Float));
+	public static ImpulseY Clamp(ImpulseY value, ImpulseY min, ImpulseY max) {
+		return new ImpulseY(Mathf.Clamp(value.Float, min.Float, max.Float));
 	}
 
-	public static MomentumY Lerp(MomentumY a, MomentumY b, float t) {
-		return new MomentumY(Mathf.Lerp(a.Float, b.Float, t));
+	public static ImpulseY Lerp(ImpulseY a, ImpulseY b, float t) {
+		return new ImpulseY(Mathf.Lerp(a.Float, b.Float, t));
 	}
 
-	public static MomentumY LerpUnclamped(MomentumY a, MomentumY b, float t) {
-		return new MomentumY(Mathf.LerpUnclamped(a.Float, b.Float, t));
+	public static ImpulseY LerpUnclamped(ImpulseY a, ImpulseY b, float t) {
+		return new ImpulseY(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static MomentumMagnitude Clamp01(MomentumMagnitude value) {
-		return new MomentumMagnitude(Mathf.Clamp01(value.Float));
+	public static ImpulseMagnitude Clamp01(ImpulseMagnitude value) {
+		return new ImpulseMagnitude(Mathf.Clamp01(value.Float));
 	}
 
-	public static MomentumMagnitude Min(MomentumMagnitude a, MomentumMagnitude b) {
-		return new MomentumMagnitude(Mathf.Min(a.Float, b.Float));
+	public static ImpulseMagnitude Min(ImpulseMagnitude a, ImpulseMagnitude b) {
+		return new ImpulseMagnitude(Mathf.Min(a.Float, b.Float));
 	}
 
-	public static MomentumMagnitude Max(MomentumMagnitude a, MomentumMagnitude b) {
-		return new MomentumMagnitude(Mathf.Max(a.Float, b.Float));
+	public static ImpulseMagnitude Max(ImpulseMagnitude a, ImpulseMagnitude b) {
+		return new ImpulseMagnitude(Mathf.Max(a.Float, b.Float));
 	}
 
-	public static MomentumMagnitude Clamp(MomentumMagnitude value, MomentumMagnitude min, MomentumMagnitude max) {
-		return new MomentumMagnitude(Mathf.Clamp(value.Float, min.Float, max.Float));
+	public static ImpulseMagnitude Clamp(ImpulseMagnitude value, ImpulseMagnitude min, ImpulseMagnitude max) {
+		return new ImpulseMagnitude(Mathf.Clamp(value.Float, min.Float, max.Float));
 	}
 
-	public static MomentumMagnitude Lerp(MomentumMagnitude a, MomentumMagnitude b, float t) {
-		return new MomentumMagnitude(Mathf.Lerp(a.Float, b.Float, t));
+	public static ImpulseMagnitude Lerp(ImpulseMagnitude a, ImpulseMagnitude b, float t) {
+		return new ImpulseMagnitude(Mathf.Lerp(a.Float, b.Float, t));
 	}
 
-	public static MomentumMagnitude LerpUnclamped(MomentumMagnitude a, MomentumMagnitude b, float t) {
-		return new MomentumMagnitude(Mathf.LerpUnclamped(a.Float, b.Float, t));
+	public static ImpulseMagnitude LerpUnclamped(ImpulseMagnitude a, ImpulseMagnitude b, float t) {
+		return new ImpulseMagnitude(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static MomentumDot Clamp01(MomentumDot value) {
-		return new MomentumDot(Mathf.Clamp01(value.Float));
+	public static ImpulseDot Clamp01(ImpulseDot value) {
+		return new ImpulseDot(Mathf.Clamp01(value.Float));
 	}
 
-	public static MomentumDot Min(MomentumDot a, MomentumDot b) {
-		return new MomentumDot(Mathf.Min(a.Float, b.Float));
+	public static ImpulseDot Min(ImpulseDot a, ImpulseDot b) {
+		return new ImpulseDot(Mathf.Min(a.Float, b.Float));
 	}
 
-	public static MomentumDot Max(MomentumDot a, MomentumDot b) {
-		return new MomentumDot(Mathf.Max(a.Float, b.Float));
+	public static ImpulseDot Max(ImpulseDot a, ImpulseDot b) {
+		return new ImpulseDot(Mathf.Max(a.Float, b.Float));
 	}
 
-	public static MomentumDot Clamp(MomentumDot value, MomentumDot min, MomentumDot max) {
-		return new MomentumDot(Mathf.Clamp(value.Float, min.Float, max.Float));
+	public static ImpulseDot Clamp(ImpulseDot value, ImpulseDot min, ImpulseDot max) {
+		return new ImpulseDot(Mathf.Clamp(value.Float, min.Float, max.Float));
 	}
 
-	public static MomentumDot Lerp(MomentumDot a, MomentumDot b, float t) {
-		return new MomentumDot(Mathf.Lerp(a.Float, b.Float, t));
+	public static ImpulseDot Lerp(ImpulseDot a, ImpulseDot b, float t) {
+		return new ImpulseDot(Mathf.Lerp(a.Float, b.Float, t));
 	}
 
-	public static MomentumDot LerpUnclamped(MomentumDot a, MomentumDot b, float t) {
-		return new MomentumDot(Mathf.LerpUnclamped(a.Float, b.Float, t));
+	public static ImpulseDot LerpUnclamped(ImpulseDot a, ImpulseDot b, float t) {
+		return new ImpulseDot(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
-	public static MomentumMgSq Clamp01(MomentumMgSq value) {
-		return new MomentumMgSq(Mathf.Clamp01(value.Float));
+	public static ImpulseMgSq Clamp01(ImpulseMgSq value) {
+		return new ImpulseMgSq(Mathf.Clamp01(value.Float));
 	}
 
-	public static MomentumMgSq Min(MomentumMgSq a, MomentumMgSq b) {
-		return new MomentumMgSq(Mathf.Min(a.Float, b.Float));
+	public static ImpulseMgSq Min(ImpulseMgSq a, ImpulseMgSq b) {
+		return new ImpulseMgSq(Mathf.Min(a.Float, b.Float));
 	}
 
-	public static MomentumMgSq Max(MomentumMgSq a, MomentumMgSq b) {
-		return new MomentumMgSq(Mathf.Max(a.Float, b.Float));
+	public static ImpulseMgSq Max(ImpulseMgSq a, ImpulseMgSq b) {
+		return new ImpulseMgSq(Mathf.Max(a.Float, b.Float));
 	}
 
-	public static MomentumMgSq Clamp(MomentumMgSq value, MomentumMgSq min, MomentumMgSq max) {
-		return new MomentumMgSq(Mathf.Clamp(value.Float, min.Float, max.Float));
+	public static ImpulseMgSq Clamp(ImpulseMgSq value, ImpulseMgSq min, ImpulseMgSq max) {
+		return new ImpulseMgSq(Mathf.Clamp(value.Float, min.Float, max.Float));
 	}
 
-	public static MomentumMgSq Lerp(MomentumMgSq a, MomentumMgSq b, float t) {
-		return new MomentumMgSq(Mathf.Lerp(a.Float, b.Float, t));
+	public static ImpulseMgSq Lerp(ImpulseMgSq a, ImpulseMgSq b, float t) {
+		return new ImpulseMgSq(Mathf.Lerp(a.Float, b.Float, t));
 	}
 
-	public static MomentumMgSq LerpUnclamped(MomentumMgSq a, MomentumMgSq b, float t) {
-		return new MomentumMgSq(Mathf.LerpUnclamped(a.Float, b.Float, t));
+	public static ImpulseMgSq LerpUnclamped(ImpulseMgSq a, ImpulseMgSq b, float t) {
+		return new ImpulseMgSq(Mathf.LerpUnclamped(a.Float, b.Float, t));
 	}
 
 }

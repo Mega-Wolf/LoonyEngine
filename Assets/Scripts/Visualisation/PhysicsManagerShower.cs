@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LoonyEngine {
 
-    // This class is used to render the data of a PhysicsManager
+    /// This class is used to render the data of a PhysicsManager
     public class PhysicsManagerShower : MonoBehaviour {
 
         private enum ObjectColor {
@@ -13,6 +13,9 @@ namespace LoonyEngine {
         }
 
         #region [MemberFields]
+
+        [SerializeField]
+        private bool m_drawPMGizmos;
 
         [SerializeField]
         private Vector2 m_offset = new Vector2(300, 200);
@@ -131,7 +134,7 @@ namespace LoonyEngine {
                                 break;
                             }
                         case Circle circle: {
-                                Gizmos.DrawSphere(rb.GameObject.Transform.Position.Vector2 + offset, rb.GameObject.Transform.Scale * circle.Radius.Float);
+                                Gizmos.DrawSphere(new Vector3(0, 0, 100) + (Vector3) (rb.GameObject.Transform.Position.Vector2 + offset), rb.GameObject.Transform.Scale * circle.Radius.Float);
                                 break;
                             }
                     }
@@ -176,11 +179,11 @@ namespace LoonyEngine {
                     Gizmos.DrawLine(Rigidbody.GetRigidbody(id1).GameObject.Transform.Position.Vector2 + offset, Rigidbody.GetRigidbody(id2).GameObject.Transform.Position.Vector2 + offset);
                 }
 
+                if (m_drawPMGizmos) {
+                    SuperPhysicsManager.Instance.PhysicsManagers[apmCount].Draw(offset);
+                }
+
             }
-
-        }
-
-        private void OnDrawGizmosSelected() {
 
         }
 
