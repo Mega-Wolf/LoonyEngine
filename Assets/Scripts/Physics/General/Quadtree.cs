@@ -12,6 +12,9 @@ namespace LoonyEngine {
 
         #region [Static]
 
+        public static int s_elementCount = 0;
+        public int Entries { get { return s_elementCount; } }
+
         private static Pooler<QuadTree> s_pooler = SuperPooler.Instance.GetPooler<QuadTree>();
 
         public static void Release(QuadTree quadtree) {
@@ -83,14 +86,17 @@ namespace LoonyEngine {
                 }
                 Insert(rb);
                 f_elements.Clear();
+                s_elementCount -= MAX_ELEMENTS;
             } else {
                 f_elements.Add(rb);
+                ++s_elementCount;
             }
         }
 
         public void Remove(Rigidbody rb, AABB oldAABB) {
             if (m_children == null) {
                 f_elements.Remove(rb);
+                --s_elementCount;
             } else {
                 for (int i = 0; i < 4; ++i) {
                     if (Intersections.DoIntersectAABBAABB(oldAABB, m_children[i].f_aabb)) {

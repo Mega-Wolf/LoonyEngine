@@ -16,6 +16,12 @@ namespace LoonyEngine {
 
         #endregion
 
+        #region [Properties]
+
+        public int Size { get { return m_usedItems; } }
+
+        #endregion
+
         #region [Getter] 
 
         public T GetInstance() {
@@ -37,7 +43,7 @@ namespace LoonyEngine {
         #region [Setter]
 
         public void ReleaseInstance(T instance) {
-            
+
             int index = -1;
             for (int i = 0; i < f_list.Count; ++i) {
                 if (instance == f_list[i]) {

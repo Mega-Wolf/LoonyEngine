@@ -1,3 +1,7 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System.Collections.Generic;
 using UnityEngine.Profiling;
 
@@ -103,6 +107,15 @@ namespace LoonyEngine {
         public override void Draw(UnityEngine.Vector2 offset) {
             f_grid.Draw(offset);
         }
+
+#if UNITY_EDITOR
+
+        public override void Render() {
+            base.Render();
+            EditorGUILayout.LabelField("Grid Entries:", f_grid.Entries + "");
+        }
+
+#endif
 
         #endregion
     }

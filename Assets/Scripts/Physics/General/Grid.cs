@@ -8,6 +8,13 @@ namespace LoonyEngine {
     /// </summary>
     public class Grid {
 
+        #region [Static]
+
+        public static int s_elementCount = 0;
+        public int Entries { get { return s_elementCount; } }
+
+        #endregion
+
         #region [FinalVariables]
 
         private PositionMagnitude f_cellSize;
@@ -62,6 +69,7 @@ namespace LoonyEngine {
             for (int x = bottomLeft.x; x <= topRight.x; ++x) {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
                     f_cellRBs[y, x].Add(rb);
+                    ++s_elementCount;
                 }
             }
         }
@@ -73,6 +81,7 @@ namespace LoonyEngine {
             for (int x = bottomLeft.x; x <= topRight.x; ++x) {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
                     f_cellRBs[y, x].Remove(rb);
+                    --s_elementCount;
                 }
             }
         }
@@ -95,8 +104,8 @@ namespace LoonyEngine {
                     for (int y = bottomLeftOld.y; y <= topRightOld.y; ++y) {
                         //if (!newRect.Contains(new Vector2Int(x, y))) {
                         if (!CorrectContains(newRect, new Vector2Int(x, y))) {
-                            if (!f_cellRBs[y, x].Remove(rb)) {
-                            }
+                            f_cellRBs[y, x].Remove(rb);
+                            --s_elementCount;
                         }
                     }
                 }
@@ -109,6 +118,7 @@ namespace LoonyEngine {
                         //if (!oldRect.Contains(new Vector2Int(x, y))) {
                         if (!CorrectContains(oldRect, new Vector2Int(x, y))) {
                             f_cellRBs[y, x].Add(rb);
+                            ++s_elementCount;
                         }
                     }
                 }

@@ -1,3 +1,7 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 using System.Collections.Generic;
 using UnityEngine.Profiling;
 
@@ -105,6 +109,13 @@ namespace LoonyEngine {
 
         public override void Draw(UnityEngine.Vector2 offset) {
             f_quadtree.Draw(offset);
+        }
+
+        public override void Render() {
+            base.Render();
+
+            EditorGUILayout.LabelField("QT Nodes:", SuperPooler.Instance.GetPooler<QuadTree>().Size + "");
+            EditorGUILayout.LabelField("QT Entries:", f_quadtree.Entries + "");
         }
 
         #endregion
