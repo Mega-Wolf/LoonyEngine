@@ -3,7 +3,17 @@ using UnityEngine;
 
 namespace LoonyEngine {
 
+    /// <summary>
+    /// Spatial grid for holding Rigidbodies
+    /// </summary>
     public class Grid {
+
+        #region [Static]
+
+        public static int s_elementCount = 0;
+        public int Entries { get { return s_elementCount; } }
+
+        #endregion
 
         #region [FinalVariables]
 
@@ -59,6 +69,7 @@ namespace LoonyEngine {
             for (int x = bottomLeft.x; x <= topRight.x; ++x) {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
                     f_cellRBs[y, x].Add(rb);
+                    ++s_elementCount;
                 }
             }
         }
@@ -70,6 +81,7 @@ namespace LoonyEngine {
             for (int x = bottomLeft.x; x <= topRight.x; ++x) {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
                     f_cellRBs[y, x].Remove(rb);
+                    --s_elementCount;
                 }
             }
         }
@@ -86,21 +98,28 @@ namespace LoonyEngine {
 
             // This might not really be efficient
 
-            for (int x = bottomLeftOld.x; x <= topRightOld.x; ++x) {
-                for (int y = bottomLeftOld.y; y <= topRightOld.y; ++y) {
-                    //if (!newRect.Contains(new Vector2Int(x, y))) {
-                    if (!CorrectContains(newRect, new Vector2Int(x, y))) {
-                        if (!f_cellRBs[y, x].Remove(rb)) {
+            /* Remove when not in this cell anymore */
+            {
+                for (int x = bottomLeftOld.x; x <= topRightOld.x; ++x) {
+                    for (int y = bottomLeftOld.y; y <= topRightOld.y; ++y) {
+                        //if (!newRect.Contains(new Vector2Int(x, y))) {
+                        if (!CorrectContains(newRect, new Vector2Int(x, y))) {
+                            f_cellRBs[y, x].Remove(rb);
+                            --s_elementCount;
                         }
                     }
                 }
             }
 
-            for (int x = bottomLeftNew.x; x <= topRightNew.x; ++x) {
-                for (int y = bottomLeftNew.y; y <= topRightNew.y; ++y) {
-                    //if (!oldRect.Contains(new Vector2Int(x, y))) {
-                    if (!CorrectContains(oldRect, new Vector2Int(x, y))) {
-                        f_cellRBs[y, x].Add(rb);
+            /* Add when newly added to this cell */
+            {
+                for (int x = bottomLeftNew.x; x <= topRightNew.x; ++x) {
+                    for (int y = bottomLeftNew.y; y <= topRightNew.y; ++y) {
+                        //if (!oldRect.Contains(new Vector2Int(x, y))) {
+                        if (!CorrectContains(oldRect, new Vector2Int(x, y))) {
+                            f_cellRBs[y, x].Add(rb);
+                            ++s_elementCount;
+                        }
                     }
                 }
             }
@@ -143,7 +162,7 @@ namespace LoonyEngine {
         }
 
         private bool CorrectContains(RectInt rect, Vector2Int pos) {
-            return 
+            return
                 rect.xMin <= pos.x &&
                 rect.xMax >= pos.x &&
                 rect.yMin <= pos.y &&
@@ -153,21 +172,28 @@ namespace LoonyEngine {
         #endregion
 
         public void Draw(Vector2 offset) {
-            Gizmos.color = Color.black;
-            for (int x = 0; x <= f_cells.x; ++x) {
-                Gizmos.DrawLine(offset + f_offset.Vector2 + new Vector2(x * f_cellSize.Float, 0), offset + f_offset.Vector2 + new Vector2(x * f_cellSize.Float, f_cells.y * f_cellSize.Float));
+
+            /* Draw Lines */
+            {
+                Gizmos.color = Color.black;
+                for (int x = 0; x <= f_cells.x; ++x) {
+                    Gizmos.DrawLine(offset + f_offset.Vector2 + new Vector2(x * f_cellSize.Float, 0), offset + f_offset.Vector2 + new Vector2(x * f_cellSize.Float, f_cells.y * f_cellSize.Float));
+                }
+
+                for (int y = 0; y <= f_cells.y; ++y) {
+                    Gizmos.DrawLine(offset + f_offset.Vector2 + new Vector2(0, y * f_cellSize.Float), offset + f_offset.Vector2 + new Vector2(f_cells.x * f_cellSize.Float, y * f_cellSize.Float));
+                }
             }
 
-            for (int y = 0; y <= f_cells.y; ++y) {
-                Gizmos.DrawLine(offset + f_offset.Vector2 + new Vector2(0, y * f_cellSize.Float), offset + f_offset.Vector2 + new Vector2(f_cells.x * f_cellSize.Float, y * f_cellSize.Float));
-            }
-
-            Gizmos.color = Color.white;
-            for (int x = 0; x < f_cells.x; ++x) {
-                for (int y = 0; y < f_cells.y; ++y) {
-                    for (int i = 0; i < f_cellRBs[y, x].Count; ++i) {
-                        Gizmos.DrawLine(offset + f_cellRBs[y, x][i].GameObject.Transform.Position.Vector2, offset + f_offset.Vector2 + f_cellSize.Float * new Vector2(x + 0.5f, y + 0.5f));
-                    } 
+            /* Draw Connections */
+            {
+                Gizmos.color = Color.white;
+                for (int x = 0; x < f_cells.x; ++x) {
+                    for (int y = 0; y < f_cells.y; ++y) {
+                        for (int i = 0; i < f_cellRBs[y, x].Count; ++i) {
+                            Gizmos.DrawLine(offset + f_cellRBs[y, x][i].GameObject.Transform.Position.Vector2, offset + f_offset.Vector2 + f_cellSize.Float * new Vector2(x + 0.5f, y + 0.5f));
+                        }
+                    }
                 }
             }
         }

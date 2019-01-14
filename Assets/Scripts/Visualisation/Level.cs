@@ -63,7 +63,7 @@ namespace LoonyEngine {
 
             ICollider2D aabbDummyCollider = new AABB(new Position(-1, -1), new Position(1, 1));
 
-            // Create a border of AABBs
+            /* Create a border of AABBs */
             {
                 // for (int x = 0; x <= f_levelSize.x; ++x) {
                 //     for (int y = 0; y < 2; ++y) {
@@ -105,7 +105,7 @@ namespace LoonyEngine {
         public void NonUnityUpdate() {
             float timeValue = UnityEngine.Time.time;
 
-            // Adding and removing due to the exact number having to change
+            /* Adding and removing due to the exact number having to change */
             {
                 int finalNumber = Mathf.RoundToInt(f_number.Evaluate(timeValue));
 
@@ -118,7 +118,7 @@ namespace LoonyEngine {
                 }
             }
 
-            // Removing and then adding to the the additional fluctuation
+            /* Removing and then adding to the the additional fluctuation */
             {
                 float changeRate = f_additionalFluctuation.Evaluate(timeValue);
                 float changeValue = changeRate * SuperPhysicsManager.Instance.DELTA_TIME.Float;

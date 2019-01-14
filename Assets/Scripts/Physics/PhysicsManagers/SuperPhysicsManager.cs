@@ -2,7 +2,11 @@ using System.Collections.Generic;
 
 namespace LoonyEngine {
 
-    class SuperPhysicsManager : MBSingleton<SuperPhysicsManager>, IPhysicsManager {
+    /// <summary>
+    /// A PhysicsManager which handels several other PMs to be able to compare them
+    /// </summary>
+    /// <typeparam name="SuperPhysicsManager"></typeparam>
+    public class SuperPhysicsManager : MBSingleton<SuperPhysicsManager>, IPhysicsManager {
 
         #region [Consts]
 

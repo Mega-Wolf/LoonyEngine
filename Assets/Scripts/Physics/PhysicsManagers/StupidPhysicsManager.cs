@@ -3,6 +3,9 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
+    /// <summary>
+    /// A PhysicsManager which just does the simple n * n check
+    /// </summary>
     class StupidPhysicsManager : AbstractPhysicsManager {
 
         #region [FinalVariables]
@@ -32,37 +35,38 @@ namespace LoonyEngine {
         public override void Simulate() {
             base.Simulate();
 
-            // Movement phase
-            Profiler.BeginSample("Stupid; Movement Phase");
-            f_stopwatch.Restart();
-            foreach (Rigidbody rb in f_rbs) {
-                rb.UpdateDynamics();
-                rb.UpdateAABB();
-                ++m_moved;
+            /* Movement phase */
+            {
+                Profiler.BeginSample("Stupid; Movement Phase");
+                f_stopwatch.Restart();
+                foreach (Rigidbody rb in f_rbs) {
+                    rb.UpdateDynamics();
+                    rb.UpdateAABB();
+                    ++m_moved;
+                }
+                f_stopwatch.Stop();
+                m_movementTime = f_stopwatch.Elapsed;
+                Profiler.EndSample();
             }
-            f_stopwatch.Stop();
-            m_movementTime = f_stopwatch.Elapsed;
-            Profiler.EndSample();
 
-            // CollisionDetectionPhase
-
-            Profiler.BeginSample("Stupid; Collision Phase");
-            
-            f_stopwatch.Restart();
-            for (int i = 0; i < f_rbs.Count; ++i) {
-                for (int j = i + 1; j < f_rbs.Count; ++j) {
-                    if (BroadPhase(f_rbs[i], f_rbs[j])) {
-                        NarrowPhase(f_rbs[i], f_rbs[j]);
+            /* CollisionDetectionPhase */
+            {
+                Profiler.BeginSample("Stupid; Collision Phase");
+                f_stopwatch.Restart();
+                for (int i = 0; i < f_rbs.Count; ++i) {
+                    for (int j = i + 1; j < f_rbs.Count; ++j) {
+                        if (BroadPhase(f_rbs[i], f_rbs[j])) {
+                            NarrowPhase(f_rbs[i], f_rbs[j]);
+                        }
                     }
                 }
+                f_stopwatch.Stop();
+                m_collisionTime = f_stopwatch.Elapsed;
+                Profiler.EndSample();
             }
-            f_stopwatch.Stop();
-            
-            m_collisionTime = f_stopwatch.Elapsed;
-            Profiler.EndSample();
-
 
             // TODO the resolution has to be incremental
+            // This stuff at the moment happens in the narrow phase
             // somwhere I need information whether this collision should stop etc or not
 
             // Profiler.BeginSample("Stupid; Resolve Phase");
