@@ -81,25 +81,33 @@ namespace LoonyEngine {
         }
 
         public virtual void Simulate() {
-            m_moved = 0;
-#if DEBUG_COLLISIONS
-            // Resetting print data
-            f_checkStates.Clear();
-            m_broadChecks = 0;
-            m_narrowChecks = 0;
-            m_triggers = 0;
-            m_collisions = 0;
 
-            // Resetting the trigger and collider data
-            HashSet<ulong> dummyTriggers = m_triggersLastFrame;
-            m_triggersLastFrame = m_triggersThisFrame;
-            m_triggersThisFrame = dummyTriggers;
-            m_triggersThisFrame.Clear();
-            Dictionary<ulong, CollisionDataRB> dummyCollisions = m_collisionsLastFrame;
-            m_collisionsLastFrame = m_collisionsThisFrame;
-            m_collisionsThisFrame = dummyCollisions;
-            m_collisionsThisFrame.Clear();
+            /* Resetting print data */
+            {
+                m_moved = 0;
+#if DEBUG_COLLISIONS
+                f_checkStates.Clear();
+                m_broadChecks = 0;
+                m_narrowChecks = 0;
+                m_triggers = 0;
+                m_collisions = 0;
 #endif
+            }
+
+            /* Resetting the trigger and collider data */
+            {
+#if DEBUG_COLLISIONS
+                HashSet<ulong> dummyTriggers = m_triggersLastFrame;
+                m_triggersLastFrame = m_triggersThisFrame;
+                m_triggersThisFrame = dummyTriggers;
+                m_triggersThisFrame.Clear();
+                Dictionary<ulong, CollisionDataRB> dummyCollisions = m_collisionsLastFrame;
+                m_collisionsLastFrame = m_collisionsThisFrame;
+                m_collisionsThisFrame = dummyCollisions;
+                m_collisionsThisFrame.Clear();
+#endif
+            }
+
         }
 
         #endregion
@@ -107,20 +115,11 @@ namespace LoonyEngine {
         #region [PrivateMethods]
 
         protected bool BroadPhase(Rigidbody rb1, Rigidbody rb2, bool recordAllData = false) {
-            // TODO this got taken out because it was too expensive for StupidPM
-            // I have to be able to use it though for later PMs
-            //f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
 
 #if DEBUG_COLLISIONS
-            if (recordAllData) {
+            if (recordAllData || (ulong)rb1.ID < 3 || (ulong)rb2.ID < 3) {
                 f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
-            } else {
-                if ((ulong)rb1.ID < 3 || (ulong)rb2.ID < 3) {
-                    f_checkStates[CalcRBID(rb1, rb2)] = CheckState.BroadCheck;
-                }
             }
-            //TESTING END
-
             ++m_broadChecks;
 #endif
 
@@ -267,20 +266,25 @@ namespace LoonyEngine {
         public virtual void Draw(Vector2 offset) { }
 
         public virtual void Render() {
-            EditorGUILayout.LabelField("Name:", Name);
-            //EditorGUILyaout.LabelField("Position:", f_position);
-            EditorGUILayout.LabelField("Moved:", m_moved + "");
-            EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
-            EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
-            EditorGUILayout.LabelField("Triggers:", m_triggers + "");
-            EditorGUILayout.LabelField("Collisions:", m_collisions + "");
-            EditorGUILayout.LabelField("Movement time:", m_movementTime.TotalMilliseconds + "");
-            EditorGUILayout.LabelField("Collision time:", m_collisionTime.TotalMilliseconds + "");
+            /* Render Labels */
+            {
+                EditorGUILayout.LabelField("Name:", Name);
+                EditorGUILayout.LabelField("Moved:", m_moved + "");
+                EditorGUILayout.LabelField("Broad checks:", m_broadChecks + "");
+                EditorGUILayout.LabelField("Narrow checks:", m_narrowChecks + "");
+                EditorGUILayout.LabelField("Triggers:", m_triggers + "");
+                EditorGUILayout.LabelField("Collisions:", m_collisions + "");
+                EditorGUILayout.LabelField("Movement time:", m_movementTime.TotalMilliseconds + "");
+                EditorGUILayout.LabelField("Collision time:", m_collisionTime.TotalMilliseconds + "");
+            }
 
-            for (int i = 0; i < f_oois.Count; ++i) {
-                Rect rect = EditorGUILayout.BeginVertical(GUILayout.MinHeight(18 + 25));
-                f_oois[i].Render(rect);
-                EditorGUILayout.EndVertical();
+            /* Render OOIs */
+            {
+                for (int i = 0; i < f_oois.Count; ++i) {
+                    Rect rect = EditorGUILayout.BeginVertical(GUILayout.MinHeight(18 + 25));
+                    f_oois[i].Render(rect);
+                    EditorGUILayout.EndVertical();
+                }
             }
         }
 

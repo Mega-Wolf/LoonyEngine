@@ -36,45 +36,48 @@ namespace LoonyEngine {
         public override void Simulate() {
             base.Simulate();
 
-            // Movement phase
-            Profiler.BeginSample("QT; Movement Phase");
-            f_stopwatch.Restart();
-            foreach (Rigidbody rb in f_rbs) {
-                AABB oldABB = rb.ColliderData.GlobalAABB;
-                rb.UpdateDynamics();
-                rb.UpdateAABB();
-                ++m_moved;
-                f_quadtree.Move(rb, oldABB, rb.ColliderData.GlobalAABB);
+            /* Movement phase */
+            {
+                Profiler.BeginSample("QT; Movement Phase");
+                f_stopwatch.Restart();
+                foreach (Rigidbody rb in f_rbs) {
+                    AABB oldABB = rb.ColliderData.GlobalAABB;
+                    rb.UpdateDynamics();
+                    rb.UpdateAABB();
+                    ++m_moved;
+                    f_quadtree.Move(rb, oldABB, rb.ColliderData.GlobalAABB);
+                }
+                f_stopwatch.Stop();
+                m_movementTime = f_stopwatch.Elapsed;
+                Profiler.EndSample();
             }
-            f_stopwatch.Stop();
-            m_movementTime = f_stopwatch.Elapsed;
-            Profiler.EndSample();
 
-            // CollisionDetectionPhase
+            /* CollisionDetection phase */
+            {
 
-            f_broadChecks.Clear();
+                f_broadChecks.Clear();
 
-            Profiler.BeginSample("QT; Collision Phase");
-            
-            f_stopwatch.Restart();
-            for (int i = 0; i < f_rbs.Count; ++i) {
-                foreach (Rigidbody rb2 in f_quadtree.IntersectHigher(f_rbs[i])) {
+                Profiler.BeginSample("QT; Collision Phase");
 
-                    // This prevents that some pairs get tested multiple times
-                    if (f_broadChecks.Contains(CalcRBID(f_rbs[i], rb2))) {
-                        continue;
-                    }
-                    f_broadChecks.Add(CalcRBID(f_rbs[i], rb2));
+                f_stopwatch.Restart();
+                for (int i = 0; i < f_rbs.Count; ++i) {
+                    foreach (Rigidbody rb2 in f_quadtree.IntersectHigher(f_rbs[i])) {
 
-                    if (BroadPhase(f_rbs[i], rb2, true)) {
-                        NarrowPhase(f_rbs[i], rb2);
+                        // This prevents that some pairs get tested multiple times
+                        if (f_broadChecks.Contains(CalcRBID(f_rbs[i], rb2))) {
+                            continue;
+                        }
+                        f_broadChecks.Add(CalcRBID(f_rbs[i], rb2));
+
+                        if (BroadPhase(f_rbs[i], rb2, true)) {
+                            NarrowPhase(f_rbs[i], rb2);
+                        }
                     }
                 }
+                f_stopwatch.Stop();
+                m_collisionTime = f_stopwatch.Elapsed;
+                Profiler.EndSample();
             }
-            f_stopwatch.Stop();
-            
-            m_collisionTime = f_stopwatch.Elapsed;
-            Profiler.EndSample();
         }
 
         public override void AddPhysicsComponent(Rigidbody rb) {
@@ -94,10 +97,14 @@ namespace LoonyEngine {
         }
 
         #endregion
-    
+
+        #region [Visuals]
+
         public override void Draw(UnityEngine.Vector2 offset) {
             f_quadtree.Draw(offset);
         }
+
+        #endregion
     }
 
 }

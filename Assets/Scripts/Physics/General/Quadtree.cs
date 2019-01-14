@@ -5,6 +5,9 @@ using UnityEngine.Assertions;
 
 namespace LoonyEngine {
 
+    /// <summary>
+    /// QuadTree class which holds Rigidbodies
+    /// </summary>
     public class QuadTree {
 
         #region [Static]
@@ -95,16 +98,19 @@ namespace LoonyEngine {
                     }
                 }
 
-                // Check if all children are empty now and therefore delete them again
-                for (int i = 0; i < 4; ++i) {
-                    if (!(m_children[i].f_elements.Count == 0 && m_children[i].m_children == null)) {
-                        return;
+                /* Check if all children are empty now and therefore delete them again */
+                {
+                    for (int i = 0; i < 4; ++i) {
+                        if (!(m_children[i].f_elements.Count == 0 && m_children[i].m_children == null)) {
+                            return;
+                        }
                     }
+                    for (int i = 0; i < 4; ++i) {
+                        Release(m_children[i]);
+                    }
+                    m_children = null;
                 }
-                for (int i = 0; i < 4; ++i) {
-                    Release(m_children[i]);
-                }
-                m_children = null;
+
             }
         }
 
@@ -135,6 +141,10 @@ namespace LoonyEngine {
             }
         }
 
+        /// <summary>
+        /// Returns an Enumerable with intersecting rbs
+        /// Normally, do not use this
+        /// </summary>
         public IEnumerable<Rigidbody> IntersectAll(AABB aabb) {
             if (m_children == null) {
                 foreach (Rigidbody innerRB in f_elements) {
@@ -152,11 +162,11 @@ namespace LoonyEngine {
         }
 
         /// <summary>
-        /// Returns an array with intersecting rbs
+        /// Returns an Enumerable with intersecting rbs
         /// Only returns rbs with a higher ID than the given one; that way rbs don't collide with self or twice with something else
         /// </summary>
         public IEnumerable<Rigidbody> IntersectHigher(Rigidbody rb) {
-            // normally I would only return the ones after broad phase, but since I have to record that, I return everythin in here
+            // normally I would only return the ones which passed the broad phase, or even do the narrow phase in here, but since I have to record that, I return everything in here
 
             if (m_children == null) {
                 foreach (Rigidbody innerRB in f_elements) {
@@ -178,20 +188,28 @@ namespace LoonyEngine {
         #endregion
 
         public void Draw(Vector2 offset) {
-            if (m_children != null) {
-                for (int i = 0; i < 4; ++i) {
-                    m_children[i].Draw(offset);
+
+            /* Draw QT lines */
+            {
+                if (m_children != null) {
+                    for (int i = 0; i < 4; ++i) {
+                        m_children[i].Draw(offset);
+                    }
+
+                    Gizmos.color = Color.black;
+                    Gizmos.DrawLine(offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Bottom.Float), offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Top.Float));
+                    Gizmos.DrawLine(offset + new Vector2(f_aabb.Left.Float, f_aabb.Centre.y.Float), offset + new Vector2(f_aabb.Right.Float, f_aabb.Centre.y.Float));
                 }
-
-                Gizmos.color = Color.black;
-                Gizmos.DrawLine(offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Bottom.Float), offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Top.Float));
-                Gizmos.DrawLine(offset + new Vector2(f_aabb.Left.Float, f_aabb.Centre.y.Float), offset + new Vector2(f_aabb.Right.Float, f_aabb.Centre.y.Float));
             }
 
-            Gizmos.color = Color.white;
-            for (int i = 0; i < f_elements.Count; ++i) {
-                Gizmos.DrawLine(offset + f_aabb.Centre.Vector2, offset + f_elements[i].GameObject.Transform.Position.Vector2);
+            /* Draw Connections */
+            {
+                Gizmos.color = Color.white;
+                for (int i = 0; i < f_elements.Count; ++i) {
+                    Gizmos.DrawLine(offset + f_aabb.Centre.Vector2, offset + f_elements[i].GameObject.Transform.Position.Vector2);
+                }
             }
+
         }
 
     }
