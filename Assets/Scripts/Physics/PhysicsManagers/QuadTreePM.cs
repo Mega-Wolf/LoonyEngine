@@ -3,7 +3,10 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
-    class QuadTreePM : AbstractPhysicsManager {
+    /// <summary>
+    /// A PhysicsManager using a QuadTree
+    /// </summary>
+    public class QuadTreePM : AbstractPhysicsManager {
 
         #region [PrivateVariables]
 

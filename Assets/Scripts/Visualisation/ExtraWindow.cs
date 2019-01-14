@@ -5,6 +5,9 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
+    /// <summary>
+    /// A window to print data about the PMs in the scene
+    /// </summary>
     public class ExtraWindow : EditorWindow {
 
         private Vector2 m_scrollPosition;

@@ -3,7 +3,10 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
-    class GridPM : AbstractPhysicsManager {
+    /// <summary>
+    /// A PhysicsManager using a grid
+    /// </summary>
+    public class GridPM : AbstractPhysicsManager {
 
         #region [PrivateVariables]
 

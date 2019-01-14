@@ -3,6 +3,9 @@ using UnityEngine.Profiling;
 
 namespace LoonyEngine {
 
+    /// <summary>
+    /// A PhysicsManager which just does the simple n * n check
+    /// </summary>
     class StupidPhysicsManager : AbstractPhysicsManager {
 
         #region [FinalVariables]
