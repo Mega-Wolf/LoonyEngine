@@ -193,16 +193,34 @@ namespace LoonyEngine {
 
         #endregion
 
-        public void Draw(Vector2 offset) {
+        public void Draw(Vector2 offset, int depth = 0) {
 
             /* Draw QT lines */
             {
                 if (m_children != null) {
                     for (int i = 0; i < 4; ++i) {
-                        m_children[i].Draw(offset);
+                        m_children[i].Draw(offset, depth + 1);
                     }
 
-                    Gizmos.color = Color.black;
+                    // float max = depth / 8f;
+                    // Gizmos.color = new Color(0, 0, max, 1);
+
+                    switch (depth % 4) {
+                        case 0:
+                            Gizmos.color = Color.black;
+                            break;
+                        case 1:
+                            Gizmos.color = Color.blue;
+                            break;
+                        case 2:
+                            Gizmos.color = Color.magenta;
+                            break;
+                        case 3:
+                            Gizmos.color = Color.cyan;
+                            break;
+                    }
+
+
                     Gizmos.DrawLine(offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Bottom.Float), offset + new Vector2(f_aabb.Centre.x.Float, f_aabb.Top.Float));
                     Gizmos.DrawLine(offset + new Vector2(f_aabb.Left.Float, f_aabb.Centre.y.Float), offset + new Vector2(f_aabb.Right.Float, f_aabb.Centre.y.Float));
                 }

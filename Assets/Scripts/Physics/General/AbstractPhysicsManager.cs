@@ -71,6 +71,13 @@ namespace LoonyEngine {
         public abstract IEnumerable<Rigidbody> Rigidbodies { get; }
 
         public abstract string Name { get; }
+        public int MovedElements {get {return m_moved;}}
+        public int BroadChecks {get {return m_broadChecks;}}
+        public int NarrowChecks{get{return m_narrowChecks;}}
+        public int Triggers{get{return m_triggers;}}
+        public int Collisions{get{return m_collisions;}}
+        public double MovementTime {get{return m_movementTime.TotalMilliseconds;}}
+        public double CollisionTime {get{return m_collisionTime.TotalMilliseconds;}}
 
         #endregion
 
