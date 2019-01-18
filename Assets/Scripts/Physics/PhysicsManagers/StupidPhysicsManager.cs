@@ -18,7 +18,7 @@ namespace LoonyEngine {
 
         public override IEnumerable<Rigidbody> Rigidbodies { get { return f_rbs; } }
 
-        public override string Name { get { return "Stupid PhysicsManager"; } }
+        public override string Name { get { return "n x n PhysicsManager"; } }
 
         #endregion
 

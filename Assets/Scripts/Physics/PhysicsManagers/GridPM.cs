@@ -108,6 +108,14 @@ namespace LoonyEngine {
             f_grid.Draw(offset);
         }
 
+        public override void UpdateRenderData() {
+            base.UpdateRenderData();
+
+            PrintData["Nodes"] = f_grid.Count;
+            PrintData["Entries"] = f_grid.Entries;
+            PrintData["EmptyCells"] = Grid.EmptyCells;
+        }
+
 #if UNITY_EDITOR
 
         public override void Render() {

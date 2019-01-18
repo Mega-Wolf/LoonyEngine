@@ -13,6 +13,9 @@ namespace LoonyEngine {
         public static int s_elementCount = 0;
         public int Entries { get { return s_elementCount; } }
 
+        private static int s_emptyNodes = 0;
+        public static int EmptyCells { get { return s_emptyNodes; } }
+
         #endregion
 
         #region [FinalVariables]
@@ -25,6 +28,12 @@ namespace LoonyEngine {
 
         #endregion
 
+        #region [Properties]
+
+        public int Count { get { return f_cells.x * f_cells.y; } }
+
+        #endregion
+
         #region [Constructors]
 
         public Grid(PositionMagnitude cellSize, AABB aabb) {
@@ -34,6 +43,7 @@ namespace LoonyEngine {
             f_cells = Vector2Int.CeilToInt((aabb.TopRight - aabb.BottomLeft) / f_cellSize);
 
             f_cellRBs = new List<Rigidbody>[f_cells.y, f_cells.x];
+            s_emptyNodes = f_cells.y * f_cells.x;
 
             for (int x = 0; x < f_cells.x; ++x) {
                 for (int y = 0; y < f_cells.y; ++y) {
@@ -48,6 +58,7 @@ namespace LoonyEngine {
             f_cells = cells;
 
             f_cellRBs = new List<Rigidbody>[cells.y, cells.x];
+            s_emptyNodes = cells.y * cells.x;
 
             for (int x = 0; x < cells.x; ++x) {
                 for (int y = 0; y < cells.y; ++y) {
@@ -68,6 +79,9 @@ namespace LoonyEngine {
 
             for (int x = bottomLeft.x; x <= topRight.x; ++x) {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
+                    if (f_cellRBs[y, x].Count == 0) {
+                        --s_emptyNodes;
+                    }
                     f_cellRBs[y, x].Add(rb);
                     ++s_elementCount;
                 }
@@ -82,6 +96,9 @@ namespace LoonyEngine {
                 for (int y = bottomLeft.y; y <= topRight.y; ++y) {
                     f_cellRBs[y, x].Remove(rb);
                     --s_elementCount;
+                    if (f_cellRBs[y, x].Count == 0) {
+                        ++s_emptyNodes;
+                    }
                 }
             }
         }
@@ -106,6 +123,9 @@ namespace LoonyEngine {
                         if (!CorrectContains(newRect, new Vector2Int(x, y))) {
                             f_cellRBs[y, x].Remove(rb);
                             --s_elementCount;
+                            if (f_cellRBs[y, x].Count == 0) {
+                                ++s_emptyNodes;
+                            }
                         }
                     }
                 }
@@ -117,6 +137,9 @@ namespace LoonyEngine {
                     for (int y = bottomLeftNew.y; y <= topRightNew.y; ++y) {
                         //if (!oldRect.Contains(new Vector2Int(x, y))) {
                         if (!CorrectContains(oldRect, new Vector2Int(x, y))) {
+                            if (f_cellRBs[y, x].Count == 0) {
+                                --s_emptyNodes;
+                            }
                             f_cellRBs[y, x].Add(rb);
                             ++s_elementCount;
                         }

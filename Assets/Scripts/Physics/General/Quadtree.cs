@@ -12,12 +12,16 @@ namespace LoonyEngine {
 
         #region [Static]
 
-        public static int s_elementCount = 0;
+        private static int s_elementCount = 0;
         public int Entries { get { return s_elementCount; } }
+
+        private static int s_emptyNodes = 0;
+        public static int EmptyCells { get { return s_emptyNodes; } }
 
         private static Pooler<QuadTree> s_pooler = SuperPooler.Instance.GetPooler<QuadTree>();
 
         public static void Release(QuadTree quadtree) {
+            --s_emptyNodes;
             s_pooler.ReleaseInstance(quadtree);
         }
 
@@ -59,6 +63,7 @@ namespace LoonyEngine {
         private void Init(AABB aabb, int depth) {
             f_aabb = aabb;
             f_depth = depth;
+            ++s_emptyNodes;
         }
 
         #endregion
@@ -88,6 +93,9 @@ namespace LoonyEngine {
                 f_elements.Clear();
                 s_elementCount -= MAX_ELEMENTS;
             } else {
+                if (f_elements.Count == 0) {
+                    --s_emptyNodes;
+                }
                 f_elements.Add(rb);
                 ++s_elementCount;
             }
@@ -96,6 +104,9 @@ namespace LoonyEngine {
         public void Remove(Rigidbody rb, AABB oldAABB) {
             if (m_children == null) {
                 f_elements.Remove(rb);
+                if (f_elements.Count == 0) {
+                    ++s_emptyNodes;
+                }
                 --s_elementCount;
             } else {
                 for (int i = 0; i < 4; ++i) {

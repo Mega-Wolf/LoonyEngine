@@ -71,13 +71,15 @@ namespace LoonyEngine {
         public abstract IEnumerable<Rigidbody> Rigidbodies { get; }
 
         public abstract string Name { get; }
-        public int MovedElements {get {return m_moved;}}
-        public int BroadChecks {get {return m_broadChecks;}}
-        public int NarrowChecks{get{return m_narrowChecks;}}
-        public int Triggers{get{return m_triggers;}}
-        public int Collisions{get{return m_collisions;}}
-        public double MovementTime {get{return m_movementTime.TotalMilliseconds;}}
-        public double CollisionTime {get{return m_collisionTime.TotalMilliseconds;}}
+        public int MovedElements { get { return m_moved; } }
+        public int BroadChecks { get { return m_broadChecks; } }
+        public int NarrowChecks { get { return m_narrowChecks; } }
+        public int Triggers { get { return m_triggers; } }
+        public int Collisions { get { return m_collisions; } }
+        public double MovementTime { get { return m_movementTime.TotalMilliseconds; } }
+        public double CollisionTime { get { return m_collisionTime.TotalMilliseconds; } }
+
+        public Dictionary<string, object> PrintData { get; private set; }
 
         #endregion
 
@@ -85,6 +87,10 @@ namespace LoonyEngine {
 
         public virtual void SetPhysicsMatrix(PhysicsMatrix physicsMatrix) {
             f_physicsMatrix = physicsMatrix;
+
+            //TODO ugly
+
+            PrintData = new Dictionary<string, object>();
         }
 
         public virtual void Simulate() {
@@ -296,6 +302,17 @@ namespace LoonyEngine {
         }
 
         public virtual void UpdateRenderData() {
+            PrintData.Clear();
+
+            PrintData["Name"] = Name;
+            PrintData["Moved"] = MovedElements;
+            PrintData["Broad Checks"] = BroadChecks;
+            PrintData["Narrow Checks"] = NarrowChecks;
+            PrintData["Triggers"] = Triggers;
+            PrintData["Collisions"] = Collisions;
+            PrintData["Movement Time"] = MovementTime;
+            PrintData["Collision Time"] = CollisionTime;
+
 #if DEBUG_COLLISIONS
             foreach (ObjectOrderInformation ooi in f_oois) {
                 ooi.UpdateIDs();

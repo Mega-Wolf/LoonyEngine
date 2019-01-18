@@ -118,6 +118,14 @@ namespace LoonyEngine {
             EditorGUILayout.LabelField("QT Entries:", f_quadtree.Entries + "");
         }
 
+        public override void UpdateRenderData() {
+            base.UpdateRenderData();
+
+            PrintData["Nodes"] = SuperPooler.Instance.GetPooler<QuadTree>().Size;
+            PrintData["Entries"] = f_quadtree.Entries;
+            PrintData["EmptyCells"] = QuadTree.EmptyCells;
+        }
+
         #endregion
     }
 
