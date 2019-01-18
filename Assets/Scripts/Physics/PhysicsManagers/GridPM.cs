@@ -32,8 +32,8 @@ namespace LoonyEngine {
 
         #region [Constructors]
 
-        public GridPM() {
-            f_grid = new Grid(new PositionMagnitude(3f), 2 * Level.Instance.LevelBounds + -Level.Instance.LevelBounds.Centre);
+        public GridPM(float gridSize) {
+            f_grid = new Grid(new PositionMagnitude(gridSize), 2 * Level.Instance.LevelBounds + -Level.Instance.LevelBounds.Centre);
         }
 
         #endregion
