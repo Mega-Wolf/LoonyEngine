@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace LoonyEngine {
 
@@ -11,6 +12,28 @@ namespace LoonyEngine {
         #region [Consts]
 
         public readonly Time DELTA_TIME = new Time(1 / 50f);
+
+        #endregion
+
+        #region [MemberVariables]
+
+        [Header("N x N")]
+
+        [SerializeField]
+        private bool f_stupid;
+
+        [Header("Quadtree")]
+
+        [SerializeField]
+        private bool f_quadtree;
+
+        [Header("Grid")]
+
+        [SerializeField]
+        private bool f_grid;
+
+        [SerializeField]
+        private float f_gridSize = 3f;
 
         #endregion
 
@@ -38,10 +61,15 @@ namespace LoonyEngine {
         protected override void Awake() {
             base.Awake();
 
-            //m_physicsManagers.Add(new StupidPhysicsManager());
-            // m_physicsManagers.Add(new BetterLayersPM());
-            m_physicsManagers.Add(new QuadTreePM());
-            m_physicsManagers.Add(new GridPM());
+            if (f_stupid) {
+                m_physicsManagers.Add(new StupidPhysicsManager());
+            }
+            if (f_quadtree) {
+                m_physicsManagers.Add(new QuadTreePM());
+            }
+            if (f_grid) {
+                m_physicsManagers.Add(new GridPM(f_gridSize));
+            }
 
             SetPhysicsMatrix(new PhysicsMatrix(new bool[][] {
                 new bool[] {false, true, true, true, true, true},
